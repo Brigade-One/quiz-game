@@ -2,7 +2,6 @@
 namespace Server\Repository;
 
 use Server\Models\Question;
-use Server\Models\Theme;
 use Server\Repository\IDGenerator;
 use PDO;
 
@@ -75,8 +74,6 @@ class QuestionRepository
     }
     public function create(Question $question): bool
     {
-
-        //TODO: check if question already exists
         if ($this->checkIfQuestionExists($question)) {
             return false;
         }
@@ -146,7 +143,7 @@ class QuestionRepository
 
         $parameters = [
             ':question' => $question->getQuestion()
-        ];
+        ];  
         try {
             $statement = $this->queryExecutor->execute($query, $parameters);
         } catch (\PDOException $e) {
