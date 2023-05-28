@@ -4,6 +4,7 @@ use PHPUnit\Framework\TestCase;
 use Server\Repository\UserRepository;
 use Server\Repository\QueryExecutor;
 use Server\Repository\Database;
+use Server\Repository\IDGenerator;
 use Server\Models\User;
 use function PHPUnit\Framework\assertEquals;
 
@@ -15,10 +16,11 @@ class UserRepositoryTest extends TestCase
 
     protected function setUp(): void
     {
-        $pdo = new PDO('mysql:host=localhost;dbname=quiz_db_3', 'root', '');
+        $pdo = new PDO('mysql:host=localhost;dbname=quiz_db', 'root', '');
         $database = new Database($pdo);
+        $idGenerator = new IDGenerator();
         $this->queryExecutor = new QueryExecutor($database->getConnection());
-        $this->userRepository = new UserRepository($this->queryExecutor);
+        $this->userRepository = new UserRepository($this->queryExecutor, $idGenerator);
     }
     public function testCreate(): void
     {
@@ -35,13 +37,13 @@ class UserRepositoryTest extends TestCase
         $this->userRepository->create($user);
 
         // Assert that the user was successfully saved to the database
-        $this->assertNotEmpty($this->userRepository->findByEmail($user->getEmail()));
+        $this->assertNotEmpty($this->userRepository->fetchByEmail($user->getEmail()));
     }
 
     public function testFindById(): void
     {
         // Retrieve the user using findById
-        $foundUser = $this->userRepository->findById('a6d1b4d6-2c99-4c1c-9951-cab2dcc55367');
+        $foundUser = $this->userRepository->fetchById('a6d1b4d6-2c99-4c1c-9951-cab2dcc55367');
 
         // Assert that the retrieved user matches the expected values
         $this->assertInstanceOf(User::class, $foundUser);
@@ -66,7 +68,7 @@ class UserRepositoryTest extends TestCase
     public function testUpdate(): void
     {
         // Retrieve the user using findById
-        $user = $this->userRepository->findById('a6d1b4d6-2c99-4c1c-9951-cab2dcc55367');
+        $user = $this->userRepository->fetchById('a6d1b4d6-2c99-4c1c-9951-cab2dcc55367');
 
         // Update the user's name and email address
         $user->setName('Morrigan Doe');
@@ -75,7 +77,7 @@ class UserRepositoryTest extends TestCase
         $this->userRepository->update($user);
 
         // Retrieve the user again using findById
-        $updatedUser = $this->userRepository->findById('a6d1b4d6-2c99-4c1c-9951-cab2dcc55367');
+        $updatedUser = $this->userRepository->fetchById('a6d1b4d6-2c99-4c1c-9951-cab2dcc55367');
         assertEquals('Morrigan Doe', $updatedUser->getName());
     }
     /* public function testDelete(): void
