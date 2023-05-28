@@ -37,7 +37,34 @@ class UserRepository
         }
         return $users;
     }
+    public function findByEmail(string $email): ?User
+    {
+        $query = "SELECT * FROM users WHERE email = :email";
+        $parameters = [
+            ':email' => $email
+        ];
+        try {
+            $statement = $this->queryExecutor->execute($query, $parameters);
+        } catch (\PDOException $e) {
+            throw new \PDOException($e->getMessage(), (int) $e->getCode());
+        }
 
+        $userData = $statement->fetch(PDO::FETCH_ASSOC);
+
+        if ($userData) {
+            // Create a new user model and set its properties from the database row
+            $user = new User(
+                $userData['userID'],
+                $userData['username'],
+                $userData['email'],
+                $userData['password']
+            );
+
+            return $user;
+        }
+
+        return null; // User not found
+    }
     public function findById(string $id): ?User
     {
 
@@ -134,6 +161,7 @@ class UserRepository
 
         return $statement->rowCount() === 1; // One row should have been affected, exactly
     }
+
     private function generateUUID(): string
     {
         return Uuid::uuid4()->toString();
