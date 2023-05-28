@@ -31,11 +31,7 @@ class QuestionRepository
 
         $questions = [];
         while ($questionData = $statement->fetch(PDO::FETCH_ASSOC)) {
-            $theme = new Theme(
-                $questionData['themeID'],
-                $questionData['name'],
-                $questionData['imgURL']
-            ); // TODO: handle theme
+
             $question = new Question(
                 $questionData['questionID'],
                 $questionData['question'],
@@ -67,11 +63,6 @@ class QuestionRepository
         if (!$questionData) {
             return null;
         }
-        $theme = new Theme(
-            $questionData['themeID'],
-            $questionData['name'],
-            $questionData['imgURL']
-        ); //TODO: handle theme
         $question = new Question(
             $questionData['questionID'],
             $questionData['question'],
@@ -108,24 +99,27 @@ class QuestionRepository
     public function update(Question $question): bool
     {
         $query = "UPDATE questions
-        SET question = :question, answer = :answer, hint = :hint, themeID = :themeID, difficulty = :difficulty
-        WHERE questionID = :questionID";
+    SET themeID = :themeID, question = :question, answer = :answer, hint = :hint, difficulty = :difficulty
+    WHERE questionID = :questionID";
 
         $parameters = [
+            ':themeID' => $question->getThemeID(),
             ':questionID' => $question->getQuestionID(),
             ':question' => $question->getQuestion(),
             ':answer' => $question->getAnswer(),
             ':hint' => $question->getHint(),
-            ':themeID' => $question->getTheme()->getThemeID(),
             ':difficulty' => $question->getDifficulty()
         ];
+
         try {
             $statement = $this->queryExecutor->execute($query, $parameters);
         } catch (\PDOException $e) {
             throw new \PDOException($e->getMessage(), (int) $e->getCode());
         }
+
         return $statement->rowCount() > 0;
     }
+
     public function delete(Question $question): bool
     {
         $query = "DELETE FROM questions WHERE questionID = :questionID";
