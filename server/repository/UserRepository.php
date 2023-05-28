@@ -2,16 +2,18 @@
 namespace Server\Repository;
 
 use Server\Models\User;
-use Ramsey\Uuid\Uuid; //for uuid generation
+use Server\Repository\IDGenerator;
 use PDO;
 
 class UserRepository
 {
     private $queryExecutor;
+    private $idGenerator;
 
-    public function __construct(QueryExecutor $queryExecutor)
+    public function __construct(QueryExecutor $queryExecutor, IDGenerator $idGenerator)
     {
         $this->queryExecutor = $queryExecutor;
+        $this->idGenerator = $idGenerator;
     }
 
     public function fetchAll(): array
@@ -41,7 +43,7 @@ class UserRepository
         return $users;
     }
 
-    public function findByEmail(string $email): ?User
+    public function fetchByEmail(string $email): ?User
     {
         $query = "SELECT u.*, r.roleName
         FROM users u
@@ -75,13 +77,13 @@ class UserRepository
         return null; // User not found
     }
 
-    public function findById(string $id): ?User
+    public function fetchById(string $id): ?User
     {
         $query = "SELECT u.*, r.roleName
         FROM users u
         JOIN roles r ON u.roleID = r.roleID
         WHERE userID = :id";
-        
+
         $parameters = [
             ':id' => $id
         ];
@@ -116,7 +118,8 @@ class UserRepository
         if ($this->checkIfEmailExists($user->getEmail())) {
             throw new \InvalidArgumentException('Email already exists');
         }
-        $uuid = $this->generateUUID();
+
+        $uuid = $this->idGenerator->generateID();
         $query = "INSERT INTO users (userID, username, email, password, roleID) VALUES (:id, :name, :email, :password, :roleID)";
         $roleID = $this->getRoleIDByName($user->getRoleName());
         $parameters = [
@@ -176,11 +179,6 @@ class UserRepository
         }
 
         return $statement->rowCount() === 1; // One row should have been affected, exactly
-    }
-
-    private function generateUUID(): string
-    {
-        return Uuid::uuid4()->toString();
     }
 
     private function getRoleIDByName(string $roleName): int
