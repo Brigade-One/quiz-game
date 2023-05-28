@@ -75,6 +75,11 @@ class QuestionRepository
     }
     public function create(Question $question): bool
     {
+
+        //TODO: check if question already exists
+        if ($this->checkIfQuestionExists($question)) {
+            return false;
+        }
         $query = "INSERT INTO questions (questionID, question, answer, hint, difficulty, themeID)
         VALUES (:questionID, :question, :answer, :hint,  :difficulty, :themeID)";
 
@@ -132,6 +137,22 @@ class QuestionRepository
         } catch (\PDOException $e) {
             throw new \PDOException($e->getMessage(), (int) $e->getCode());
         }
+        return $statement->rowCount() > 0;
+    }
+
+    private function checkIfQuestionExists(Question $question): bool
+    {
+        $query = "SELECT * FROM questions WHERE question = :question";
+
+        $parameters = [
+            ':question' => $question->getQuestion()
+        ];
+        try {
+            $statement = $this->queryExecutor->execute($query, $parameters);
+        } catch (\PDOException $e) {
+            throw new \PDOException($e->getMessage(), (int) $e->getCode());
+        }
+
         return $statement->rowCount() > 0;
     }
 }
