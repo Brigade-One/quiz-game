@@ -1,5 +1,4 @@
 <?php
-
 namespace Server\Repository;
 
 use Server\Models\User;
@@ -14,10 +13,13 @@ class UserRepository
     {
         $this->queryExecutor = $queryExecutor;
     }
+
     public function fetchAll(): array
     {
+        $query = "SELECT u.*, r.roleName
+                FROM users u
+                JOIN roles r ON u.roleID = r.roleID";
 
-        $query = "SELECT * FROM users";
         $parameters = [];
         try {
             $statement = $this->queryExecutor->execute($query, $parameters);
@@ -31,15 +33,21 @@ class UserRepository
                 $userData['userID'],
                 $userData['username'],
                 $userData['email'],
-                $userData['password']
+                $userData['password'],
+                $userData['roleName']
             );
             $users[] = $user;
         }
         return $users;
     }
+
     public function findByEmail(string $email): ?User
     {
-        $query = "SELECT * FROM users WHERE email = :email";
+        $query = "SELECT u.*, r.roleName
+        FROM users u
+        JOIN roles r ON u.roleID = r.roleID
+        WHERE email = :email";
+
         $parameters = [
             ':email' => $email
         ];
@@ -57,7 +65,8 @@ class UserRepository
                 $userData['userID'],
                 $userData['username'],
                 $userData['email'],
-                $userData['password']
+                $userData['password'],
+                $userData['roleName']
             );
 
             return $user;
@@ -65,10 +74,14 @@ class UserRepository
 
         return null; // User not found
     }
+
     public function findById(string $id): ?User
     {
-
-        $query = "SELECT * FROM users WHERE userID = :id";
+        $query = "SELECT u.*, r.roleName
+        FROM users u
+        JOIN roles r ON u.roleID = r.roleID
+        WHERE userID = :id";
+        
         $parameters = [
             ':id' => $id
         ];
@@ -86,14 +99,15 @@ class UserRepository
                 $userData['userID'],
                 $userData['username'],
                 $userData['email'],
-                $userData['password']
+                $userData['password'],
+                $userData['roleName']
             );
 
             return $user;
         }
-
         return null; // User not found
     }
+
     public function create(User $user): bool
     {
         if (!$user->validate()) {
@@ -103,13 +117,14 @@ class UserRepository
             throw new \InvalidArgumentException('Email already exists');
         }
         $uuid = $this->generateUUID();
-        $query = "INSERT INTO users (userID, username, email, password) VALUES (:id, :name, :email, :password)";
-
+        $query = "INSERT INTO users (userID, username, email, password, roleID) VALUES (:id, :name, :email, :password, :roleID)";
+        $roleID = $this->getRoleIDByName($user->getRoleName());
         $parameters = [
             ':id' => $uuid,
             ':name' => $user->getName(),
             ':email' => $user->getEmail(),
-            ':password' => $user->getPassword()
+            ':password' => $user->getPassword(),
+            ':roleID' => $roleID
         ];
 
         try {
@@ -121,18 +136,19 @@ class UserRepository
         return $statement->rowCount() > 0;
     }
 
-
     public function update(User $user): bool
     {
         if (!$user->validate()) {
             throw new \InvalidArgumentException('Invalid user data');
         }
-        $query = "UPDATE users SET username = :username, email = :email, password = :password WHERE userID = :id";
+        $query = "UPDATE users SET username = :username, email = :email, password = :password, roleID = :roleID WHERE userID = :id";
+        $roleID = $this->getRoleIDByName($user->getRoleName());
         $parameters = [
             ':id' => $user->getId(),
             ':username' => $user->getName(),
             ':email' => $user->getEmail(),
-            ':password' => $user->getPassword()
+            ':password' => $user->getPassword(),
+            ':roleID' => $roleID
         ];
         try {
             $statement = $this->queryExecutor->execute($query, $parameters);
@@ -166,9 +182,26 @@ class UserRepository
     {
         return Uuid::uuid4()->toString();
     }
+
+    private function getRoleIDByName(string $roleName): int
+    {
+        $query = "SELECT roleID FROM Roles WHERE roleName = :roleName";
+        $parameters = [
+            ':roleName' => $roleName
+        ];
+
+        try {
+            $statement = $this->queryExecutor->execute($query, $parameters);
+            $roleID = $statement->fetchColumn();
+        } catch (\PDOException $e) {
+            throw new \PDOException($e->getMessage(), (int) $e->getCode());
+        }
+
+        return $roleID;
+    }
+
     private function checkIfEmailExists(string $email): bool
     {
-
         $query = "SELECT COUNT(*) FROM users WHERE email = :email";
         $parameters = [
             ':email' => $email
