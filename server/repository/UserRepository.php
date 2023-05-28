@@ -2,11 +2,10 @@
 namespace Server\Repository;
 
 use Server\Models\User;
-use Server\Repository\IRepository;
 use Server\Repository\IDGenerator;
 use PDO;
 
-class UserRepository implements IRepository
+class UserRepository
 {
     private $queryExecutor;
     private $idGenerator;

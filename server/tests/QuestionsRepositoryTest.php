@@ -1,15 +1,16 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use Server\Repository\QuestionsRepository;
+use Server\Repository\QuestionRepository;
 use Server\Repository\QueryExecutor;
 use Server\Repository\Database;
+use Server\Repository\IDGenerator;
 use Server\Models\Question;
 use Server\Models\Theme;
 
 class QuestionsRepositoryTest extends TestCase
 {
-    private $userRepository;
+    private $questionRepository;
     private $database;
     private $queryExecutor;
 
@@ -17,11 +18,12 @@ class QuestionsRepositoryTest extends TestCase
     {
         $pdo = new PDO('mysql:host=localhost;dbname=quiz_db', 'root', '');
         $database = new Database($pdo);
+        $idGenerator = new IDGenerator();
         $this->queryExecutor = new QueryExecutor($database->getConnection());
-        $this->userRepository = new QuestionsRepository($this->queryExecutor);
+        $this->questionRepository = new QuestionRepository($this->queryExecutor, $idGenerator);
     }
 
-    public function testCreate(): void
+    public function testCreateQuestion(): void
     {
         // Create a new question
         $question = new Question(
@@ -29,19 +31,23 @@ class QuestionsRepositoryTest extends TestCase
             'Demo Question',
             'Demo Answer',
             'Demo Hint',
-            new Theme(
-                null,
-                'Demo Theme',
-                'Demo Theme Description'
-            ),
-            'Demo Difficulty'
+            0,
+            1
         );
+
+        // Save the question to the database
+        $result = $this->questionRepository->create($question);
+
+        // Assert that the question was successfully saved to the database        
+        $id = $question->getQuestionID();
+        $result = $this->questionRepository->fetchByID($id);
+        $this->assertNotEmpty($result);
+
     }
 
     public function testFetchAll()
     {
-        $questions = $this->userRepository->fetchAll();
-        print($questions);
+        $questions = $this->questionRepository->fetchAll();
         $this->assertNotEmpty($questions);
     }
 

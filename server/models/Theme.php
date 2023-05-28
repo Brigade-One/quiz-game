@@ -1,5 +1,6 @@
 <?php
 namespace Server\Models;
+
 class Theme
 {
     private $themeID;
@@ -7,7 +8,7 @@ class Theme
     private $imgURL;
 
     public function __construct(
-        string $themeID,
+        ?string $themeID,
         string $name,
         string $imgURL
     ) {
@@ -16,7 +17,7 @@ class Theme
         $this->imgURL = $imgURL;
     }
 
-    public function getThemeID(): string
+    public function getThemeID(): ?string
     {
         return $this->themeID;
     }
@@ -28,6 +29,7 @@ class Theme
     {
         return $this->imgURL;
     }
+
     public function setName(string $name): void
     {
         $this->name = $name;

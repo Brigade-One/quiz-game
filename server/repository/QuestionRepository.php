@@ -4,10 +4,9 @@ namespace Server\Repository;
 use Server\Models\Question;
 use Server\Models\Theme;
 use Server\Repository\IDGenerator;
-use Server\Repository\IRepository;
 use PDO;
 
-class QuestionsRepository implements IRepository
+class QuestionRepository
 {
     private $queryExecutor;
     private $idGenerator;
@@ -20,8 +19,8 @@ class QuestionsRepository implements IRepository
     public function fetchAll(): array
     {
         $query = "SELECT q.*, t.name, t.imgURL
-                FROM questions q
-                JOIN themes t ON q.themeID = t.themeID";
+                FROM Questions q
+                JOIN Themes t ON q.themeID = t.themeID";
 
         $parameters = [];
         try {
@@ -36,13 +35,13 @@ class QuestionsRepository implements IRepository
                 $questionData['themeID'],
                 $questionData['name'],
                 $questionData['imgURL']
-            );
+            ); // TODO: handle theme
             $question = new Question(
                 $questionData['questionID'],
                 $questionData['question'],
                 $questionData['answer'],
                 $questionData['hint'],
-                $theme,
+                $questionData['themeID'],
                 $questionData['difficulty']
             );
             $questions[] = $question;
@@ -64,7 +63,6 @@ class QuestionsRepository implements IRepository
         } catch (\PDOException $e) {
             throw new \PDOException($e->getMessage(), (int) $e->getCode());
         }
-
         $questionData = $statement->fetch(PDO::FETCH_ASSOC);
         if (!$questionData) {
             return null;
@@ -73,31 +71,32 @@ class QuestionsRepository implements IRepository
             $questionData['themeID'],
             $questionData['name'],
             $questionData['imgURL']
-        );
+        ); //TODO: handle theme
         $question = new Question(
             $questionData['questionID'],
             $questionData['question'],
             $questionData['answer'],
             $questionData['hint'],
-            $theme,
+            $questionData['themeID'],
             $questionData['difficulty']
         );
         return $question;
     }
     public function create(Question $question): bool
     {
-        $query = "INSERT INTO questions (questionID, question, answer, hint, themeID, difficulty)
-        VALUES (:questionID, :question, :answer, :hint, :themeID, :difficulty)";
+        $query = "INSERT INTO questions (questionID, question, answer, hint, difficulty, themeID)
+        VALUES (:questionID, :question, :answer, :hint,  :difficulty, :themeID)";
 
-        $id = $this->idGenerator->generateID();
+        $questionID = $this->idGenerator->generateID();
+        $question->setQuestionID($questionID);
 
         $parameters = [
-            ':questionID' => $id,
+            ':questionID' => $questionID,
             ':question' => $question->getQuestion(),
             ':answer' => $question->getAnswer(),
             ':hint' => $question->getHint(),
-            ':themeID' => $question->getTheme()->getThemeID(),
-            ':difficulty' => $question->getDifficulty()
+            ':difficulty' => $question->getDifficulty(),
+            ':themeID' => $question->getThemeID()
         ];
         try {
             $statement = $this->queryExecutor->execute($query, $parameters);

@@ -1,34 +1,35 @@
 <?php
 namespace Server\Models;
+
 class Question
 {
     private $questionID;
     private $question;
     private $answer;
     private $hint;
-    private $theme;
+    private $themeID;
     private $difficulty;
 
     public function __construct(
-        string $questionID,
+        ?string $questionID,
         string $question,
         string $answer,
         string $hint,
-        Theme $theme,
-        string $difficulty
+        int $themeID,
+        int $difficulty
     ) {
         $this->questionID = $questionID;
         $this->question = $question;
         $this->answer = $answer;
         $this->hint = $hint;
-        $this->theme = $theme;
+        $this->themeID = $themeID;
         $this->difficulty = $difficulty;
     }
     public function validateAnswer(string $answer): bool
     {
         return $this->answer === $answer;
     }
-    public function getQuestionID(): string
+    public function getQuestionID(): ?string
     {
         return $this->questionID;
     }
@@ -44,13 +45,17 @@ class Question
     {
         return $this->hint;
     }
-    public function getTheme(): Theme
+    public function getThemeID(): int
     {
-        return $this->theme;
+        return $this->themeID;
     }
     public function getDifficulty(): string
     {
         return $this->difficulty;
+    }
+    public function setQuestionID(string $questionID): void
+    {
+        $this->questionID = $questionID;
     }
     public function setQuestion(string $question): void
     {
@@ -64,12 +69,13 @@ class Question
     {
         $this->hint = $hint;
     }
-    public function setTheme(string $theme): void
+    public function setThemeID(string $themeID): void
     {
-        $this->theme = $theme;
+        $this->themeID = $themeID;
     }
     public function setDifficulty(string $difficulty): void
     {
         $this->difficulty = $difficulty;
     }
+
 }
