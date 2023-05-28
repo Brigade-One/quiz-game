@@ -7,7 +7,7 @@ class User
     private $name;
     private $email;
     private $password;
-    public function __construct(int $id, string $name, string $email, string $password)
+    public function __construct(?string $id, string $name, string $email, string $password)
     {
         $this->id = $id;
         $this->name = $name;
@@ -15,10 +15,6 @@ class User
         $this->password = $password;
     }
 
-    public function setId(int $id): void
-    {
-        $this->id = $id;
-    }
     public function setName(string $name): void
     {
         $this->name = $name;
@@ -31,7 +27,7 @@ class User
     {
         $this->password = $password;
     }
-    public function getId(): int
+    public function getId(): string
     {
         return $this->id;
     }
@@ -49,21 +45,15 @@ class User
     {
         return $this->password;
     }
-    public function validate(): array
+    public function validate(): bool
     {
-        $errors = [];
-
-        if (empty($this->name)) {
-            $errors[] = "Name is required.";
+        if ($this->name == null || $this->email == null || $this->password == null) {
+            return false;
         }
 
-        if (empty($this->email)) {
-            $errors[] = "Email is required.";
-        } elseif (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
-            $errors[] = "Invalid email format.";
+        if (empty($this->email || !filter_var($this->email, FILTER_VALIDATE_EMAIL))) {
+            return false;
         }
-
-        return $errors;
+        return true;
     }
-
 }
