@@ -28,9 +28,10 @@ class UserRepositoryTest extends TestCase
         $user = new User(
             null,
             'Demo User',
-            'example2@example.com',
+            'example10@example.com',
             'password',
-            'user'
+            'user',
+            null
         );
 
         // Save the user to the database

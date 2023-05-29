@@ -52,12 +52,5 @@ class Package
     {
         $this->packageID = $packageID;
     }
-    public function validate(): bool
-    {
-        if ($this->name == null || $this->isApproved == null) {
-            return false;
-        }
 
-        return true;
-    }
 }

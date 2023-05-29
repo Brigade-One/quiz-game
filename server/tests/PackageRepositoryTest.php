@@ -29,7 +29,7 @@ class PackageRepositoryTest extends TestCase
     public function testCreatePackage(): void
     {
         //User who creates the package
-        $user = $this->userRepository->fetchByEmail("example2@example.com");
+        $user = $this->userRepository->fetchByEmail("example10@example.com");
 
         // Create a new package
         $package = new Package(
@@ -56,13 +56,14 @@ class PackageRepositoryTest extends TestCase
     }
     public function testUpdate()
     {
-        $package = $this->packageRepository->fetchByID('194f1471-f181-495d-b734-ee81c949367e');
-        $package->setIsApproved(false);
-        $package->setName("PackageName");
+        $testID = 'f50717e6-637b-472f-b0c0-629a51f6ba8a';
+        $package = $this->packageRepository->fetchByID($testID);
+        $package->setIsApproved(true);
+        $package->setName("UpdatedPackageName");
         $this->packageRepository->update($package);
-        $package = $this->packageRepository->fetchByID('194f1471-f181-495d-b734-ee81c949367e');
-        $this->assertEquals('PackageName', $package->getName());
-        $this->assertEquals(false, $package->getIsApproved());
+        $package = $this->packageRepository->fetchByID($testID);
+        $this->assertEquals('UpdatedPackageName', $package->getName());
+        $this->assertEquals(true, $package->getIsApproved());
     }
 
 }
