@@ -11,8 +11,8 @@ class Package
     public function __construct(
         ?string $packageID,
         string $name,
-        string $userID,
-        bool $isApproved
+        ?string $userID,
+        int $isApproved
     ) {
         $this->packageID = $packageID;
         $this->name = $name;
@@ -28,11 +28,11 @@ class Package
     {
         return $this->name;
     }
-    public function getUserID(): string
+    public function getUserID():  ?string
     {
         return $this->userID;
     }
-    public function getIsApproved(): bool
+    public function getIsApproved(): int
     {
         return $this->isApproved;
     }
@@ -47,5 +47,9 @@ class Package
     public function setUserID(string $userID): void
     {
         $this->userID = $userID;
+    }
+    public function setPackageID(string $packageID): void
+    {
+        $this->packageID = $packageID;
     }
 }

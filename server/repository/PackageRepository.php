@@ -1,17 +1,23 @@
 <?php
+namespace Server\Repository;
+
 use Server\Models\Package;
+use Server\Repository\QueryExecutor;
 use Server\Repository\IDGenerator;
+use Server\Models\User;
 use PDO;
 
 class PackageRepository
 {
     private $queryExecutor;
+    private $userRepository;
     private $idGenerator;
 
-    public function __construct(QueryExecutor $queryExecutor, IDGenerator $idGenerator)
+    public function __construct(QueryExecutor $queryExecutor, IDGenerator $idGenerator, UserRepository $userRepository)
     {
         $this->queryExecutor = $queryExecutor;
         $this->idGenerator = $idGenerator;
+        $this->userRepository = $userRepository;
     }
     public function fetchAll(): array
     {
@@ -53,13 +59,18 @@ class PackageRepository
         );
         return $package;
     }
-    public function create(Package $package)
+    public function create(Package $package, User $user): bool
     {
         $query = "INSERT INTO packages (packageID, name, userID, isApproved) VALUES (:packageID, :name, :userID, :isApproved)";
+        $packageID = $this->idGenerator->generateID();
+
+        $package->setPackageID($packageID);
+        $user->setPackageID($packageID);
+
         $parameters = [
-            ':packageID' => $package->getPackageID(),
+            ':packageID' => $packageID,
             ':name' => $package->getName(),
-            ':userID' => $package->getUserID(),
+            ':userID' => $user->getId(),
             ':isApproved' => $package->getIsApproved()
         ];
         try {
@@ -67,6 +78,10 @@ class PackageRepository
         } catch (\PDOException $e) {
             throw new \PDOException($e->getMessage(), (int) $e->getCode());
         }
+        // Now update DB User item
+        $this->userRepository->update($user);
+
+        return $statement->rowCount() > 0;
     }
     public function update(Package $package)
     {

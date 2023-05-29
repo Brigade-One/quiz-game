@@ -8,13 +8,15 @@ class User
     private $email;
     private $password;
     private $roleName;
-    public function __construct(?string $id, string $name, string $email, string $password, string $roleName)
+    private $packageID;
+    public function __construct(?string $id, string $name, string $email, string $password, string $roleName, ?string $packageID)
     {
         $this->id = $id;
         $this->name = $name;
         $this->email = $email;
         $this->password = $password;
         $this->roleName = $roleName;
+        $this->packageID = $packageID;
     }
 
     public function setName(string $name): void
@@ -32,6 +34,10 @@ class User
     public function setRoleName(string $roleName): void
     {
         $this->roleName = $roleName;
+    }
+    public function setPackageID(?string $packageID): void
+    {
+        $this->packageID = $packageID;
     }
     public function getId(): string
     {
