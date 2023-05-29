@@ -66,8 +66,7 @@ class PackageRepository
         }
         // Check if user already created package. Prevent doing that
         if ($this->checkUserExistingPackages($user->getId())) {
-            print("---------------------");
-            return false;
+            throw new \Exception('User already have package');
         }
         $query = "INSERT INTO packages (packageID, name, userID, isApproved) VALUES (:packageID, :name, :userID, :isApproved)";
         $packageID = $this->idGenerator->generateID();
@@ -86,7 +85,7 @@ class PackageRepository
         } catch (\PDOException $e) {
             throw new \PDOException($e->getMessage(), (int) $e->getCode());
         }
-        // Now update DB User item
+        // Now update DB User item(package must be created for that moment)
         $this->userRepository->update($user);
 
         return $statement->rowCount() > 0;

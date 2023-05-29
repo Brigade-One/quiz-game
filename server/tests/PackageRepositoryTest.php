@@ -5,7 +5,6 @@ use Server\Repository\QueryExecutor;
 use Server\Repository\Database;
 use Server\Repository\IDGenerator;
 use Server\Models\Package;
-use Server\Models\User;
 use Server\Repository\PackageRepository;
 use Server\Repository\UserRepository;
 
