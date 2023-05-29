@@ -1,13 +1,13 @@
 <?php
 namespace Server\Repository;
 
-use Server\Models\Package;
+use Server\Models\CompetitionPackage;
 use Server\Repository\QueryExecutor;
 use Server\Repository\IDGenerator;
 use Server\Models\User;
 use PDO;
 
-class PackageRepository
+class CompetitionPackageRepository
 {
     private $queryExecutor;
     private $userRepository;
@@ -21,7 +21,7 @@ class PackageRepository
     }
     public function fetchAll(): array
     {
-        $query = "SELECT * from packages";
+        $query = "SELECT * from CompetitionPackages";
         try {
             $statement = $this->queryExecutor->execute($query, []);
         } catch (\PDOException $e) {
@@ -29,11 +29,10 @@ class PackageRepository
         }
         $packages = [];
         while ($packageData = $statement->fetch(PDO::FETCH_ASSOC)) {
-            $package = new Package(
+            $package = new CompetitionPackage(
                 $packageData['packageID'],
                 $packageData['name'],
                 $packageData['userID'],
-                $packageData['isApproved']
             );
             $packages[] = $package;
         }
@@ -41,25 +40,22 @@ class PackageRepository
     }
     public function fetchByID(string $id)
     {
-        $query = "SELECT * from packages where packageID = :packageID";
-        $parameters = [
-            ':packageID' => $id
-        ];
+        $query = "SELECT * from CompetitionPackages where packageID = :packageID";
+        $parameters = [':packageID' => $id];
         try {
             $statement = $this->queryExecutor->execute($query, $parameters);
         } catch (\PDOException $e) {
             throw new \PDOException($e->getMessage(), (int) $e->getCode());
         }
         $packageData = $statement->fetch(PDO::FETCH_ASSOC);
-        $package = new Package(
+        $package = new CompetitionPackage(
             $packageData['packageID'],
             $packageData['name'],
             $packageData['userID'],
-            $packageData['isApproved']
         );
         return $package;
     }
-    public function create(Package $package, User $user): bool
+    public function create(CompetitionPackage $package, User $user): bool
     {
         if (!$user->validate()) {
             throw new \InvalidArgumentException('Invalid user data');
@@ -68,7 +64,7 @@ class PackageRepository
         if ($this->checkUserExistingPackages($user->getId())) {
             throw new \Exception('User already have package');
         }
-        $query = "INSERT INTO packages (packageID, name, userID, isApproved) VALUES (:packageID, :name, :userID, :isApproved)";
+        $query = "INSERT INTO CompetitionPackages (packageID, name, userID) VALUES (:packageID, :name, :userID)";
         $packageID = $this->idGenerator->generateID();
 
         $package->setPackageID($packageID);
@@ -78,7 +74,6 @@ class PackageRepository
             ':packageID' => $packageID,
             ':name' => $package->getName(),
             ':userID' => $user->getId(),
-            ':isApproved' => $package->getIsApproved()
         ];
         try {
             $statement = $this->queryExecutor->execute($query, $parameters);
@@ -90,14 +85,13 @@ class PackageRepository
 
         return $statement->rowCount() > 0;
     }
-    public function update(Package $package): bool
+    public function update(CompetitionPackage $package): bool
     {
-        $query = "UPDATE packages SET name = :name, userID = :userID, isApproved = :isApproved WHERE packageID = :packageID";
+        $query = "UPDATE CompetitionPackages SET name = :name, userID = :userID  WHERE packageID = :packageID";
         $parameters = [
             ':packageID' => $package->getPackageID(),
             ':name' => $package->getName(),
             ':userID' => $package->getUserID(),
-            ':isApproved' => $package->getIsApproved()
         ];
         try {
             $statement = $this->queryExecutor->execute($query, $parameters);
@@ -107,9 +101,9 @@ class PackageRepository
         return $statement->rowCount() > 0;
     }
 
-    public function delete(Package $package)
+    public function delete(CompetitionPackage $package)
     {
-        $query = "DELETE FROM packages WHERE packageID = :packageID";
+        $query = "DELETE FROM CompetitionPackages WHERE packageID = :packageID";
         $parameters = [
             ':packageID' => $package->getPackageID()
         ];
@@ -122,7 +116,7 @@ class PackageRepository
     }
     private function checkUserExistingPackages(string $userID): bool
     {
-        $query = "SELECT COUNT(*) FROM packages WHERE userID = :userID";
+        $query = "SELECT COUNT(*) FROM CompetitionPackages WHERE userID = :userID";
         $parameters = [':userID' => $userID];
         try {
             $statement = $this->queryExecutor->execute($query, $parameters);

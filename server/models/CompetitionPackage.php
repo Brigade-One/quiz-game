@@ -1,7 +1,7 @@
 <?php
 namespace Server\Models;
 
-class Package
+class CompetitionPackage
 {
     private $packageID;
     private $name;
@@ -11,12 +11,10 @@ class Package
         ?string $packageID,
         string $name,
         ?string $userID,
-
     ) {
         $this->packageID = $packageID;
         $this->name = $name;
         $this->userID = $userID;
-
     }
 
     public function getPackageID(): ?string
