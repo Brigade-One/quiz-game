@@ -61,6 +61,13 @@ class PackageRepository
     }
     public function create(Package $package, User $user): bool
     {
+        if (!$user->validate() || !$package->validate()) {
+            throw new \InvalidArgumentException('Invalid data');
+        }
+        // Check if user already created package. Prevent doing that
+        if ($this->checkUserExistingPackages($user->getId())) {
+            return false;
+        }
         $query = "INSERT INTO packages (packageID, name, userID, isApproved) VALUES (:packageID, :name, :userID, :isApproved)";
         $packageID = $this->idGenerator->generateID();
 
@@ -111,6 +118,17 @@ class PackageRepository
         } catch (\PDOException $e) {
             throw new \PDOException($e->getMessage(), (int) $e->getCode());
         }
+        return $statement->rowCount() === 1;
     }
-
+    private function checkUserExistingPackages(string $userID): bool
+    {
+        $query = "SELECT * from packages where userID = :packageID";
+        $parameters = [':userID' => $userID];
+        try {
+            $statement = $this->queryExecutor->execute($query, $parameters);
+        } catch (\PDOException $e) {
+            throw new \PDOException($e->getMessage(), (int) $e->getCode());
+        }
+        return $statement->rowCount() > 0;
+    }
 }

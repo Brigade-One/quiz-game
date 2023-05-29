@@ -61,6 +61,10 @@ class User
     {
         return $this->password;
     }
+    public function getPackageID(): string
+    {
+        return $this->packageID;
+    }
     public function validate(): bool
     {
         if ($this->name == null || $this->email == null || $this->password == null) {

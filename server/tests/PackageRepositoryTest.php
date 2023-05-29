@@ -41,7 +41,7 @@ class PackageRepositoryTest extends TestCase
 
         // Save the package to the database
         $result = $this->packageRepository->create($package, $user);
-      
+
         // Assert that the package was successfully saved to the database        
         $id = $package->getPackageID();
         $result = $this->packageRepository->fetchByID($id);

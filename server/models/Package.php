@@ -28,7 +28,7 @@ class Package
     {
         return $this->name;
     }
-    public function getUserID():  ?string
+    public function getUserID(): ?string
     {
         return $this->userID;
     }
@@ -51,5 +51,13 @@ class Package
     public function setPackageID(string $packageID): void
     {
         $this->packageID = $packageID;
+    }
+    public function validate(): bool
+    {
+        if ($this->name == null || $this->isApproved == null) {
+            return false;
+        }
+
+        return true;
     }
 }
