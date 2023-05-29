@@ -36,7 +36,8 @@ class UserRepository
                 $userData['username'],
                 $userData['email'],
                 $userData['password'],
-                $userData['roleName']
+                $userData['roleName'],
+                $userData['packageID'],
             );
             $users[] = $user;
         }
@@ -68,7 +69,8 @@ class UserRepository
                 $userData['username'],
                 $userData['email'],
                 $userData['password'],
-                $userData['roleName']
+                $userData['roleName'],
+                $userData['packageID'],
             );
 
             return $user;
@@ -102,7 +104,8 @@ class UserRepository
                 $userData['username'],
                 $userData['email'],
                 $userData['password'],
-                $userData['roleName']
+                $userData['roleName'],
+                $userData['packageID'],
             );
 
             return $user;
@@ -144,10 +147,13 @@ class UserRepository
         if (!$user->validate()) {
             throw new \InvalidArgumentException('Invalid user data');
         }
-        $query = "UPDATE users SET username = :username, email = :email, password = :password, roleID = :roleID WHERE userID = :id";
+        $query = "UPDATE users SET username = :username, 
+        email = :email, password = :password, roleID = :roleID,  packageID = :packageID
+        WHERE userID = :id";
         $roleID = $this->getRoleIDByName($user->getRoleName());
         $parameters = [
             ':id' => $user->getId(),
+            ':packageID' => $user->getPackageID(),
             ':username' => $user->getName(),
             ':email' => $user->getEmail(),
             ':password' => $user->getPassword(),
