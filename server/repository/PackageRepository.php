@@ -83,7 +83,7 @@ class PackageRepository
 
         return $statement->rowCount() > 0;
     }
-    public function update(Package $package)
+    public function update(Package $package): bool
     {
         $query = "UPDATE packages SET name = :name, userID = :userID, isApproved = :isApproved WHERE packageID = :packageID";
         $parameters = [
@@ -97,6 +97,7 @@ class PackageRepository
         } catch (\PDOException $e) {
             throw new \PDOException($e->getMessage(), (int) $e->getCode());
         }
+        return $statement->rowCount() > 0;
     }
 
     public function delete(Package $package)

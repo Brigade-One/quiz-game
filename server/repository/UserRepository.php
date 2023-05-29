@@ -36,7 +36,7 @@ class UserRepository
                 $userData['username'],
                 $userData['email'],
                 $userData['password'],
-                $userData['roleName'] .
+                $userData['roleName'],
                 $userData['packageID'],
             );
             $users[] = $user;
