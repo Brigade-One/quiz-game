@@ -41,7 +41,6 @@ class TrainingHistoryRepository
         }
         return $trainingHistories;
     }
-    //TODO: ADD dublication check
     public function fetchByID(string $historyID): TrainingHistory
     {
         $query = "SELECT * FROM TrainingHistory WHERE historyID = :historyID";
@@ -99,6 +98,13 @@ class TrainingHistoryRepository
 
     public function create(TrainingHistory $trainingHistory): bool
     {
+        $userID = $trainingHistory->getUserID();
+        $packageID = $trainingHistory->getPackageID();
+        $trainingDate = $trainingHistory->getTrainingDate()->format('Y-m-d H:i:s');
+
+        if ($this->checkIfAlreadyExist($userID, $packageID, $trainingDate)) {
+            throw new \Exception("This training history already exists");
+        }
         $query = "INSERT INTO TrainingHistory (historyID, userID, packageID, trainingDate, correctAnswers, totalQuestions) VALUES (:historyID, :userID, :packageID, :trainingDate, :correctAnswers, :totalQuestions)";
         $generatedID = $this->idGenerator->generateID();
         $trainingHistory->setHistoryID($generatedID);
@@ -106,7 +112,7 @@ class TrainingHistoryRepository
             ':historyID' => $generatedID,
             ':userID' => $trainingHistory->getUserID(),
             ':packageID' => $trainingHistory->getPackageID(),
-            ':trainingDate' => $trainingHistory->getTrainingDate()->format('Y-m-d'),
+            ':trainingDate' => $trainingHistory->getTrainingDate()->format('Y-m-d H:i:s'),
             ':correctAnswers' => $trainingHistory->getCorrectAnswers(),
             ':totalQuestions' => $trainingHistory->getTotalQuestions(),
         ];
@@ -126,7 +132,7 @@ class TrainingHistoryRepository
             ':historyID' => $trainingHistory->getHistoryID(),
             ':userID' => $trainingHistory->getUserID(),
             ':packageID' => $trainingHistory->getPackageID(),
-            ':trainingDate' => $trainingHistory->getTrainingDate()->format('Y-m-d'),
+            ':trainingDate' => $trainingHistory->getTrainingDate()->format('Y-m-d H:i:s'),
             ':correctAnswers' => $trainingHistory->getCorrectAnswers(),
             ':totalQuestions' => $trainingHistory->getTotalQuestions(),
         ];
@@ -149,5 +155,24 @@ class TrainingHistoryRepository
             throw new \PDOException($e->getMessage(), (int) $e->getCode());
         }
         return $statement->rowCount() > 0;
+    }
+    private function checkIfAlreadyExist(string $packageID, string $userID, string $trainingDate): bool
+    {
+        $query = "SELECT * from  TrainingHistory WHERE packageID = :packageID AND userID = :userID AND trainingDate = :trainingDate";
+        $parameters = [
+            ':packageID' => $packageID,
+            ':userID' => $userID,
+            ':trainingDate' => $trainingDate,
+        ];
+        try {
+            $statement = $this->queryExecutor->execute($query, $parameters);
+        } catch (\PDOException $e) {
+            throw new \PDOException($e->getMessage(), (int) $e->getCode());
+        }
+        $packageData = $statement->fetch(PDO::FETCH_ASSOC);
+        if (!$packageData) {
+            return false;
+        }
+        return true;
     }
 }
