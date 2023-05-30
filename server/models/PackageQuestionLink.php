@@ -7,13 +7,13 @@ class PackageQuestionLink
     private $packageID;
     private $questionID;
 
-    public function __construct(string $linkID, string $packageID, string $questionID)
+    public function __construct(?string $linkID, string $packageID, string $questionID)
     {
         $this->linkID = $linkID;
         $this->packageID = $packageID;
         $this->questionID = $questionID;
     }
-    public function getLinkID(): string
+    public function getLinkID(): ?string
     {
         return $this->linkID;
     }

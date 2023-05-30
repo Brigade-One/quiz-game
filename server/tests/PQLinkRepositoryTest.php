@@ -7,7 +7,7 @@ use Server\Repository\QueryExecutor;
 use Server\Repository\Database;
 use Server\Repository\IDGenerator;
 
-class PQLink extends TestCase
+class PQLinkRepositoryTest extends TestCase
 {
     private $linkRepository;
     private $database;
@@ -23,7 +23,7 @@ class PQLink extends TestCase
     }
     public function testCreatePackageQuestionLink(): void
     {
-        $testPackageID = '47c01ae1-387c-4d6d-9b44-b72036fb8a36';
+        $testPackageID = '469d375a-ae5e-4bd3-b169-a9745cd888ba';
         $testQuestionID = '03cc19ff-5cd6-4b45-aec5-55ac79d03769';
 
         $link = new PackageQuestionLink(
@@ -31,11 +31,11 @@ class PQLink extends TestCase
             $testPackageID,
             $testQuestionID
         );
-        
+
         // Save the package to the database
         $result = $this->linkRepository->create($link);
         // Assert that the package was successfully saved to the database        
-        $id = $link->getPackageID();
+        $id = $link->getLinkID();
         $result = $this->linkRepository->fetchByID($id);
         $this->assertNotEmpty($result);
     }
@@ -46,8 +46,12 @@ class PQLink extends TestCase
     }
     public function testUpdate()
     {
-        $testID = '';
+        $testID = 'fe2dce4d-989d-4009-8d3e-11ffb0df5780';
         $link = $this->linkRepository->fetchByID($testID);
+        // Link with other package
+        $link->setPackageID('aa1d7cf2-cbe6-4d7f-ab51-213816be779d');
+        $result = $this->linkRepository->update($link);
+        $this->assertTrue($result);
     }
 
 }

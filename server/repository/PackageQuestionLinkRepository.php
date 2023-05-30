@@ -47,6 +47,7 @@ class PackageQuestionLinkRepository
         }
         $packageData = $statement->fetch(PDO::FETCH_ASSOC);
         if (!$packageData) {
+            print("No package found with ID: $id");
             return null;
         }
         $package = new PackageQuestionLink(
@@ -60,14 +61,18 @@ class PackageQuestionLinkRepository
 
     public function create(PackageQuestionLink $link): bool
     {
-        $link->setLinkID($this->idGenerator->generateID());
+        // Check if the package already exists
+        if ($this->checkIfAlreadyExist($link->getPackageID(), $link->getQuestionID())) {
+            throw new \Exception("The link already exists");
+        }
+        $generatedLink = $this->idGenerator->generateID();
+        $link->setLinkID($generatedLink);
         $query = "INSERT INTO PackageQuestionLink (linkID, packageID, questionID) VALUES (:linkID, :packageID, :questionID)";
         $parameters = [
-            ':linkID' => $link->getLinkID(),
+            ':linkID' => $generatedLink,
             ':packageID' => $link->getPackageID(),
             ':questionID' => $link->getQuestionID()
         ];
-
         try {
             $statement = $this->queryExecutor->execute($query, $parameters);
         } catch (\PDOException $e) {
@@ -76,10 +81,26 @@ class PackageQuestionLinkRepository
 
         return $statement->rowCount() > 0;
     }
+    public function update(PackageQuestionLink $link): bool
+    {
+        $query = "UPDATE PackageQuestionLink SET packageID = :packageID, questionID = :questionID WHERE linkID = :linkID";
+        $parameters = [
+            ':linkID' => $link->getLinkID(),
+            ':packageID' => $link->getPackageID(),
+            ':questionID' => $link->getQuestionID()
+        ];
+        try {
+            $statement = $this->queryExecutor->execute($query, $parameters);
+        } catch (\PDOException $e) {
+            throw new \PDOException($e->getMessage(), (int) $e->getCode());
+        }
+
+        return $statement->rowCount() === 1;
+    }
 
     public function delete(PackageQuestionLink $link): bool
     {
-        $query = "DELETE FROM package_question_links WHERE linkID = :linkID";
+        $query = "DELETE FROM PackageQuestionLink WHERE linkID = :linkID";
         $parameters = [
             ':linkID' => $link->getLinkID()
         ];
@@ -91,5 +112,23 @@ class PackageQuestionLinkRepository
         }
 
         return $statement->rowCount() === 1;
+    }
+    private function checkIfAlreadyExist(string $packageID, string $questionID): bool
+    {
+        $query = "SELECT * from  PackageQuestionLink WHERE packageID = :packageID AND questionID = :questionID";
+        $parameters = [
+            ':packageID' => $packageID,
+            ':questionID' => $questionID
+        ];
+        try {
+            $statement = $this->queryExecutor->execute($query, $parameters);
+        } catch (\PDOException $e) {
+            throw new \PDOException($e->getMessage(), (int) $e->getCode());
+        }
+        $packageData = $statement->fetch(PDO::FETCH_ASSOC);
+        if (!$packageData) {
+            return false;
+        }
+        return true;
     }
 }
