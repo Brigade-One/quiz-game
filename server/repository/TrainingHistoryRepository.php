@@ -41,8 +41,8 @@ class TrainingHistoryRepository
         }
         return $trainingHistories;
     }
-
-    public function fetchByID(string $historyID): array
+    //TODO: ADD dublication check
+    public function fetchByID(string $historyID): TrainingHistory
     {
         $query = "SELECT * FROM TrainingHistory WHERE historyID = :historyID";
 
@@ -55,7 +55,6 @@ class TrainingHistoryRepository
             throw new \PDOException($e->getMessage(), (int) $e->getCode());
         }
 
-        $trainingHistories = [];
         while ($trainingHistoryData = $statement->fetch(PDO::FETCH_ASSOC)) {
             $trainingHistory = new TrainingHistory(
                 $trainingHistoryData['historyID'],
@@ -65,9 +64,8 @@ class TrainingHistoryRepository
                 $trainingHistoryData['correctAnswers'],
                 $trainingHistoryData['totalQuestions'],
             );
-            $trainingHistories[] = $trainingHistory;
         }
-        return $trainingHistories;
+        return $trainingHistory;
     }
 
 
@@ -108,7 +106,7 @@ class TrainingHistoryRepository
             ':historyID' => $generatedID,
             ':userID' => $trainingHistory->getUserID(),
             ':packageID' => $trainingHistory->getPackageID(),
-            ':trainingDate' => $trainingHistory->getTrainingDate(),
+            ':trainingDate' => $trainingHistory->getTrainingDate()->format('Y-m-d'),
             ':correctAnswers' => $trainingHistory->getCorrectAnswers(),
             ':totalQuestions' => $trainingHistory->getTotalQuestions(),
         ];
@@ -128,7 +126,7 @@ class TrainingHistoryRepository
             ':historyID' => $trainingHistory->getHistoryID(),
             ':userID' => $trainingHistory->getUserID(),
             ':packageID' => $trainingHistory->getPackageID(),
-            ':trainingDate' => $trainingHistory->getTrainingDate(),
+            ':trainingDate' => $trainingHistory->getTrainingDate()->format('Y-m-d'),
             ':correctAnswers' => $trainingHistory->getCorrectAnswers(),
             ':totalQuestions' => $trainingHistory->getTotalQuestions(),
         ];
