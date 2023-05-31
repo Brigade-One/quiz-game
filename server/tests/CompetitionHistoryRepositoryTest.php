@@ -1,13 +1,13 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use Server\Repository\TrainingHistoryRepository;
-use Server\Models\TrainingHistory;
+use Server\Repository\CompetitionHistoryRepository;
+use Server\Models\CompetitionHistory;
 use Server\Repository\QueryExecutor;
 use Server\Repository\Database;
 use Server\Repository\IDGenerator;
 
-class TrainingHistoryRepositoryTest extends TestCase
+class CompetitionHistoryRepositoryTest extends TestCase
 {
     private $historyRepository;
     private $database;
@@ -19,22 +19,26 @@ class TrainingHistoryRepositoryTest extends TestCase
         $database = new Database($pdo);
         $idGenerator = new IDGenerator();
         $this->queryExecutor = new QueryExecutor($database->getConnection());
-        $this->historyRepository = new TrainingHistoryRepository($this->queryExecutor, $idGenerator);
+        $this->historyRepository = new CompetitionHistoryRepository($this->queryExecutor, $idGenerator);
     }
     public function testCreateTrainingHistory(): void
     {
-        $testPackageID = '469d375a-ae5e-4bd3-b169-a9745cd888ba';
-        $testUserID = '801f6709-042e-4fa7-9b2e-a28958b9cdf0';
-        $testDate = '2023-05-20';
-        $testCorrectAnswers = 20;
+        $testPackageID = '7c8cae4d-6773-48ff-87c4-74b6f407946c';
+        $testP1ID = '801f6709-042e-4fa7-9b2e-a28958b9cdf0';
+        $testP2ID = 'd08adb1a-353a-47cf-b829-efc386c58e79';
+        $testDate = '2023-05-31 08:00:00';
+        $testP1CorrectAnswers = 40;
+        $testP2CorrectAnswers = 30;
         $testTotalQuestions = 50;
 
-        $history = new TrainingHistory(
+        $history = new CompetitionHistory(
             null,
-            $testUserID,
+            $testP1ID,
+            $testP2ID,
             $testPackageID,
             $testDate,
-            $testCorrectAnswers,
+            $testP1CorrectAnswers,
+            $testP2CorrectAnswers,
             $testTotalQuestions
         );
 
@@ -42,23 +46,23 @@ class TrainingHistoryRepositoryTest extends TestCase
         $result = $this->historyRepository->create($history);
 
         // Assert that the package was successfully saved to the database        
-        $result = $this->historyRepository->fetchByUserID($testUserID);
+        $result = $this->historyRepository->fetchByUserID($testP1ID);
         $this->assertNotEmpty($result);
     }
     public function testFetchAll()
     {
-        $links = $this->historyRepository->fetchAll();
-        $this->assertNotEmpty($links);
+        $history = $this->historyRepository->fetchAll();
+        $this->assertNotEmpty($history);
     }
     public function testUpdate()
     {
-        $testID = 'a52bfcf1-3416-4c12-986c-d23cd761b27e';
+        $testID = 'b7964e9e-af52-4cb9-97ae-272350493dfe';
         $history = $this->historyRepository->fetchByID($testID);
         // Link with other package
-        $dateTime = new DateTime('2024-05-20');
-        $history->setTrainingDate($dateTime);
+        $dateTime = new DateTime('2023-05-30 10:00:00');
+        $history->setCompetitionDate($dateTime);
         $result = $this->historyRepository->update($history);
         $this->assertTrue($result);
     }
-    
+
 }
