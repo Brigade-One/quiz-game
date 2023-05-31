@@ -38,15 +38,11 @@ class TrainingHistoryRepositoryTest extends TestCase
             $testTotalQuestions
         );
 
-        var_dump($history->getTrainingDate());
-
         // Save the package to the database
         $result = $this->historyRepository->create($history);
 
         // Assert that the package was successfully saved to the database        
-        $id = $history->getHistoryID();
         $result = $this->historyRepository->fetchByUserID($testUserID);
-        var_dump($result);
         $this->assertNotEmpty($result);
     }
     public function testFetchAll()

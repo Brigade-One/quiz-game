@@ -19,10 +19,8 @@ class TrainingHistoryRepository
     public function fetchAll(): array
     {
         $query = "SELECT * FROM TrainingHistory";
-
-        $parameters = [];
         try {
-            $statement = $this->queryExecutor->execute($query, $parameters);
+            $statement = $this->queryExecutor->execute($query, []);
         } catch (\PDOException $e) {
             throw new \PDOException($e->getMessage(), (int) $e->getCode());
         }
