@@ -17,7 +17,7 @@ class CompetitionHistory
         string $player1ID,
         string $player2ID,
         string $packageID,
-        ?\DateTime $competitionDate,
+        ?string $competitionDate,
         int $player1CorrectAnswers,
         int $player2CorrectAnswers,
         int $totalQuestions
@@ -26,7 +26,7 @@ class CompetitionHistory
         $this->player1ID = $player1ID;
         $this->player2ID = $player2ID;
         $this->packageID = $packageID;
-        $this->competitionDate = $competitionDate;
+        $this->competitionDate = $competitionDate ? new \DateTime($competitionDate) : null;
         $this->player1CorrectAnswers = $player1CorrectAnswers;
         $this->player2CorrectAnswers = $player2CorrectAnswers;
         $this->totalQuestions = $totalQuestions;
