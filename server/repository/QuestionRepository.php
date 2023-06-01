@@ -36,7 +36,6 @@ class QuestionRepository
                 $questionData['question'],
                 $questionData['answer'],
                 $questionData['hint'],
-                $questionData['themeID'],
                 $questionData['difficulty']
             );
             $questions[] = $question;
@@ -67,7 +66,6 @@ class QuestionRepository
             $questionData['question'],
             $questionData['answer'],
             $questionData['hint'],
-            $questionData['themeID'],
             $questionData['difficulty']
         );
         return $question;
@@ -89,7 +87,6 @@ class QuestionRepository
             ':answer' => $question->getAnswer(),
             ':hint' => $question->getHint(),
             ':difficulty' => $question->getDifficulty(),
-            ':themeID' => $question->getThemeID()
         ];
         try {
             $statement = $this->queryExecutor->execute($query, $parameters);
@@ -105,7 +102,6 @@ class QuestionRepository
     WHERE questionID = :questionID";
 
         $parameters = [
-            ':themeID' => $question->getThemeID(),
             ':questionID' => $question->getQuestionID(),
             ':question' => $question->getQuestion(),
             ':answer' => $question->getAnswer(),
@@ -143,7 +139,7 @@ class QuestionRepository
 
         $parameters = [
             ':question' => $question->getQuestion()
-        ];  
+        ];
         try {
             $statement = $this->queryExecutor->execute($query, $parameters);
         } catch (\PDOException $e) {
