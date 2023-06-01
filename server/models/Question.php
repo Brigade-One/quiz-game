@@ -1,6 +1,5 @@
 <?php
 namespace Server\Models;
-
 class Question
 {
     private $questionID;
