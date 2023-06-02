@@ -3,12 +3,15 @@ namespace Server\Repository;
 
 use Server\Models\UserPackageLink;
 use Server\Repository\QueryExecutor;
+use Server\Repository\IDGenerator;
+use Server\Repository\PackageRepository;
 use PDO;
 
 class UserPackageLinkRepository
 {
     private $queryExecutor;
     private $idGenerator;
+    private $packageRepository;
 
     public function __construct(QueryExecutor $queryExecutor, IDGenerator $idGenerator)
     {
@@ -37,7 +40,25 @@ class UserPackageLinkRepository
 
         return $userPackageLinks;
     }
-
+    public function fetchPackagesByUserID(string $userID): array
+    {
+        $packageRepository = new PackageRepository($this->queryExecutor, $this->idGenerator);
+        $query = "SELECT * FROM UserPackageLink WHERE userID = :userID";
+        $parameters = [
+            ':userID' => $userID
+        ];
+        try {
+            $statement = $this->queryExecutor->execute($query, $parameters);
+        } catch (\PDOException $e) {
+            throw new \PDOException($e->getMessage(), (int) $e->getCode());
+        }
+        $packages = [];
+        while ($linkData = $statement->fetch(PDO::FETCH_ASSOC)) {
+            $package = $packageRepository->fetchByID($linkData['packageID']);
+            $packages[] = $package;
+        }
+        return $packages;
+    }
     public function fetchByID(string $id): ?UserPackageLink
     {
         $query = "SELECT * FROM UserPackageLink WHERE linkID = :linkID";

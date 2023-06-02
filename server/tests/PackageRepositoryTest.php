@@ -11,7 +11,6 @@ use Server\Repository\UserRepository;
 class PackageRepositoryTest extends TestCase
 {
     private $packageRepository;
-    private $userRepository;
     private $database;
     private $queryExecutor;
 
@@ -21,15 +20,11 @@ class PackageRepositoryTest extends TestCase
         $database = new Database($pdo);
         $idGenerator = new IDGenerator();
         $this->queryExecutor = new QueryExecutor($database->getConnection());
-        $this->userRepository = new UserRepository($this->queryExecutor, $idGenerator);
-        $this->packageRepository = new PackageRepository($this->queryExecutor, $idGenerator, $this->userRepository);
+        $this->packageRepository = new PackageRepository($this->queryExecutor, $idGenerator);
 
     }
     public function testCreatePackage(): void
     {
-        //User who creates the package
-        $user = $this->userRepository->fetchByEmail("example10@example.com");
-
         // Create a new package
         $package = new Package(
             null,
