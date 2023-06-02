@@ -15,20 +15,17 @@ class UserRepository
         $this->queryExecutor = $queryExecutor;
         $this->idGenerator = $idGenerator;
     }
-
     public function fetchAll(): array
     {
         $query = "SELECT u.*, r.roleName
                 FROM users u
                 JOIN roles r ON u.roleID = r.roleID";
-
         $parameters = [];
         try {
             $statement = $this->queryExecutor->execute($query, $parameters);
         } catch (\PDOException $e) {
             throw new \PDOException($e->getMessage(), (int) $e->getCode());
         }
-
         $users = [];
         while ($userData = $statement->fetch(PDO::FETCH_ASSOC)) {
             $user = new User(
@@ -37,7 +34,6 @@ class UserRepository
                 $userData['email'],
                 $userData['password'],
                 $userData['roleName'],
-                $userData['packageID'],
             );
             $users[] = $user;
         }
@@ -70,9 +66,7 @@ class UserRepository
                 $userData['email'],
                 $userData['password'],
                 $userData['roleName'],
-                $userData['packageID'],
             );
-
             return $user;
         }
 
@@ -105,7 +99,6 @@ class UserRepository
                 $userData['email'],
                 $userData['password'],
                 $userData['roleName'],
-                $userData['packageID'],
             );
 
             return $user;
@@ -148,12 +141,11 @@ class UserRepository
             throw new \InvalidArgumentException('Invalid user data');
         }
         $query = "UPDATE users SET username = :username, 
-        email = :email, password = :password, roleID = :roleID,  packageID = :packageID
+        email = :email, password = :password, roleID = :roleID 
         WHERE userID = :id";
         $roleID = $this->getRoleIDByName($user->getRoleName());
         $parameters = [
             ':id' => $user->getId(),
-            ':packageID' => $user->getPackageID(),
             ':username' => $user->getName(),
             ':email' => $user->getEmail(),
             ':password' => $user->getPassword(),

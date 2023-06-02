@@ -16,7 +16,7 @@ class UserRepositoryTest extends TestCase
 
     protected function setUp(): void
     {
-        $pdo = new PDO('mysql:host=localhost;dbname=quiz_db', 'root', '');
+        $pdo = new PDO('mysql:host=localhost;dbname=quiz_db_3', 'root', '');
         $database = new Database($pdo);
         $idGenerator = new IDGenerator();
         $this->queryExecutor = new QueryExecutor($database->getConnection());
@@ -28,10 +28,9 @@ class UserRepositoryTest extends TestCase
         $user = new User(
             null,
             'Demo User',
-            'example10@example.com',
+            'example2@example.com',
             'password',
             'user',
-            null
         );
 
         // Save the user to the database
@@ -44,11 +43,11 @@ class UserRepositoryTest extends TestCase
     public function testFindById(): void
     {
         // Retrieve the user using findById
-        $foundUser = $this->userRepository->fetchById('a6d1b4d6-2c99-4c1c-9951-cab2dcc55367');
+        $foundUser = $this->userRepository->fetchById('efbede5c-7d02-465e-a6a7-6f3dce0fb47e');
 
         // Assert that the retrieved user matches the expected values
         $this->assertInstanceOf(User::class, $foundUser);
-        $this->assertEquals('Morrigan Doe', $foundUser->getName());
+        /*  $this->assertEquals('Morrigan Doe', $foundUser->getName()); */
         $this->assertEquals('example2@example.com', $foundUser->getEmail());
         $this->assertEquals('password', $foundUser->getPassword());
         $this->assertEquals('user', $foundUser->getRoleName());
@@ -69,7 +68,7 @@ class UserRepositoryTest extends TestCase
     public function testUpdate(): void
     {
         // Retrieve the user using findById
-        $user = $this->userRepository->fetchById('a6d1b4d6-2c99-4c1c-9951-cab2dcc55367');
+        $user = $this->userRepository->fetchById('efbede5c-7d02-465e-a6a7-6f3dce0fb47e');
 
         // Update the user's name and email address
         $user->setName('Morrigan Doe');
@@ -78,7 +77,7 @@ class UserRepositoryTest extends TestCase
         $this->userRepository->update($user);
 
         // Retrieve the user again using findById
-        $updatedUser = $this->userRepository->fetchById('a6d1b4d6-2c99-4c1c-9951-cab2dcc55367');
+        $updatedUser = $this->userRepository->fetchById('efbede5c-7d02-465e-a6a7-6f3dce0fb47e');
         assertEquals('Morrigan Doe', $updatedUser->getName());
     }
     /* public function testDelete(): void

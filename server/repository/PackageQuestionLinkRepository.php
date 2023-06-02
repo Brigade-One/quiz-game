@@ -2,12 +2,15 @@
 namespace Server\Repository;
 
 use Server\Models\PackageQuestionLink;
+use Server\Repository\QuestionRepository;
 use Server\Repository\QueryExecutor;
+use Server\Repository\IDGenerator;
 use PDO;
 
 class PackageQuestionLinkRepository
 {
     private $queryExecutor;
+    private $questionRepository;
     private $idGenerator;
     public function __construct(QueryExecutor $queryExecutor, IDGenerator $idGenerator)
     {
@@ -33,6 +36,26 @@ class PackageQuestionLinkRepository
             $packages[] = $package;
         }
         return $packages;
+    }
+    // Fetch all questions for a package with a given ID.
+    public function fetchQuestionsByPackageID(string $packageID): array
+    {
+        $questionRepository = new QuestionRepository($this->queryExecutor, $this->idGenerator);
+
+        $query = " SELECT * FROM PackageQuestionLink  WHERE packageID = :packageID";
+
+        try {
+            $statement = $this->queryExecutor->execute($query, [':packageID' => $packageID]);
+        } catch (\PDOException $e) {
+            throw new \PDOException($e->getMessage(), (int) $e->getCode());
+        }
+
+        $questions = [];
+        while ($questionData = $statement->fetch(PDO::FETCH_ASSOC)) {
+            $question = $questionRepository->fetchByID($questionData['questionID']);
+            $questions[] = $question;
+        }
+        return $questions;
     }
     public function fetchByID(string $id): ?PackageQuestionLink
     {

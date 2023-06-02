@@ -10,14 +10,12 @@ use PDO;
 class PackageRepository
 {
     private $queryExecutor;
-    private $userRepository;
     private $idGenerator;
 
-    public function __construct(QueryExecutor $queryExecutor, IDGenerator $idGenerator, UserRepository $userRepository)
+    public function __construct(QueryExecutor $queryExecutor, IDGenerator $idGenerator)
     {
         $this->queryExecutor = $queryExecutor;
         $this->idGenerator = $idGenerator;
-        $this->userRepository = $userRepository;
     }
     public function fetchAll(): array
     {
@@ -32,7 +30,6 @@ class PackageRepository
             $package = new Package(
                 $packageData['packageID'],
                 $packageData['name'],
-                $packageData['userID'],
                 $packageData['isApproved']
             );
             $packages[] = $package;
@@ -42,9 +39,7 @@ class PackageRepository
     public function fetchByID(string $id)
     {
         $query = "SELECT * from packages where packageID = :packageID";
-        $parameters = [
-            ':packageID' => $id
-        ];
+        $parameters = [':packageID' => $id];
         try {
             $statement = $this->queryExecutor->execute($query, $parameters);
         } catch (\PDOException $e) {
@@ -54,30 +49,20 @@ class PackageRepository
         $package = new Package(
             $packageData['packageID'],
             $packageData['name'],
-            $packageData['userID'],
             $packageData['isApproved']
         );
         return $package;
     }
-    public function create(Package $package, User $user): bool
+    public function create(Package $package): bool
     {
-        if (!$user->validate()) {
-            throw new \InvalidArgumentException('Invalid user data');
-        }
-        // Check if user already created package. Prevent doing that
-        if ($this->checkUserExistingPackages($user->getId())) {
-            throw new \Exception('User already have package');
-        }
-        $query = "INSERT INTO packages (packageID, name, userID, isApproved) VALUES (:packageID, :name, :userID, :isApproved)";
+        $query = "INSERT INTO packages (packageID, name,isApproved) VALUES (:packageID, :name,  :isApproved)";
         $packageID = $this->idGenerator->generateID();
 
         $package->setPackageID($packageID);
-        $user->setPackageID($packageID);
 
         $parameters = [
             ':packageID' => $packageID,
             ':name' => $package->getName(),
-            ':userID' => $user->getId(),
             ':isApproved' => $package->getIsApproved()
         ];
         try {
@@ -85,18 +70,15 @@ class PackageRepository
         } catch (\PDOException $e) {
             throw new \PDOException($e->getMessage(), (int) $e->getCode());
         }
-        // Now update DB User item(package must be created for that moment)
-        $this->userRepository->update($user);
 
         return $statement->rowCount() > 0;
     }
     public function update(Package $package): bool
     {
-        $query = "UPDATE packages SET name = :name, userID = :userID, isApproved = :isApproved WHERE packageID = :packageID";
+        $query = "UPDATE packages SET name = :name,  isApproved = :isApproved WHERE packageID = :packageID";
         $parameters = [
             ':packageID' => $package->getPackageID(),
             ':name' => $package->getName(),
-            ':userID' => $package->getUserID(),
             ':isApproved' => $package->getIsApproved()
         ];
         try {
@@ -119,21 +101,5 @@ class PackageRepository
             throw new \PDOException($e->getMessage(), (int) $e->getCode());
         }
         return $statement->rowCount() === 1;
-    }
-    private function checkUserExistingPackages(string $userID): bool
-    {
-        $query = "SELECT COUNT(*) FROM packages WHERE userID = :userID";
-        $parameters = [':userID' => $userID];
-        try {
-            $statement = $this->queryExecutor->execute($query, $parameters);
-        } catch (\PDOException $e) {
-            throw new \PDOException($e->getMessage(), (int) $e->getCode());
-        }
-        $count = $statement->fetchColumn();
-        if ($count == 0) {
-            return false;
-        }
-
-        return true;
     }
 }

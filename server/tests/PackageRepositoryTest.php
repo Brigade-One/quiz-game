@@ -11,35 +11,29 @@ use Server\Repository\UserRepository;
 class PackageRepositoryTest extends TestCase
 {
     private $packageRepository;
-    private $userRepository;
     private $database;
     private $queryExecutor;
 
     protected function setUp(): void
     {
-        $pdo = new PDO('mysql:host=localhost;dbname=quiz_db', 'root', '');
+        $pdo = new PDO('mysql:host=localhost;dbname=quiz_db_3', 'root', '');
         $database = new Database($pdo);
         $idGenerator = new IDGenerator();
         $this->queryExecutor = new QueryExecutor($database->getConnection());
-        $this->userRepository = new UserRepository($this->queryExecutor, $idGenerator);
-        $this->packageRepository = new PackageRepository($this->queryExecutor, $idGenerator, $this->userRepository);
+        $this->packageRepository = new PackageRepository($this->queryExecutor, $idGenerator);
 
     }
     public function testCreatePackage(): void
     {
-        //User who creates the package
-        $user = $this->userRepository->fetchByEmail("example10@example.com");
-
         // Create a new package
         $package = new Package(
             null,
             'Demo package',
-            $user->getId(),
-            0,
+            false,
         );
 
         // Save the package to the database
-        $result = $this->packageRepository->create($package, $user);
+        $result = $this->packageRepository->create($package);
 
         // Assert that the package was successfully saved to the database        
         $id = $package->getPackageID();
