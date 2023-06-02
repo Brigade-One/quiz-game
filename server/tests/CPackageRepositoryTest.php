@@ -35,7 +35,6 @@ class CPackageRepositoryTest extends TestCase
         $package = new CompetitionPackage(
             null,
             'Demo competiton package2',
-            $user->getId(),
         );
         // Save the package to the database
         $result = $this->packageRepository->create($package, $user);
@@ -43,7 +42,6 @@ class CPackageRepositoryTest extends TestCase
         $id = $package->getPackageID();
         $result = $this->packageRepository->fetchByID($id);
         $this->assertNotEmpty($result);
-
     }
 
     public function testFetchAll()
