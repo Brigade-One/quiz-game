@@ -103,6 +103,7 @@ class UserRepository
 
             return $user;
         }
+        print_r("User not found");
         return null; // User not found
     }
 
@@ -141,7 +142,7 @@ class UserRepository
             throw new \InvalidArgumentException('Invalid user data');
         }
         $query = "UPDATE users SET username = :username, 
-        email = :email, password = :password, roleID = :roleID,  packageID = :packageID
+        email = :email, password = :password, roleID = :roleID 
         WHERE userID = :id";
         $roleID = $this->getRoleIDByName($user->getRoleName());
         $parameters = [
