@@ -10,14 +10,12 @@ use PDO;
 class CompetitionPackageRepository
 {
     private $queryExecutor;
-    private $userRepository;
     private $idGenerator;
 
-    public function __construct(QueryExecutor $queryExecutor, IDGenerator $idGenerator, UserRepository $userRepository)
+    public function __construct(QueryExecutor $queryExecutor, IDGenerator $idGenerator)
     {
         $this->queryExecutor = $queryExecutor;
         $this->idGenerator = $idGenerator;
-        $this->userRepository = $userRepository;
     }
     public function fetchAll(): array
     {
