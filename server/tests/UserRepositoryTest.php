@@ -47,7 +47,7 @@ class UserRepositoryTest extends TestCase
 
         // Assert that the retrieved user matches the expected values
         $this->assertInstanceOf(User::class, $foundUser);
-       /*  $this->assertEquals('Morrigan Doe', $foundUser->getName()); */
+        /*  $this->assertEquals('Morrigan Doe', $foundUser->getName()); */
         $this->assertEquals('example2@example.com', $foundUser->getEmail());
         $this->assertEquals('password', $foundUser->getPassword());
         $this->assertEquals('user', $foundUser->getRoleName());

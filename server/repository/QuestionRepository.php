@@ -17,20 +17,16 @@ class QuestionRepository
     }
     public function fetchAll(): array
     {
-        $query = "SELECT q.*, t.name, t.imgURL
-                FROM Questions q
-                JOIN Themes t ON q.themeID = t.themeID";
+        $query = "SELECT * FROM  questions";
 
-        $parameters = [];
         try {
-            $statement = $this->queryExecutor->execute($query, $parameters);
+            $statement = $this->queryExecutor->execute($query, []);
         } catch (\PDOException $e) {
             throw new \PDOException($e->getMessage(), (int) $e->getCode());
         }
 
         $questions = [];
         while ($questionData = $statement->fetch(PDO::FETCH_ASSOC)) {
-
             $question = new Question(
                 $questionData['questionID'],
                 $questionData['question'],
@@ -44,10 +40,7 @@ class QuestionRepository
     }
     public function fetchByID(string $id): ?Question
     {
-        $query = "SELECT q.*, t.name, t.imgURL
-        FROM questions q
-        JOIN themes t ON q.themeID = t.themeID
-        WHERE questionID = :questionID";
+        $query = "SELECT * FROM Questions WHERE questionID = :questionID";
 
         $parameters = [
             ':questionID' => $id
@@ -73,10 +66,10 @@ class QuestionRepository
     public function create(Question $question): bool
     {
         if ($this->checkIfQuestionExists($question)) {
-            return false;
+            throw new \PDOException("Question already exists", 400);
         }
-        $query = "INSERT INTO questions (questionID, question, answer, hint, difficulty, themeID)
-        VALUES (:questionID, :question, :answer, :hint,  :difficulty, :themeID)";
+        $query = "INSERT INTO questions (questionID, question, answer, hint, difficulty)
+        VALUES (:questionID, :question, :answer, :hint,  :difficulty)";
 
         $questionID = $this->idGenerator->generateID();
         $question->setQuestionID($questionID);
@@ -98,7 +91,7 @@ class QuestionRepository
     public function update(Question $question): bool
     {
         $query = "UPDATE questions
-    SET themeID = :themeID, question = :question, answer = :answer, hint = :hint, difficulty = :difficulty
+    SET  question = :question, answer = :answer, hint = :hint, difficulty = :difficulty
     WHERE questionID = :questionID";
 
         $parameters = [

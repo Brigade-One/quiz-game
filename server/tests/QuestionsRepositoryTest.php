@@ -16,7 +16,7 @@ class QuestionsRepositoryTest extends TestCase
 
     protected function setUp(): void
     {
-        $pdo = new PDO('mysql:host=localhost;dbname=quiz_db', 'root', '');
+        $pdo = new PDO('mysql:host=localhost;dbname=quiz_db_3', 'root', '');
         $database = new Database($pdo);
         $idGenerator = new IDGenerator();
         $this->queryExecutor = new QueryExecutor($database->getConnection());
@@ -28,11 +28,10 @@ class QuestionsRepositoryTest extends TestCase
         // Create a new question
         $question = new Question(
             null,
-            'Demo Question',
+            'Demo Question2',
             'Demo Answer',
             'Demo Hint',
-            0,
-            1
+            1,
         );
 
         // Save the question to the database
@@ -52,28 +51,16 @@ class QuestionsRepositoryTest extends TestCase
     }
     public function testUpdate()
     {
-        $question = $this->questionRepository->fetchByID('194f1471-f181-495d-b734-ee81c949367e');
+        $question = $this->questionRepository->fetchByID('cf61be5e-64cc-4036-b1eb-4c3044459c2e');
         $question->setQuestion('Demo Question Updated');
         $question->setAnswer('Demo Answer Updated');
         $question->setHint('Demo Hint Updated');
-        $question->setThemeID(1);
         $question->setDifficulty(2);
         $this->questionRepository->update($question);
-        $question = $this->questionRepository->fetchByID('194f1471-f181-495d-b734-ee81c949367e');
+        $question = $this->questionRepository->fetchByID('cf61be5e-64cc-4036-b1eb-4c3044459c2e');
         $this->assertEquals('Demo Question Updated', $question->getQuestion());
         $this->assertEquals('Demo Answer Updated', $question->getAnswer());
         $this->assertEquals('Demo Hint Updated', $question->getHint());
-        $this->assertEquals(1, $question->getThemeID());
-        $this->assertEquals(2, $question->getDifficulty());
-    }
-    public function testFetchByID()
-    {
-        $question = $this->questionRepository->fetchByID('194f1471-f181-495d-b734-ee81c949367e');
-        $this->assertInstanceOf(Question::class, $question);
-        $this->assertEquals('Demo Question Updated', $question->getQuestion());
-        $this->assertEquals('Demo Answer Updated', $question->getAnswer());
-        $this->assertEquals('Demo Hint Updated', $question->getHint());
-        $this->assertEquals(1, $question->getThemeID());
         $this->assertEquals(2, $question->getDifficulty());
     }
 
