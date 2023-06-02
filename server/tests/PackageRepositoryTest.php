@@ -17,7 +17,7 @@ class PackageRepositoryTest extends TestCase
 
     protected function setUp(): void
     {
-        $pdo = new PDO('mysql:host=localhost;dbname=quiz_db', 'root', '');
+        $pdo = new PDO('mysql:host=localhost;dbname=quiz_db_3', 'root', '');
         $database = new Database($pdo);
         $idGenerator = new IDGenerator();
         $this->queryExecutor = new QueryExecutor($database->getConnection());
@@ -34,12 +34,11 @@ class PackageRepositoryTest extends TestCase
         $package = new Package(
             null,
             'Demo package',
-            $user->getId(),
-            0,
+            false,
         );
 
         // Save the package to the database
-        $result = $this->packageRepository->create($package, $user);
+        $result = $this->packageRepository->create($package);
 
         // Assert that the package was successfully saved to the database        
         $id = $package->getPackageID();

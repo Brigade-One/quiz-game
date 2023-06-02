@@ -41,9 +41,7 @@ class PackageRepository
     public function fetchByID(string $id)
     {
         $query = "SELECT * from packages where packageID = :packageID";
-        $parameters = [
-            ':packageID' => $id
-        ];
+        $parameters = [':packageID' => $id];
         try {
             $statement = $this->queryExecutor->execute($query, $parameters);
         } catch (\PDOException $e) {
@@ -59,11 +57,10 @@ class PackageRepository
     }
     public function create(Package $package): bool
     {
-        $query = "INSERT INTO packages (packageID, name, userID, isApproved) VALUES (:packageID, :name, :userID, :isApproved)";
+        $query = "INSERT INTO packages (packageID, name,isApproved) VALUES (:packageID, :name,  :isApproved)";
         $packageID = $this->idGenerator->generateID();
 
         $package->setPackageID($packageID);
-
 
         $parameters = [
             ':packageID' => $packageID,
@@ -75,14 +72,12 @@ class PackageRepository
         } catch (\PDOException $e) {
             throw new \PDOException($e->getMessage(), (int) $e->getCode());
         }
-        // Now update DB User item(package must be created for that moment)
-
 
         return $statement->rowCount() > 0;
     }
     public function update(Package $package): bool
     {
-        $query = "UPDATE packages SET name = :name, userID = :userID, isApproved = :isApproved WHERE packageID = :packageID";
+        $query = "UPDATE packages SET name = :name,  isApproved = :isApproved WHERE packageID = :packageID";
         $parameters = [
             ':packageID' => $package->getPackageID(),
             ':name' => $package->getName(),
@@ -109,21 +104,5 @@ class PackageRepository
             throw new \PDOException($e->getMessage(), (int) $e->getCode());
         }
         return $statement->rowCount() === 1;
-    }
-    private function checkUserExistingPackages(string $userID): bool
-    {
-        $query = "SELECT COUNT(*) FROM packages WHERE userID = :userID";
-        $parameters = [':userID' => $userID];
-        try {
-            $statement = $this->queryExecutor->execute($query, $parameters);
-        } catch (\PDOException $e) {
-            throw new \PDOException($e->getMessage(), (int) $e->getCode());
-        }
-        $count = $statement->fetchColumn();
-        if ($count == 0) {
-            return false;
-        }
-
-        return true;
     }
 }
