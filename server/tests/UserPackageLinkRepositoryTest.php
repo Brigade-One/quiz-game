@@ -51,4 +51,5 @@ class UserPackageLinkRepositoryTest extends TestCase
         $this->assertContainsOnlyInstancesOf('Server\Models\Package', $packages);
         var_dump($packages);
     }
+
 }

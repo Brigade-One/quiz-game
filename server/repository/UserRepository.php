@@ -103,7 +103,6 @@ class UserRepository
 
             return $user;
         }
-        print_r("User not found");
         return null; // User not found
     }
 
