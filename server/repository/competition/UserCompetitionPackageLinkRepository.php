@@ -4,10 +4,9 @@ namespace Server\Repository\Competition;
 use Server\Models\UserPackageLink;
 use Server\Repository\QueryExecutor;
 use Server\Repository\IDGenerator;
-use Server\Repository\PackageRepository;
 use PDO;
 
-class UserPackageLinkRepository
+class UserCompetitionPackageLinkRepository
 {
     private $queryExecutor;
     private $idGenerator;
@@ -21,7 +20,7 @@ class UserPackageLinkRepository
 
     public function fetchAll(): array
     {
-        $query = "SELECT * FROM UserCompetitionPackageLink";
+        $query = "SELECT * FROM UserCompPackageLink";
         try {
             $statement = $this->queryExecutor->execute($query, []);
         } catch (\PDOException $e) {
@@ -42,8 +41,8 @@ class UserPackageLinkRepository
     }
     public function fetchPackagesByUserID(string $userID): array
     {
-        $packageRepository = new PackageRepository($this->queryExecutor, $this->idGenerator);
-        $query = "SELECT * FROM UserCompetitionPackageLink WHERE userID = :userID";
+        $packageRepository = new CompetitionPackageRepository($this->queryExecutor, $this->idGenerator);
+        $query = "SELECT * FROM UserCompPackageLink WHERE userID = :userID";
         $parameters = [
             ':userID' => $userID
         ];
@@ -61,7 +60,7 @@ class UserPackageLinkRepository
     }
     public function fetchByID(string $id): ?UserPackageLink
     {
-        $query = "SELECT * FROM UserCompetitionPackageLink WHERE linkID = :linkID";
+        $query = "SELECT * FROM UserCompPackageLink WHERE linkID = :linkID";
         $parameters = [
             ':linkID' => $id
         ];
@@ -96,7 +95,7 @@ class UserPackageLinkRepository
         $generatedLink = $this->idGenerator->generateID();
         $link->setLinkID($generatedLink);
 
-        $query = "INSERT INTO UserCompetitionPackageLink (linkID, userID, packageID) VALUES (:linkID, :userID, :packageID)";
+        $query = "INSERT INTO UserCompPackageLink (linkID, userID, packageID) VALUES (:linkID, :userID, :packageID)";
         $parameters = [
             ':linkID' => $generatedLink,
             ':userID' => $link->getUserID(),
@@ -113,7 +112,7 @@ class UserPackageLinkRepository
 
     public function update(UserPackageLink $link): bool
     {
-        $query = "UPDATE UserCompetitionPackageLink SET userID = :userID, packageID = :packageID WHERE linkID = :linkID";
+        $query = "UPDATE UserCompPackageLink SET userID = :userID, packageID = :packageID WHERE linkID = :linkID";
         $parameters = [
             ':linkID' => $link->getLinkID(),
             ':userID' => $link->getUserID(),
@@ -130,7 +129,7 @@ class UserPackageLinkRepository
 
     public function delete(UserPackageLink $link): bool
     {
-        $query = "DELETE FROM UserCompetitionPackageLink WHERE linkID = :linkID";
+        $query = "DELETE FROM UserCompPackageLink WHERE linkID = :linkID";
         $parameters = [
             ':linkID' => $link->getLinkID()
         ];
@@ -146,7 +145,7 @@ class UserPackageLinkRepository
 
     private function checkIfAlreadyExist(string $userID, string $packageID): bool
     {
-        $query = "SELECT * FROM UserCompetitionPackageLink WHERE userID = :userID AND packageID = :packageID";
+        $query = "SELECT * FROM UserCompPackageLink WHERE userID = :userID AND packageID = :packageID";
         $parameters = [
             ':userID' => $userID,
             ':packageID' => $packageID
