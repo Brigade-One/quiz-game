@@ -16,7 +16,7 @@ class PackageQuestionLinkTest extends TestCase
 
     protected function setUp(): void
     {
-        $pdo = new PDO('mysql:host=localhost;dbname=quiz_db_3', 'root', '');
+        $pdo = new PDO('mysql:host=localhost;dbname=quiz_db', 'root', '');
         $database = new Database($pdo);
         $idGenerator = new IDGenerator();
         $this->queryExecutor = new QueryExecutor($database->getConnection());
@@ -25,10 +25,10 @@ class PackageQuestionLinkTest extends TestCase
     }
     public function testCreate()
     {
-        $packageID = "8824faa1-c84f-4eac-b573-95149f8e00c9";
+        $packageID = "65a9912a-2920-4ece-bce7-a0446f59bf95";
 
-        $packageQuestionLink = new PackageQuestionLink(null, $packageID, "00e5dfc2-778f-4701-a8bb-bf6f058e4316");
-        $packageQuestionLink2 = new PackageQuestionLink(null, $packageID, "b68737b6-1269-461a-a08e-ce375c77c17d");
+        $packageQuestionLink = new PackageQuestionLink(null, $packageID, "3cc70713-70cd-4e0c-9f87-b0fd91fdc1d7");
+        $packageQuestionLink2 = new PackageQuestionLink(null, $packageID, "d48a20d8-c50f-416a-9c8b-4d1618997613");
 
         $this->packageQuestionLinkRepository->create($packageQuestionLink);
         $this->packageQuestionLinkRepository->create($packageQuestionLink2);
@@ -40,7 +40,8 @@ class PackageQuestionLinkTest extends TestCase
     }
     public function testFetchQuestionsByID()
     {
-        $packageID = "8824faa1-c84f-4eac-b573-95149f8e00c9";
+        $packageID = "65a9912a-2920-4ece-bce7-a0446f59bf95";
+        
         $questions = $this->packageQuestionLinkRepository->fetchQuestionsByPackageID($packageID);
         $this->assertIsArray($questions);
         $this->assertNotEmpty($questions);
