@@ -4,14 +4,12 @@ namespace Server\Repository;
 use Server\Models\CompetitionPackage;
 use Server\Repository\QueryExecutor;
 use Server\Repository\IDGenerator;
-use Server\Models\User;
 use PDO;
 
 class CompetitionPackageRepository
 {
     private $queryExecutor;
     private $idGenerator;
-
     public function __construct(QueryExecutor $queryExecutor, IDGenerator $idGenerator)
     {
         $this->queryExecutor = $queryExecutor;
