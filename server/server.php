@@ -20,7 +20,7 @@ header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-W
 $router = new HttpRouter();
 $connection = new PDOConnection('localhost', 'quiz_db', 'root', null);
 
-$router->addRoute('POST', '/sign_up', function () use ($connection) {
+$router->addRoute('POST', '/sign_up', function () use ($connection): bool {
     $ur = new UserRepository(
         new QueryExecutor($connection->getConnection()),
         new IDGenerator()
@@ -32,7 +32,18 @@ $router->addRoute('POST', '/sign_up', function () use ($connection) {
         $_POST['password'],
         $_POST['roleName']
     );
-    $ur->create($user);
+    return $ur->create($user);
+});
+
+$router->addRoute('POST', '/sign_in', function () use ($connection): ?\Server\Models\User {
+    $ur = new UserRepository(
+        new QueryExecutor($connection->getConnection()),
+        new IDGenerator()
+    );
+    $user = $ur->fetchByEmail($_POST['email']);
+    return ($user->getPassword() === $_POST['password'])
+        ? $user
+        : null;
 });
 
 // Listen for incoming client requests
