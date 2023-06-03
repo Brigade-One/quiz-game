@@ -5,8 +5,7 @@ use Server\Repository\QueryExecutor;
 use Server\Repository\Database;
 use Server\Repository\IDGenerator;
 use Server\Models\CompetitionPackage;
-use Server\Repository\CompetitionPackageRepository;
-use Server\Repository\UserRepository;
+use Server\Repository\Competition\CompetitionPackageRepository;
 
 class CPackageRepositoryTest extends TestCase
 {
@@ -27,7 +26,7 @@ class CPackageRepositoryTest extends TestCase
         // Create a new package
         $package = new CompetitionPackage(
             null,
-            'Demo competiton package2',
+            'Demo competiton package',
         );
         // Save the package to the database
         $result = $this->packageRepository->create($package);
@@ -44,7 +43,7 @@ class CPackageRepositoryTest extends TestCase
     }
     public function testUpdate()
     {
-        $testID = '7c8cae4d-6773-48ff-87c4-74b6f407946c';
+        $testID = '191b9fbf-bd57-4323-8be6-2cdc942e7e82';
         $package = $this->packageRepository->fetchByID($testID);
         $package->setName("UpdatedCompetPackageName");
         $this->packageRepository->update($package);
