@@ -72,3 +72,22 @@
     margin-left: 5%;
     align-items: center;
 }
+#logout{
+    background-color: orange;
+    color: white;
+    width:10%;
+    height:50px;
+    font-size: 20px;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    
+    margin: 20px 0;
+    border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: 10%;
+    right: 5%;
+}
