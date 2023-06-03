@@ -27,13 +27,9 @@
     <img src="http://quiz-game/client/assets/images/profile_2.jpg" alt="Image">
     <span class="button-text">Profile</span>
   </button>
-  <button id="logout-button">
-    <img src="http://quiz-game/client/assets/images/logout.jpg" alt="Image">
-    <span class="button-text">Log Out</span>
-  </button>
     </div>
 
-  <div style="flex: 5;" id="second-block">
+  <div style="flex: 5" id="second-block">
 
     <div style="display: flex;height=200px;">
         <div style="flex: 1;">
@@ -77,7 +73,11 @@
        <span id="profile_name"><b>200</b> <br><p style="font-size:15px;">Correct Answers</p>
      </span> 
     </div>
-</div>
+    </div>
+    <button id="logout">
+    <img src="http://quiz-game/client/assets/images/logout.jpg" alt="Image">
+    <span class="button-text">Log Out</span>
+  </button>
 </div>
 
 <script>

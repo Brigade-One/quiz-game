@@ -38,8 +38,6 @@
     <p><b>Select Package</b><br>
     <span id="undertext">Training packages</span></p>
     </div>
-    <br>
-    <br>
     <div id="package_list">
     <table id="package_table">
         <tr>
@@ -62,6 +60,79 @@
         </tr>
         <tr class="ordinary_row">
             <td>3</td>
+            <td>PackageName</td>
+            <td>20 Question </td>
+            <td><button class="select_button" onclick="window.location.href='https://www.example.com'">Select</button></td>
+        </tr>
+        <tr class="ordinary_row">
+            <td>4</td>
+            <td>PackageName</td>
+            <td>20 Question </td>
+            <td><button class="select_button" onclick="window.location.href='https://www.example.com'">Select</button></td>
+        </tr>
+        <tr class="ordinary_row">
+            <td>5</td>
+            <td>PackageName</td>
+            <td>20 Question </td>
+            <td><button class="select_button" onclick="window.location.href='https://www.example.com'">Select</button></td>
+        </tr>
+        <tr class="ordinary_row">
+            <td>6</td>
+            <td>PackageName</td>
+            <td>20 Question </td>
+            <td><button class="select_button" onclick="window.location.href='https://www.example.com'">Select</button></td>
+        </tr>
+        <tr class="ordinary_row">
+            <td>7</td>
+            <td>PackageName</td>
+            <td>20 Question </td>
+            <td><button class="select_button" onclick="window.location.href='https://www.example.com'">Select</button></td>
+        </tr>
+        <tr class="ordinary_row">
+            <td>8</td>
+            <td>PackageName</td>
+            <td>20 Question </td>
+            <td><button class="select_button" onclick="window.location.href='https://www.example.com'">Select</button></td>
+        </tr>
+        <tr class="ordinary_row">
+            <td>9</td>
+            <td>PackageName</td>
+            <td>20 Question </td>
+            <td><button class="select_button" onclick="window.location.href='https://www.example.com'">Select</button></td>
+        </tr>
+        <tr class="ordinary_row">
+            <td>10</td>
+            <td>PackageName</td>
+            <td>20 Question </td>
+            <td><button class="select_button" onclick="window.location.href='https://www.example.com'">Select</button></td>
+        </tr>
+        
+        <tr class="ordinary_row">
+            <td>11</td>
+            <td>PackageName</td>
+            <td>20 Question </td>
+            <td><button class="select_button" onclick="window.location.href='https://www.example.com'">Select</button></td>
+        </tr>
+        <tr class="ordinary_row">
+            <td>12</td>
+            <td>PackageName</td>
+            <td>20 Question </td>
+            <td><button class="select_button" onclick="window.location.href='https://www.example.com'">Select</button></td>
+        </tr>
+        <tr class="ordinary_row">
+            <td>13</td>
+            <td>PackageName</td>
+            <td>20 Question </td>
+            <td><button class="select_button" onclick="window.location.href='https://www.example.com'">Select</button></td>
+        </tr>
+        <tr class="ordinary_row">
+            <td>14</td>
+            <td>PackageName</td>
+            <td>20 Question </td>
+            <td><button class="select_button" onclick="window.location.href='https://www.example.com'">Select</button></td>
+        </tr>
+        <tr class="ordinary_row">
+            <td>15</td>
             <td>PackageName</td>
             <td>20 Question </td>
             <td><button class="select_button" onclick="window.location.href='https://www.example.com'">Select</button></td>

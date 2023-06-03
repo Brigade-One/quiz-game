@@ -1,0 +1,107 @@
+#home-button{
+    background-color: #FBF9F9;
+    color: #8692A6;
+    width:70%;
+    height:50px;
+    font-size: 20px;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin: 20px 0;
+    border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#profile-button{
+    background-color: #8692A6;
+    color: #FBF9F9;
+    width:70%;
+    height:50px;
+    font-size: 20px;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin: 20px 0;
+    border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#home{
+    height: 10%;
+    width:70%;
+    font-size: 24px;
+    font-family: "Poppins", sans-serif;
+    opacity:0.7;
+    margin-left: 2%;
+}
+#package_name{
+    font-size: 17px;
+    font-family: "Poppins", sans-serif;
+    opacity:0.7;
+    margin-left: 4%;
+}
+#question{
+    font-size: 17px;
+    font-family: "Poppins", sans-serif;
+    opacity:0.7;
+    margin-left: 4%; 
+}
+input[type="text"],
+input[type="email"],
+input[type="password"]{
+    position:relative;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-bottom: 2px solid #ccc;
+    width:25%;
+    opacity:1;
+    border-radius: 20px;
+    filter: drop-shadow(2px 2px 2px gray);
+}
+label {
+    position:relative;
+    opacity:0.7;
+    margin-bottom: 10px;
+}
+
+hr{
+    width:25%;
+    margin-left: 0;
+}
+#new-button{
+    background-color: white;
+    color: black;
+    width:15%;
+    height:25px;
+    font-size: 15px;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin: 20px 0;
+    margin-left:8.5%;
+    border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    filter: drop-shadow(2px 2px 2px gray);
+}
+#create-button{
+    background-color: #8692A6;
+    color: white;
+    width:30%;
+    height:40px;
+    font-size: 20px;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin: 50px 0;
+    margin-left:35%;
+    border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    filter: drop-shadow(2px 2px 2px gray);
+}
