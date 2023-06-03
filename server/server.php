@@ -61,6 +61,15 @@ $router->addRoute('PUT', '/user', function () use ($connection): bool {
     return $ur->update($user);
 });
 
+$router->addRoute('DELETE', '/user', function () use ($connection): bool {
+    $ur = new UserRepository(
+        new QueryExecutor($connection->getConnection()),
+        new IDGenerator()
+    );
+    $user = $ur->fetchById($_POST['id']);
+    return $ur->delete($user);
+});
+
 // Listen for incoming client requests
 $method = $_SERVER['REQUEST_METHOD'];
 $path = $_SERVER['PATH_INFO'];
