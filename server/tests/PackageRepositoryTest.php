@@ -16,7 +16,7 @@ class PackageRepositoryTest extends TestCase
 
     protected function setUp(): void
     {
-        $pdo = new PDO('mysql:host=localhost;dbname=quiz_db_3', 'root', '');
+        $pdo = new PDO('mysql:host=localhost;dbname=quiz_db', 'root', '');
         $database = new Database($pdo);
         $idGenerator = new IDGenerator();
         $this->queryExecutor = new QueryExecutor($database->getConnection());
@@ -49,7 +49,7 @@ class PackageRepositoryTest extends TestCase
     }
     public function testUpdate()
     {
-        $testID = 'f50717e6-637b-472f-b0c0-629a51f6ba8a';
+        $testID = 'dad3370c-e66d-4c22-84c6-4c460802b388';
         $package = $this->packageRepository->fetchByID($testID);
         $package->setIsApproved(true);
         $package->setName("UpdatedPackageName");

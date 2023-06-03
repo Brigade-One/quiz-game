@@ -15,19 +15,19 @@ class UserPackageLinkRepositoryTest extends TestCase
     private $packageRepository;
     protected function setUp(): void
     {
-        $pdo = new PDO('mysql:host=localhost;dbname=quiz_db_3', 'root', '');
+        $pdo = new PDO('mysql:host=localhost;dbname=quiz_db', 'root', '');
         $database = new Database($pdo);
         $idGenerator = new IDGenerator();
         $this->queryExecutor = new QueryExecutor($database->getConnection());
         $this->packageRepository = new PackageRepository($this->queryExecutor, $idGenerator);
         $this->userPackageLinkRepository = new UserPackageLinkRepository($this->queryExecutor, $idGenerator);
     }
-    /* public function testCreate()
+    public function testCreate()
     {
-        $userID = "74fde1a1-469b-428d-9d34-e9dfb4988654";
+        $userID = "6f5aa13c-4de4-4ebc-916a-766fc8928bad";
 
-        $pgID1 = "8824faa1-c84f-4eac-b573-95149f8e00c9";
-        $pgID2 = "34a08dbe-e637-4600-9dd0-f069c870596f";
+        $pgID1 = "b8fef7ca-da0b-4d97-b0a3-6054d53fe6cf";
+        $pgID2 = "dad3370c-e66d-4c22-84c6-4c460802b388";
 
         $userPackageLink1 = new UserPackageLink(null, $userID, $pgID1);
         $userPackageLink2 = new UserPackageLink(null, $userID, $pgID2);
@@ -35,15 +35,12 @@ class UserPackageLinkRepositoryTest extends TestCase
         $userPackageLink1 = $this->userPackageLinkRepository->create($userPackageLink1);
         $userPackageLink2 = $this->userPackageLinkRepository->create($userPackageLink2);
 
-
-        $this->assertIsObject($userPackageLink1);
         $this->assertNotEmpty($userPackageLink1);
-        $this->assertInstanceOf('Server\Models\UserPackageLink', $userPac
-        kageLink1);
-    } */
+        $this->assertInstanceOf('Server\Models\UserPackageLink', $userPackageLink1);
+    }
     public function testFetchPackagesByUserID()
     {
-        $userID = "74fde1a1-469b-428d-9d34-e9dfb4988654";
+        $userID = "6f5aa13c-4de4-4ebc-916a-766fc8928bad";
 
         $packages = $this->userPackageLinkRepository->fetchPackagesByUserID($userID);
         $this->assertIsArray($packages);

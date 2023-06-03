@@ -1,15 +1,17 @@
 <?php
-namespace Server\Repository;
+namespace Server\Repository\Competition;
 
-use Server\Models\QuestionThemeLink;
+use Server\Models\UserPackageLink;
 use Server\Repository\QueryExecutor;
-use Server\Models\Theme;
+use Server\Repository\IDGenerator;
+use Server\Repository\PackageRepository;
 use PDO;
 
-class QuestionThemeLinkRepository
+class UserPackageLinkRepository
 {
     private $queryExecutor;
     private $idGenerator;
+    private $packageRepository;
 
     public function __construct(QueryExecutor $queryExecutor, IDGenerator $idGenerator)
     {
@@ -19,29 +21,47 @@ class QuestionThemeLinkRepository
 
     public function fetchAll(): array
     {
-        $query = "SELECT * FROM QuestionThemeLink";
+        $query = "SELECT * FROM UserCompetitionPackageLink";
         try {
             $statement = $this->queryExecutor->execute($query, []);
         } catch (\PDOException $e) {
             throw new \PDOException($e->getMessage(), (int) $e->getCode());
         }
 
-        $questionThemeLinks = [];
+        $userPackageLinks = [];
         while ($linkData = $statement->fetch(PDO::FETCH_ASSOC)) {
-            $link = new QuestionThemeLink(
+            $link = new UserPackageLink(
                 $linkData['linkID'],
-                $linkData['questionID'],
-                $linkData['themeID']
+                $linkData['userID'],
+                $linkData['packageID']
             );
-            $questionThemeLinks[] = $link;
+            $userPackageLinks[] = $link;
         }
 
-        return $questionThemeLinks;
+        return $userPackageLinks;
     }
-
-    public function fetchByID(string $id): ?QuestionThemeLink
+    public function fetchPackagesByUserID(string $userID): array
     {
-        $query = "SELECT * FROM QuestionThemeLink WHERE linkID = :linkID";
+        $packageRepository = new PackageRepository($this->queryExecutor, $this->idGenerator);
+        $query = "SELECT * FROM UserCompetitionPackageLink WHERE userID = :userID";
+        $parameters = [
+            ':userID' => $userID
+        ];
+        try {
+            $statement = $this->queryExecutor->execute($query, $parameters);
+        } catch (\PDOException $e) {
+            throw new \PDOException($e->getMessage(), (int) $e->getCode());
+        }
+        $packages = [];
+        while ($linkData = $statement->fetch(PDO::FETCH_ASSOC)) {
+            $package = $packageRepository->fetchByID($linkData['packageID']);
+            $packages[] = $package;
+        }
+        return $packages;
+    }
+    public function fetchByID(string $id): ?UserPackageLink
+    {
+        $query = "SELECT * FROM UserCompetitionPackageLink WHERE linkID = :linkID";
         $parameters = [
             ':linkID' => $id
         ];
@@ -57,49 +77,30 @@ class QuestionThemeLinkRepository
             return null;
         }
 
-        $link = new QuestionThemeLink(
+        $link = new UserPackageLink(
             $linkData['linkID'],
-            $linkData['questionID'],
-            $linkData['themeID']
+            $linkData['userID'],
+            $linkData['packageID']
         );
 
         return $link;
     }
-    public function fetchThemesByQuestionID(string $questionID): array
+
+    public function create(UserPackageLink $link): bool
     {
-        $query = "SELECT * FROM QuestionThemeLink
-        JOIN Themes ON QuestionThemeLink.themeID = Themes.themeID
-        WHERE questionID = :questionID";
-        try {
-            $statement = $this->queryExecutor->execute($query, [':questionID' => $questionID]);
-        } catch (\PDOException $e) {
-            throw new \PDOException($e->getMessage(), (int) $e->getCode());
+        // Check if the link already exists
+        if ($this->checkIfAlreadyExist($link->getUserID(), $link->getPackageID())) {
+            throw new \Exception("The link already exists");
         }
-        $themes = [];
-        while ($linkData = $statement->fetch(PDO::FETCH_ASSOC)) {
-            print_r($linkData);
-            $theme = new Theme(
-                $linkData['themeID'],
-                $linkData['name'],
-                $linkData['imgURL']
-            );
-            $themes[] = $theme;
-        }
-        return $themes;
-    }
-    public function create(QuestionThemeLink $link): bool
-    {
-        if ($this->checkIfLinkExists($link)) {
-            throw new \PDOException("QuestionTheme Link already exists");
-        }
+
         $generatedLink = $this->idGenerator->generateID();
         $link->setLinkID($generatedLink);
 
-        $query = "INSERT INTO QuestionThemeLink (linkID, questionID, themeID) VALUES (:linkID, :questionID, :themeID)";
+        $query = "INSERT INTO UserCompetitionPackageLink (linkID, userID, packageID) VALUES (:linkID, :userID, :packageID)";
         $parameters = [
             ':linkID' => $generatedLink,
-            ':questionID' => $link->getQuestionID(),
-            ':themeID' => $link->getThemeID()
+            ':userID' => $link->getUserID(),
+            ':packageID' => $link->getPackageID()
         ];
         try {
             $statement = $this->queryExecutor->execute($query, $parameters);
@@ -110,13 +111,13 @@ class QuestionThemeLinkRepository
         return $statement->rowCount() > 0;
     }
 
-    public function update(QuestionThemeLink $link): bool
+    public function update(UserPackageLink $link): bool
     {
-        $query = "UPDATE QuestionThemeLink SET questionID = :questionID, themeID = :themeID WHERE linkID = :linkID";
+        $query = "UPDATE UserCompetitionPackageLink SET userID = :userID, packageID = :packageID WHERE linkID = :linkID";
         $parameters = [
             ':linkID' => $link->getLinkID(),
-            ':questionID' => $link->getQuestionID(),
-            ':themeID' => $link->getThemeID()
+            ':userID' => $link->getUserID(),
+            ':packageID' => $link->getPackageID()
         ];
         try {
             $statement = $this->queryExecutor->execute($query, $parameters);
@@ -127,9 +128,9 @@ class QuestionThemeLinkRepository
         return $statement->rowCount() === 1;
     }
 
-    public function delete(QuestionThemeLink $link): bool
+    public function delete(UserPackageLink $link): bool
     {
-        $query = "DELETE FROM QuestionThemeLink WHERE linkID = :linkID";
+        $query = "DELETE FROM UserCompetitionPackageLink WHERE linkID = :linkID";
         $parameters = [
             ':linkID' => $link->getLinkID()
         ];
@@ -142,22 +143,25 @@ class QuestionThemeLinkRepository
 
         return $statement->rowCount() === 1;
     }
-    private function checkIfLinkExists(QuestionThemeLink $link): bool
+
+    private function checkIfAlreadyExist(string $userID, string $packageID): bool
     {
-        $query = "SELECT * FROM QuestionThemeLink WHERE questionID = :questionID AND themeID = :themeID";
+        $query = "SELECT * FROM UserCompetitionPackageLink WHERE userID = :userID AND packageID = :packageID";
         $parameters = [
-            ':questionID' => $link->getQuestionID(),
-            ':themeID' => $link->getThemeID()
+            ':userID' => $userID,
+            ':packageID' => $packageID
         ];
         try {
             $statement = $this->queryExecutor->execute($query, $parameters);
         } catch (\PDOException $e) {
             throw new \PDOException($e->getMessage(), (int) $e->getCode());
         }
+
         $linkData = $statement->fetch(PDO::FETCH_ASSOC);
         if (!$linkData) {
             return false;
         }
+
         return true;
     }
 }

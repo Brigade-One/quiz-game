@@ -16,7 +16,7 @@ class QuestionsRepositoryTest extends TestCase
 
     protected function setUp(): void
     {
-        $pdo = new PDO('mysql:host=localhost;dbname=quiz_db_3', 'root', '');
+        $pdo = new PDO('mysql:host=localhost;dbname=quiz_db', 'root', '');
         $database = new Database($pdo);
         $idGenerator = new IDGenerator();
         $this->queryExecutor = new QueryExecutor($database->getConnection());
@@ -28,7 +28,7 @@ class QuestionsRepositoryTest extends TestCase
         // Create a new question
         $question = new Question(
             null,
-            'Demo Question2',
+            'Demo Question',
             'Demo Answer',
             'Demo Hint',
             1,
@@ -51,13 +51,13 @@ class QuestionsRepositoryTest extends TestCase
     }
     public function testUpdate()
     {
-        $question = $this->questionRepository->fetchByID('cf61be5e-64cc-4036-b1eb-4c3044459c2e');
+        $question = $this->questionRepository->fetchByID('3cc70713-70cd-4e0c-9f87-b0fd91fdc1d7');
         $question->setQuestion('Demo Question Updated');
         $question->setAnswer('Demo Answer Updated');
         $question->setHint('Demo Hint Updated');
         $question->setDifficulty(2);
         $this->questionRepository->update($question);
-        $question = $this->questionRepository->fetchByID('cf61be5e-64cc-4036-b1eb-4c3044459c2e');
+        $question = $this->questionRepository->fetchByID('3cc70713-70cd-4e0c-9f87-b0fd91fdc1d7');
         $this->assertEquals('Demo Question Updated', $question->getQuestion());
         $this->assertEquals('Demo Answer Updated', $question->getAnswer());
         $this->assertEquals('Demo Hint Updated', $question->getHint());

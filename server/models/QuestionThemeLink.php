@@ -7,14 +7,14 @@ class QuestionThemeLink
     private $questionID;
     private $themeID;
 
-    public function __construct(?int $linkID, string $questionID, int $themeID)
+    public function __construct(?string $linkID, string $questionID, int $themeID)
     {
         $this->linkID = $linkID;
         $this->questionID = $questionID;
         $this->themeID = $themeID;
     }
 
-    public function getLinkID(): ?int
+    public function getLinkID(): ?string
     {
         return $this->linkID;
     }
@@ -37,7 +37,7 @@ class QuestionThemeLink
         return true;
     }
 
-    public function setLinkID(int $linkID): void
+    public function setLinkID(string $linkID): void
     {
         $this->linkID = $linkID;
     }

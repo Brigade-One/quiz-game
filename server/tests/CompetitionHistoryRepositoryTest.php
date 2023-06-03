@@ -1,7 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use Server\Repository\CompetitionHistoryRepository;
+use Server\Repository\Competition\CompetitionHistoryRepository;
 use Server\Models\CompetitionHistory;
 use Server\Repository\QueryExecutor;
 use Server\Repository\Database;
