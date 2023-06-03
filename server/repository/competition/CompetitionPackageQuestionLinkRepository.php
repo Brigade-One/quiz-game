@@ -1,5 +1,5 @@
 <?php
-namespace Server\Repository;
+namespace Server\Repository\Competition;
 
 use Server\Models\PackageQuestionLink;
 use Server\Repository\QuestionRepository;

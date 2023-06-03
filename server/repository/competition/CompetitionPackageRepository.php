@@ -1,5 +1,5 @@
 <?php
-namespace Server\Repository;
+namespace Server\Repository\Competition;
 
 use Server\Models\CompetitionPackage;
 use Server\Repository\QueryExecutor;

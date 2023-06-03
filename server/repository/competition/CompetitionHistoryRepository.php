@@ -1,8 +1,9 @@
 <?php
-namespace Server\Repository;
+namespace Server\Repository\Competition;
 
 use Server\Models\CompetitionHistory;
 use Server\Repository\IDGenerator;
+use Server\Repository\QueryExecutor;
 use PDO;
 
 class CompetitionHistoryRepository
