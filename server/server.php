@@ -46,6 +46,21 @@ $router->addRoute('POST', '/sign_in', function () use ($connection): ?\Server\Mo
         : null;
 });
 
+$router->addRoute('PUT', '/user', function () use ($connection): bool {
+    $ur = new UserRepository(
+        new QueryExecutor($connection->getConnection()),
+        new IDGenerator()
+    );
+    $user = new User(
+        $_POST['id'],
+        $_POST['name'],
+        $_POST['email'],
+        $_POST['password'],
+        $_POST['roleName']
+    );
+    return $ur->update($user);
+});
+
 // Listen for incoming client requests
 $method = $_SERVER['REQUEST_METHOD'];
 $path = $_SERVER['PATH_INFO'];
