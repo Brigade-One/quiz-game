@@ -4,10 +4,12 @@ require_once '../vendor/autoload.php';
 
 use Server\Models\User;
 use Server\Models\User\UserRole;
+use Server\Models\Package;
 use Server\Repository\Database;
 use Server\Repository\QueryExecutor;
 use Server\Repository\IDGenerator;
 use Server\Repository\UserRepository;
+use Server\Repository\PackageRepository;
 use Server\Services\HttpRouter;
 
 header('Access-Control-Allow-Origin: http://brigade-one-quiz-game');
@@ -67,6 +69,36 @@ $router->addRoute('DELETE', '/user', function () use ($db): bool {
     );
     $user = $ur->fetchById($_POST['id']);
     return $ur->delete($user);
+});
+
+$router->addRoute('POST', '/package', function () use ($connection): bool {
+    $pr = new PackageRepository(
+        new QueryExecutor($connection->getConnection()),
+        new IDGenerator()
+    );
+    $package = new Package(null, $_POST['name'], false);
+    return $pr->create($package);
+});
+
+$router->addRoute('PUT', '/package', function () use ($connection) {
+    $pr = new PackageRepository(
+        new QueryExecutor($connection->getConnection()),
+        new IDGenerator()
+    );
+    $package = $pr->fetchByID($_POST['packageID']);
+    $package->setIsApproved($_POST['isApproved']);
+    $package->setName($_POST['name']);
+    $pr->update($package);
+});
+
+$router->addRoute('DELETE', '/package', function () use ($connection): bool {
+    $pr = new PackageRepository(
+        new QueryExecutor($connection->getConnection()),
+        new IDGenerator()
+    );
+
+    $package = $pr->fetchByID($_POST['packageID']);
+    return $pr->delete($package);
 });
 
 // Listen for incoming client requests
