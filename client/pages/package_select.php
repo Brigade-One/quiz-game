@@ -28,7 +28,7 @@
     <span class="button-text">Profile</span>
   </button>
   <button id="logout-button">
-    <img src="http://quiz-game/client/assets/images/logout.jpg" alt="Image">
+    <img src="http://quiz-game/client/assets/images/logout.png" alt="Image">
     <span class="button-text">Log Out</span>
   </button>
     </div>
