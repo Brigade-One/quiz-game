@@ -80,6 +80,12 @@
       $(document).ready(function () {
         $("#first-block").load("widgets/nav_buttons.html");
       });
+
+      $("#logout").on("click", function () {
+            localStorage.removeItem("user");
+            localStorage.removeItem("token");
+            window.location.href = "http://quiz-game/client/pages/index.php";
+        });
     </script>
 
 
