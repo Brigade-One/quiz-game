@@ -114,6 +114,25 @@ class TrainingHistoryRepository
         return $accuracy * 100;
     }
 
+    public function fetchLastTrainingDate($userID)
+    {
+        $query = "SELECT trainingDate FROM TrainingHistory WHERE userID = :userID ORDER BY trainingDate DESC LIMIT 1";
+
+        $parameters = [
+            ':userID' => $userID
+        ];
+        try {
+            $statement = $this->queryExecutor->execute($query, $parameters);
+        } catch (\PDOException $e) {
+            throw new \PDOException($e->getMessage(), (int) $e->getCode());
+        }
+        $lastTrainingDate = null;
+        while ($trainingHistoryData = $statement->fetch(PDO::FETCH_ASSOC)) {
+            $lastTrainingDate = $trainingHistoryData['trainingDate'];
+        }
+        return $lastTrainingDate;
+    }
+
     public function create(TrainingHistory $trainingHistory): bool
     {
         $userID = $trainingHistory->getUserID();
