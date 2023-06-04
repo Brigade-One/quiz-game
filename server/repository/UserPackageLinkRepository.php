@@ -59,6 +59,18 @@ class UserPackageLinkRepository
         }
         return $packages;
     }
+    public function fetchUserPackagesNumber(string $userID): int
+    {
+        $query = "SELECT COUNT(*) FROM UserPackageLink WHERE userID = :userID";
+
+        try {
+            $statement = $this->queryExecutor->execute($query, [':userID' => $userID]);
+        } catch (\PDOException $e) {
+            throw new \PDOException($e->getMessage(), (int) $e->getCode());
+        }
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        return (int) $result['COUNT(*)'];
+    }
     public function fetchByID(string $id): ?UserPackageLink
     {
         $query = "SELECT * FROM UserPackageLink WHERE linkID = :linkID";

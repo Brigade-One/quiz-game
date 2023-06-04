@@ -49,4 +49,13 @@ class UserPackageLinkRepositoryTest extends TestCase
         var_dump($packages);
     }
 
+    public function testFetchUserPackagesNumber()
+    {
+        $userID = "6f5aa13c-4de4-4ebc-916a-766fc8928bad";
+        $userPackagesNumber = $this->userPackageLinkRepository->fetchUserPackagesNumber($userID);
+        $this->assertIsInt($userPackagesNumber);
+        $this->assertNotEmpty($userPackagesNumber);
+
+        var_dump($userPackagesNumber);
+    }
 }
