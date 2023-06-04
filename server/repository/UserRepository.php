@@ -4,6 +4,7 @@ namespace Server\Repository;
 use Server\Models\User;
 use Server\Repository\IDGenerator;
 use PDO;
+use Server\Models\User\UserRole;
 
 class UserRepository
 {
@@ -17,7 +18,7 @@ class UserRepository
     }
     public function fetchAll(): array
     {
-        $query = "SELECT u.*, r.roleName
+        $query = "SELECT u.*
                 FROM users u
                 JOIN roles r ON u.roleID = r.roleID";
         $parameters = [];
@@ -33,7 +34,7 @@ class UserRepository
                 $userData['username'],
                 $userData['email'],
                 $userData['password'],
-                $userData['roleName'],
+                UserRole::from($userData['roleID']),
             );
             $users[] = $user;
         }
@@ -42,7 +43,7 @@ class UserRepository
 
     public function fetchByEmail(string $email): ?User
     {
-        $query = "SELECT u.*, r.roleName
+        $query = "SELECT u.*
         FROM users u
         JOIN roles r ON u.roleID = r.roleID
         WHERE email = :email";
@@ -65,7 +66,7 @@ class UserRepository
                 $userData['username'],
                 $userData['email'],
                 $userData['password'],
-                $userData['roleName'],
+                UserRole::from($userData['roleID']),
             );
             return $user;
         }
@@ -75,7 +76,7 @@ class UserRepository
 
     public function fetchById(string $id): ?User
     {
-        $query = "SELECT u.*, r.roleName
+        $query = "SELECT u.*
         FROM users u
         JOIN roles r ON u.roleID = r.roleID
         WHERE userID = :id";
@@ -98,7 +99,7 @@ class UserRepository
                 $userData['username'],
                 $userData['email'],
                 $userData['password'],
-                $userData['roleName'],
+                UserRole::from($userData['roleId']),
             );
 
             return $user;
@@ -117,13 +118,12 @@ class UserRepository
 
         $uuid = $this->idGenerator->generateID();
         $query = "INSERT INTO users (userID, username, email, password, roleID) VALUES (:id, :name, :email, :password, :roleID)";
-        $roleID = $this->getRoleIDByName($user->getRoleName());
         $parameters = [
             ':id' => $uuid,
             ':name' => $user->getName(),
             ':email' => $user->getEmail(),
             ':password' => $user->getPassword(),
-            ':roleID' => $roleID
+            ':roleID' => $user->getRole()->value
         ];
 
         try {
@@ -140,16 +140,15 @@ class UserRepository
         if (!$user->validate()) {
             throw new \InvalidArgumentException('Invalid user data');
         }
-        $query = "UPDATE users SET username = :username, 
-        email = :email, password = :password, roleID = :roleID 
+        $query = "UPDATE users SET username = :username,
+        email = :email, password = :password, roleID = :roleID
         WHERE userID = :id";
-        $roleID = $this->getRoleIDByName($user->getRoleName());
         $parameters = [
             ':id' => $user->getId(),
             ':username' => $user->getName(),
             ':email' => $user->getEmail(),
             ':password' => $user->getPassword(),
-            ':roleID' => $roleID
+            ':roleID' => $user->getRole()->value
         ];
         try {
             $statement = $this->queryExecutor->execute($query, $parameters);
@@ -177,23 +176,6 @@ class UserRepository
         }
 
         return $statement->rowCount() === 1; // One row should have been affected, exactly
-    }
-
-    private function getRoleIDByName(string $roleName): int
-    {
-        $query = "SELECT roleID FROM Roles WHERE roleName = :roleName";
-        $parameters = [
-            ':roleName' => $roleName
-        ];
-
-        try {
-            $statement = $this->queryExecutor->execute($query, $parameters);
-            $roleID = $statement->fetchColumn();
-        } catch (\PDOException $e) {
-            throw new \PDOException($e->getMessage(), (int) $e->getCode());
-        }
-
-        return $roleID;
     }
 
     private function checkIfEmailExists(string $email): bool

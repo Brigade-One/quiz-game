@@ -1,5 +1,7 @@
 <?php
+
 namespace Server\Models;
+use Server\Models\User\UserRole;
 
 class User
 {
@@ -7,14 +9,15 @@ class User
     private $name;
     private $email;
     private $password;
-    private $roleName;
-    public function __construct(?string $id, string $name, string $email, string $password, string $roleName)
+    private $role;
+
+    public function __construct(?string $id, string $name, string $email, string $password, UserRole $role)
     {
         $this->id = $id;
         $this->name = $name;
         $this->email = $email;
         $this->password = $password;
-        $this->roleName = $roleName;
+        $this->role = $role;
     }
 
     public function setName(string $name): void
@@ -29,9 +32,9 @@ class User
     {
         $this->password = $password;
     }
-    public function setRoleName(string $roleName): void
+    public function setRole(UserRole $role): void
     {
-        $this->roleName = $roleName;
+        $this->role = $role;
     }
     public function getId(): string
     {
@@ -41,9 +44,9 @@ class User
     {
         return $this->name;
     }
-    public function getRoleName(): string
+    public function getRole(): UserRole
     {
-        return $this->roleName;
+        return $this->role;
     }
 
     public function getEmail(): string
