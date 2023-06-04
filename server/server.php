@@ -7,6 +7,7 @@ require_once 'services/PDOConnection.php';
 require_once 'repository/UserRepository.php';
 
 use Server\Models\User;
+use Server\Models\User\UserRole;
 use Server\Repository\QueryExecutor;
 use Server\Repository\IDGenerator;
 use Server\Repository\UserRepository;
@@ -30,7 +31,7 @@ $router->addRoute('POST', '/sign_up', function () use ($connection): bool {
         $_POST['name'],
         $_POST['email'],
         $_POST['password'],
-        $_POST['roleName']
+        UserRole::RegularUser
     );
     return $ur->create($user);
 });
@@ -56,7 +57,7 @@ $router->addRoute('PUT', '/user', function () use ($connection): bool {
         $_POST['name'],
         $_POST['email'],
         $_POST['password'],
-        $_POST['roleName']
+        UserRole::from($_POST['roleId'])
     );
     return $ur->update($user);
 });
