@@ -41,6 +41,8 @@
 
             <a class="faded-font" href='http://quiz-game/client/pages/sign_in.php'>Already have one?Log In</a>
             <br>
+            <span id="responseText"></span>
+            <br>
             <input type="submit" value="Sign Up">
             <div id="status">
 
