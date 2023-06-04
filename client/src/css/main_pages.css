@@ -1,27 +1,31 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
-    overflow:hidden;
+    overflow: hidden;
     background-color: #FBF9F9;
-}
-#second-block{
-    background-color: #FFFFFF;
-    height: 600px;
-    border-radius: 20px;
-    width: 500px;
-    
-}#first-block{
-    position:relative;
-    height: 600px;
-    left:2.5%
 }
 
-#logout-button{
+#second-block {
+    background-color: #FFFFFF;
+    min-height: 85vh;
+    border-radius: 20px;
+    width: 500px;
+    margin-right: 20px;
+    padding-right: 20px;
+}
+
+#first-block {
+    position: relative;
+    min-height: 85vh;
+    left: 2.5%;
+}
+
+#logout-button {
     background-color: #FBF9F9;
     color: #8692A6;
-    width:70%;
-    height:50px;
+    width: 70%;
+    height: 50px;
     font-size: 20px;
     border: none;
     padding: 10px 20px;
@@ -34,5 +38,3 @@ body {
     position: absolute;
     bottom: 0;
 }
-
-

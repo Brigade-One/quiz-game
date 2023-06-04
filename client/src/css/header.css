@@ -9,7 +9,7 @@ body {
   align-items: center;
   height: 80px;
   padding: 10 40px;
-  background-color: aqua;
+
   min-width: 800px;
 
   font-family: "Poppins", sans-serif;
@@ -21,15 +21,17 @@ body {
 
 }
 
-#Logo{
-  font-size:43px;
+#Logo {
+  font-size: 43px;
   font-weight: bold;
   color: 696F79;
   text-decoration: none;
 }
-#user-name{
+
+#user-name {
   text-decoration: none;
 }
+
 .header_nav {
   display: flex;
   align-items: center;
