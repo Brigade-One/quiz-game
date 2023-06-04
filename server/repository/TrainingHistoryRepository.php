@@ -94,6 +94,26 @@ class TrainingHistoryRepository
         return $trainingHistories;
     }
 
+    public function fetchUserTrainingAccuracyByUserID(string $userID): float
+    {
+        $query = "SELECT SUM(correctAnswers)/SUM(totalQuestions) AS accuracy FROM TrainingHistory WHERE userID = :userID";
+
+        $parameters = [
+            ':userID' => $userID
+        ];
+        try {
+            $statement = $this->queryExecutor->execute($query, $parameters);
+        } catch (\PDOException $e) {
+            throw new \PDOException($e->getMessage(), (int) $e->getCode());
+        }
+
+        $accuracy = 0;
+        while ($trainingHistoryData = $statement->fetch(PDO::FETCH_ASSOC)) {
+            $accuracy = $trainingHistoryData['accuracy'];
+        }
+        return $accuracy * 100;
+    }
+
     public function create(TrainingHistory $trainingHistory): bool
     {
         $userID = $trainingHistory->getUserID();
