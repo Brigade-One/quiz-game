@@ -24,7 +24,7 @@
     <span class="button-text">Home</span>
   </button>
   <button id="profile-button">
-    <img src="http://quiz-game/client/assets/images/profile_2.png" alt="Image">
+    <img src="http://quiz-game/client/assets/images/profile.png" alt="Image">
     <span class="button-text">Profile</span>
   </button>
     </div>
