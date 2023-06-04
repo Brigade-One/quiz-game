@@ -64,5 +64,11 @@ class CompetitionHistoryRepositoryTest extends TestCase
         $result = $this->historyRepository->update($history);
         $this->assertTrue($result);
     }
-
+    public function testFetchUserCompetititonAccuracyByUserID()
+    {
+        $testUserID = '65b22f77-849a-49cd-a9ff-a43316779c49';
+        $result = $this->historyRepository->fetchUserCompetititonAccuracyByUserID($testUserID);
+        $this->assertNotEmpty($result);
+        var_dump($result);
+    }
 }

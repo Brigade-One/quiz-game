@@ -53,6 +53,25 @@ class PackageRepository
         );
         return $package;
     }
+    public function fetchPublicPackages(): array
+    {
+        $query = "SELECT * from packages where isApproved = 1";
+        try {
+            $statement = $this->queryExecutor->execute($query, []);
+        } catch (\PDOException $e) {
+            throw new \PDOException($e->getMessage(), (int) $e->getCode());
+        }
+        $packages = [];
+        while ($packageData = $statement->fetch(PDO::FETCH_ASSOC)) {
+            $package = new Package(
+                $packageData['packageID'],
+                $packageData['name'],
+                $packageData['isApproved']
+            );
+            $packages[] = $package;
+        }
+        return $packages;
+    }
     public function create(Package $package): bool
     {
         $query = "INSERT INTO packages (packageID, name,isApproved) VALUES (:packageID, :name,  :isApproved)";

@@ -50,14 +50,30 @@ class TrainingHistoryRepositoryTest extends TestCase
         $links = $this->historyRepository->fetchAll();
         $this->assertNotEmpty($links);
     }
-    public function testUpdate()
+     public function testUpdate()
+     {
+         $testID = 'badbd67d-d52d-4949-9662-cf4ee7ef227c';
+         $history = $this->historyRepository->fetchByID($testID);
+         $dateTime = new DateTime('2024-05-20');
+         $history->setTrainingDate($dateTime);
+         $result = $this->historyRepository->update($history);
+         $this->assertTrue($result);
+     }
+ 
+    public function testFetchUserTrainingAccuracyByUserID()
     {
-        $testID = 'badbd67d-d52d-4949-9662-cf4ee7ef227c';
-        $history = $this->historyRepository->fetchByID($testID);
-        $dateTime = new DateTime('2024-05-20');
-        $history->setTrainingDate($dateTime);
-        $result = $this->historyRepository->update($history);
-        $this->assertTrue($result);
+        $testUserID = '65b22f77-849a-49cd-a9ff-a43316779c49';
+        $result = $this->historyRepository->fetchUserTrainingAccuracyByUserID($testUserID);
+        $this->assertNotEmpty($result);
+     /*    var_dump($result); */
+    }
+
+    public function testFetchLastTrainingDate()
+    {
+        $testUserID = '65b22f77-849a-49cd-a9ff-a43316779c49';
+        $result = $this->historyRepository->fetchLastTrainingDate($testUserID);
+        $this->assertNotEmpty($result);
+/*         var_dump($result); */
     }
 
 }

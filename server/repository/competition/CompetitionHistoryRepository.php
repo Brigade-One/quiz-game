@@ -97,6 +97,19 @@ class CompetitionHistoryRepository
         }
         return $competitionsHistory;
     }
+    public function fetchUserCompetititonAccuracyByUserID(string $userID): float
+    {
+        $history = $this->fetchByUserID($userID);
+
+        if (count($history) == 0) {
+            return 0;
+        }
+        foreach ($history as $competitionHistory) {
+            $totalQuestions += $competitionHistory->getTotalQuestions();
+            $correctAnswers += $competitionHistory->getPlayer1ID() == $userID ? $competitionHistory->getPlayer1CorrectAnswers() : $competitionHistory->getPlayer2CorrectAnswers();
+        }
+        return $correctAnswers / $totalQuestions;
+    }
 
     public function create(CompetitionHistory $competitionHistory): bool
     {
