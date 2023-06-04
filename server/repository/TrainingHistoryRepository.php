@@ -118,11 +118,8 @@ class TrainingHistoryRepository
     {
         $query = "SELECT trainingDate FROM TrainingHistory WHERE userID = :userID ORDER BY trainingDate DESC LIMIT 1";
 
-        $parameters = [
-            ':userID' => $userID
-        ];
         try {
-            $statement = $this->queryExecutor->execute($query, $parameters);
+            $statement = $this->queryExecutor->execute($query, [':userID' => $userID]);
         } catch (\PDOException $e) {
             throw new \PDOException($e->getMessage(), (int) $e->getCode());
         }
