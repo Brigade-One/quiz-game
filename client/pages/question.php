@@ -8,6 +8,7 @@
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
     </style>        
+    <script type="module" src="http://quiz-game/client/src/js/timer.js"></script>
 </head>
 
 <body>
@@ -35,8 +36,8 @@
     <p><b>Quiz</b><br>
     <span id="undertext">Answer a question below</span></p>
     </div>
-    <div style="flex:1;text-align: left;">
-    <p id="timer"><b>Time:sometime</b><p>
+    <div style="flex:3;text-align: left;">
+    <b><p id="timer"><p></b>
     </div>
 </div>
   <div id="question_info">
