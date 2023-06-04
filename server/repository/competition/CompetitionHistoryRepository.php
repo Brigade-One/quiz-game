@@ -1,8 +1,9 @@
 <?php
-namespace Server\Repository;
+namespace Server\Repository\Competition;
 
 use Server\Models\CompetitionHistory;
 use Server\Repository\IDGenerator;
+use Server\Repository\QueryExecutor;
 use PDO;
 
 class CompetitionHistoryRepository
@@ -95,6 +96,19 @@ class CompetitionHistoryRepository
             $competitionsHistory[] = $competitionHistory;
         }
         return $competitionsHistory;
+    }
+    public function fetchUserCompetititonAccuracyByUserID(string $userID): float
+    {
+        $history = $this->fetchByUserID($userID);
+
+        if (count($history) == 0) {
+            return 0;
+        }
+        foreach ($history as $competitionHistory) {
+            $totalQuestions += $competitionHistory->getTotalQuestions();
+            $correctAnswers += $competitionHistory->getPlayer1ID() == $userID ? $competitionHistory->getPlayer1CorrectAnswers() : $competitionHistory->getPlayer2CorrectAnswers();
+        }
+        return $correctAnswers / $totalQuestions;
     }
 
     public function create(CompetitionHistory $competitionHistory): bool

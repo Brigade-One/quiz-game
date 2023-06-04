@@ -31,8 +31,7 @@ class QuestionsRepositoryTest extends TestCase
             'Demo Question',
             'Demo Answer',
             'Demo Hint',
-            0,
-            1
+            1,
         );
 
         // Save the question to the database
@@ -52,28 +51,16 @@ class QuestionsRepositoryTest extends TestCase
     }
     public function testUpdate()
     {
-        $question = $this->questionRepository->fetchByID('194f1471-f181-495d-b734-ee81c949367e');
+        $question = $this->questionRepository->fetchByID('3cc70713-70cd-4e0c-9f87-b0fd91fdc1d7');
         $question->setQuestion('Demo Question Updated');
         $question->setAnswer('Demo Answer Updated');
         $question->setHint('Demo Hint Updated');
-        $question->setThemeID(1);
         $question->setDifficulty(2);
         $this->questionRepository->update($question);
-        $question = $this->questionRepository->fetchByID('194f1471-f181-495d-b734-ee81c949367e');
+        $question = $this->questionRepository->fetchByID('3cc70713-70cd-4e0c-9f87-b0fd91fdc1d7');
         $this->assertEquals('Demo Question Updated', $question->getQuestion());
         $this->assertEquals('Demo Answer Updated', $question->getAnswer());
         $this->assertEquals('Demo Hint Updated', $question->getHint());
-        $this->assertEquals(1, $question->getThemeID());
-        $this->assertEquals(2, $question->getDifficulty());
-    }
-    public function testFetchByID()
-    {
-        $question = $this->questionRepository->fetchByID('194f1471-f181-495d-b734-ee81c949367e');
-        $this->assertInstanceOf(Question::class, $question);
-        $this->assertEquals('Demo Question Updated', $question->getQuestion());
-        $this->assertEquals('Demo Answer Updated', $question->getAnswer());
-        $this->assertEquals('Demo Hint Updated', $question->getHint());
-        $this->assertEquals(1, $question->getThemeID());
         $this->assertEquals(2, $question->getDifficulty());
     }
 

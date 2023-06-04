@@ -23,8 +23,8 @@ class TrainingHistoryRepositoryTest extends TestCase
     }
     public function testCreateTrainingHistory(): void
     {
-        $testPackageID = '469d375a-ae5e-4bd3-b169-a9745cd888ba';
-        $testUserID = '801f6709-042e-4fa7-9b2e-a28958b9cdf0';
+        $testPackageID = '65a9912a-2920-4ece-bce7-a0446f59bf95';
+        $testUserID = '65b22f77-849a-49cd-a9ff-a43316779c49';
         $testDate = '2023-05-20';
         $testCorrectAnswers = 20;
         $testTotalQuestions = 50;
@@ -50,15 +50,30 @@ class TrainingHistoryRepositoryTest extends TestCase
         $links = $this->historyRepository->fetchAll();
         $this->assertNotEmpty($links);
     }
-    public function testUpdate()
+     public function testUpdate()
+     {
+         $testID = 'badbd67d-d52d-4949-9662-cf4ee7ef227c';
+         $history = $this->historyRepository->fetchByID($testID);
+         $dateTime = new DateTime('2024-05-20');
+         $history->setTrainingDate($dateTime);
+         $result = $this->historyRepository->update($history);
+         $this->assertTrue($result);
+     }
+ 
+    public function testFetchUserTrainingAccuracyByUserID()
     {
-        $testID = 'a52bfcf1-3416-4c12-986c-d23cd761b27e';
-        $history = $this->historyRepository->fetchByID($testID);
-        // Link with other package
-        $dateTime = new DateTime('2024-05-20');
-        $history->setTrainingDate($dateTime);
-        $result = $this->historyRepository->update($history);
-        $this->assertTrue($result);
+        $testUserID = '65b22f77-849a-49cd-a9ff-a43316779c49';
+        $result = $this->historyRepository->fetchUserTrainingAccuracyByUserID($testUserID);
+        $this->assertNotEmpty($result);
+     /*    var_dump($result); */
     }
-    
+
+    public function testFetchLastTrainingDate()
+    {
+        $testUserID = '65b22f77-849a-49cd-a9ff-a43316779c49';
+        $result = $this->historyRepository->fetchLastTrainingDate($testUserID);
+        $this->assertNotEmpty($result);
+/*         var_dump($result); */
+    }
+
 }

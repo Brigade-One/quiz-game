@@ -11,7 +11,6 @@ use Server\Repository\UserRepository;
 class PackageRepositoryTest extends TestCase
 {
     private $packageRepository;
-    private $userRepository;
     private $database;
     private $queryExecutor;
 
@@ -21,25 +20,20 @@ class PackageRepositoryTest extends TestCase
         $database = new Database($pdo);
         $idGenerator = new IDGenerator();
         $this->queryExecutor = new QueryExecutor($database->getConnection());
-        $this->userRepository = new UserRepository($this->queryExecutor, $idGenerator);
-        $this->packageRepository = new PackageRepository($this->queryExecutor, $idGenerator, $this->userRepository);
+        $this->packageRepository = new PackageRepository($this->queryExecutor, $idGenerator);
 
     }
     public function testCreatePackage(): void
     {
-        //User who creates the package
-        $user = $this->userRepository->fetchByEmail("example10@example.com");
-
         // Create a new package
         $package = new Package(
             null,
             'Demo package',
-            $user->getId(),
-            0,
+            false,
         );
 
         // Save the package to the database
-        $result = $this->packageRepository->create($package, $user);
+        $result = $this->packageRepository->create($package);
 
         // Assert that the package was successfully saved to the database        
         $id = $package->getPackageID();
@@ -55,7 +49,7 @@ class PackageRepositoryTest extends TestCase
     }
     public function testUpdate()
     {
-        $testID = 'f50717e6-637b-472f-b0c0-629a51f6ba8a';
+        $testID = 'dad3370c-e66d-4c22-84c6-4c460802b388';
         $package = $this->packageRepository->fetchByID($testID);
         $package->setIsApproved(true);
         $package->setName("UpdatedPackageName");
