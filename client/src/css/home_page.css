@@ -1,3 +1,10 @@
+body {
+    overflow-y: auto;
+}
+
+#second-block {
+    height: max-content;
+}
 #home-button {
     background-color: #FBF9F9;
     color: #8692A6;
