@@ -61,7 +61,7 @@
                     </li>
                     <li class="obligatory_item">
                         <button class="listitem">
-                            <span>Start competition</span>
+                            <span>Start 1x1 competition</span>
                         </button>
                     </li>
                     <hr>
