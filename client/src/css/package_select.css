@@ -1,14 +1,16 @@
-body{
-    overflow-y:auto;
+body {
+    overflow-y: auto;
 }
-#second-block{
-    height:max-content;
+
+#second-block {
+    height: max-content;
 }
-#home-button{
+
+#home-button {
     background-color: #FBF9F9;
     color: #8692A6;
-    width:70%;
-    height:50px;
+    width: 70%;
+    height: 50px;
     font-size: 20px;
     border: none;
     padding: 10px 20px;
@@ -19,11 +21,12 @@ body{
     justify-content: center;
     align-items: center;
 }
-#profile-button{
+
+#profile-button {
     background-color: #8692A6;
     color: #FBF9F9;
-    width:70%;
-    height:50px;
+    width: 70%;
+    height: 50px;
     font-size: 20px;
     border: none;
     padding: 10px 20px;
@@ -34,26 +37,30 @@ body{
     justify-content: center;
     align-items: center;
 }
-#home{
+
+#home {
     height: 10%;
-    width:70%;
+    width: 70%;
     font-size: 24px;
     font-family: "Poppins", sans-serif;
-    opacity:0.6;
+    opacity: 0.6;
     margin-left: 2%;
 }
-#undertext{
-   font-size: 15px; 
+
+#undertext {
+    font-size: 15px;
 }
-#package_list{
+
+#package_list {
     height: 10%;
-    width:100%;
+    width: 100%;
     font-size: 24px;
     font-family: "Poppins", sans-serif;
-    opacity:0.6;
+    opacity: 0.6;
     margin-left: 2%;
 
 }
+
 table {
     border-collapse: collapse;
     background-color: #F6F6F6;
@@ -61,42 +68,48 @@ table {
     width: 80%;
     margin-bottom: 20px;
 }
-  
+
 table td {
-    border-left:1px solid black;
+    border-left: 1px solid black;
 
     text-align: center;
-    
+
 }
-  
+
 table td:first-child {
     border-left: none;
 
 }
+
 table th {
     border-left: 1px solid black;
 }
-  
+
 table th:first-child {
     border-left: none;
 }
+
 table td:last-child {
     border-left: none;
 }
-table tr{
+
+table tr {
     border-bottom: 1px solid black;
 }
-table tr:first-child{
+
+table tr:first-child {
     border-bottom: none;
 }
-table tr:last-child{
+
+table tr:last-child {
     border-bottom: none;
 }
-.select_button{
+
+.select_button {
     background-color: #8692A6;
     color: #FBF9F9;
-    width:100px;
-    height:30px;
+    width: 100px;
+    height: 30px;
     font-size: 20px;
     border: none;
     padding: 10px 20px;
@@ -109,6 +122,6 @@ table tr:last-child{
 }
 
 
-.ordinary_row{
-    height:10px;
+.ordinary_row {
+    height: 10px;
 }
