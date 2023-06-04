@@ -32,6 +32,8 @@
 
             <a class="faded-font" href='http://quiz-game/client/pages/sign_up.php'>Don't have an account yet? Sign Up</a>
             <br>
+            <span id="responseText"></span>
+            <br>
             <input type="submit" value="Login">
             <div id="status">
 
