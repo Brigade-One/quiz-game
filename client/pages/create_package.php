@@ -40,17 +40,20 @@
         <input type="text" id="package_name_value" placeholder="Enter package name"></input>
     </div>
     <div id="question">
+      <div class="question_info">
         <label for="question_text">Add questions</label>
         <br>
         <input type="text" id="question_text_value" placeholder="Enter question text"></input> 
         <div style="display:flex">
         <div style="flex:49.5;width:10%;">
-        <input type="text"id="answer_value" placeholder="Enter question answer"></input><span>          </span><input type="text" placeholder="Enter hint" id="hint_value"></input>
+        <input type="text"id="answer_value" placeholder="Enter answer"></input><span>          </span><input type="text" placeholder="Enter hint" id="hint_value"></input>
+        
         </div>
         <div style="flex:50.5;">
         </div>
         </div>
         <hr>
+        </div>
   </div>
   <button id="new-button">
     
@@ -67,6 +70,10 @@
 
 <script>
     $("#header").load("widgets/header.html");
+
+    $("#new-button").on("click", function () {
+            $("#question").html($("#question").html() + $(".question_info").html());
+        });
 </script>
     
 
