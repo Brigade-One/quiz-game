@@ -20,9 +20,9 @@
         <p class='faded-font'>Sign Up by entering fields below</p>
         <br>
 
-        <form id="sign-form" method="post">
+        <form id="sign-form" method="POST">
             <label for="username">Username:</label>
-            <input type="text" name="username" id="username" placeholder="Enter desired username" required>
+            <input type="text" name="name" id="name" placeholder="Enter desired username" required>
             <br>
 
             <label for="email">Email address:</label>

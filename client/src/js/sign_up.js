@@ -7,7 +7,7 @@ form.addEventListener('submit', function (event) {
 
     // Get the form data
     const formData = new FormData(form);
-    const user = new User(formData.get('username'), formData.get('email'), formData.get('password'));
+    const user = new User(formData.get('name'), formData.get('email'), formData.get('password'));
     
 
     user.handleSignUp(formData.get("confirmPassword"));

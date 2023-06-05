@@ -26,20 +26,16 @@ export class User {
     }
 
     fromJSON(json) {
-        this.id = json.id;
         this.name = json.name;
         this.email = json.email;
         this.password = json.password;
-        this.roleName = json.roleName;
     }
 
     toJSON() {
         return {
-            id: this.id, 
             name: this.name,
             email: this.email,
             password: this.password,
-            roleName: this.roleName,
         };
     }
 
@@ -72,7 +68,7 @@ export class User {
     handleHttpRequest(jsonData, url) {
         const xhr = new XMLHttpRequest();
         xhr.open("POST", "../../server/server.php/" + url);
-        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         xhr.onreadystatechange = () => {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 if (xhr.status === 200) {
@@ -92,6 +88,6 @@ export class User {
                 }
             }
         };
-        xhr.send(jsonData);
+        xhr.send("name="+ this.name +"&password="+ this.password + "&email="+ this.email);
     }
 }

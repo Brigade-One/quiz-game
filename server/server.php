@@ -12,9 +12,11 @@ use Server\Repository\UserRepository;
 use Server\Repository\PackageRepository;
 use Server\Services\HttpRouter;
 
+
 header('Access-Control-Allow-Origin: http://brigade-one-quiz-game');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
+
 
 $router = new HttpRouter();
 $db = new Database(
