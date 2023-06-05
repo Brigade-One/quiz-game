@@ -101,6 +101,14 @@ $router->addRoute('DELETE', '/package', function () use ($db): bool {
     return $pr->delete($package);
 });
 
+$router->addRoute('GET', '/package', function () use ($db): ?\Server\Models\Package {
+    $pr = new PackageRepository(
+        new QueryExecutor($db->getConnection()),
+        new IDGenerator()
+    );
+    return $pr->fetchByID($_GET['packageID']);
+});
+
 // Listen for incoming client requests
 $method = $_SERVER['REQUEST_METHOD'];
 $path = $_SERVER['PATH_INFO'];
