@@ -69,4 +69,12 @@ class User
         }
         return true;
     }
+    public function toJSON(){
+        return json_encode([
+            'id' => $this->id,
+            'name' => $this->name,
+            'email' => $this->email,
+            'role' => $this->role,
+        ]);
+    }
 }

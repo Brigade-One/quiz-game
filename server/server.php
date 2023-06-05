@@ -44,14 +44,14 @@ $router->addRoute('POST', '/sign_up', function () use ($db): bool {
     return false;
 });
 
-$router->addRoute('POST', '/sign_in', function () use ($db): ?\Server\Models\User {
+$router->addRoute('POST', '/sign_in', function () use ($db) {
     $ur = new UserRepository(
         new QueryExecutor($db->getConnection()),
         new IDGenerator()
     );
     $user = $ur->fetchByEmail($_POST['email']);
-    return ($user->getPassword() === $_POST['password'])
-        ? $user
+    echo ($user->getPassword() === $_POST['password'])
+        ? json_encode($user->toJSON())
         : null;
 });
 
