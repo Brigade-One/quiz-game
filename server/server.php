@@ -3,7 +3,7 @@
 require_once '../vendor/autoload.php';
 
 use Server\Models\User;
-use Server\Models\User\UserRole;
+use Server\Models\UserRole;
 use Server\Models\Package;
 use Server\Repository\Database;
 use Server\Repository\QueryExecutor;
@@ -35,7 +35,13 @@ $router->addRoute('POST', '/sign_up', function () use ($db): bool {
         $_POST['password'],
         UserRole::RegularUser
     );
-    return $ur->create($user);
+    if ($ur->create($user)) {
+        echo "We have a new user!";
+        echo json_encode($user);
+        return json_encode($user);
+    }
+    echo "We have a problem!";
+    return false;
 });
 
 $router->addRoute('POST', '/sign_in', function () use ($db): ?\Server\Models\User {

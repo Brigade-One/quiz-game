@@ -1,6 +1,6 @@
 <?php
 
-namespace Server\Models\User;
+namespace Server\Models;
 
 enum UserRole: int
 {

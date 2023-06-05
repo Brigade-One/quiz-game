@@ -1,7 +1,7 @@
 <?php
 
 namespace Server\Models;
-use Server\Models\User\UserRole;
+use Server\Models\UserRole;
 
 class User
 {

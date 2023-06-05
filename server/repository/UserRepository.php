@@ -4,7 +4,7 @@ namespace Server\Repository;
 use Server\Models\User;
 use Server\Repository\IDGenerator;
 use PDO;
-use Server\Models\User\UserRole;
+use Server\Models\UserRole;
 
 class UserRepository
 {
