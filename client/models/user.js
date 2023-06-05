@@ -57,11 +57,11 @@ export class User {
         }
     }
 
-    render(message){
+    render(message) {
         $("#responseText").html(message);
     }
 
-    showError(message){
+    showError(message) {
         $("#responseText").html("Error: " + message);
     }
 
@@ -72,8 +72,10 @@ export class User {
         xhr.onreadystatechange = () => {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 if (xhr.status === 200) {
+                    console.log(xhr.responseText);
                     const response = JSON.parse(xhr.responseText);
                     const user = response.user;
+                    console.log(response);
                     if (response.success === true) {
                         localStorage.setItem("user", user);
                         localStorage.setItem("token", response.token);
@@ -88,6 +90,6 @@ export class User {
                 }
             }
         };
-        xhr.send("name="+ this.name +"&password="+ this.password + "&email="+ this.email);
+        xhr.send("name=" + this.name + "&password=" + this.password + "&email=" + this.email);
     }
 }
