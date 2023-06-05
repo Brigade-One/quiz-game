@@ -72,21 +72,23 @@ export class User {
         xhr.onreadystatechange = () => {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 if (xhr.status === 200) {
-                    console.log(xhr.responseText);
-                    const response = JSON.parse(xhr.responseText);
-                    const user = response.user;
-                    console.log(response);
-                    if (response.success === true) {
-                        localStorage.setItem("user", user);
-                        localStorage.setItem("token", response.token);
+                    //console.log(xhr.responseText);
+                    let response = JSON.parse(xhr.responseText);
+                    let response1 = JSON.parse(response);
+                    if (response1.id != null) {
+                        localStorage.setItem("username", response1.name);
+                        localStorage.setItem("ID", response1.id);
+                        localStorage.setItem("role", response1.role);
+                        localStorage.setItem("email", response1.email);
                     }
-                    this.render(response.message);
+
+                    //this.render(response.message);
                     // Add a 1.5 second delay before redirecting to the index page
-                    if (response.success === true) setTimeout(function () {
+                    if (response1.id != null) setTimeout(function () {
                         window.location.href = "../pages/index.php";
                     }, 1500);
                 } else {
-                    this.showError(xhr.status);
+                    //this.showError(xhr.status);
                 }
             }
         };
