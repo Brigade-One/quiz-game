@@ -109,6 +109,14 @@ $router->addRoute('GET', '/package', function () use ($db): ?\Server\Models\Pack
     return $pr->fetchByID($_GET['packageID']);
 });
 
+$router->addRoute('GET', '/public_packages', function () use ($db): array {
+    $pr = new PackageRepository(
+        new QueryExecutor($db->getConnection()),
+        new IDGenerator()
+    );
+    return $pr->fetchPublicPackages();
+});
+
 // Listen for incoming client requests
 $method = $_SERVER['REQUEST_METHOD'];
 $path = $_SERVER['PATH_INFO'];
