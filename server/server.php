@@ -1,10 +1,6 @@
 <?php
 
 require_once '../vendor/autoload.php';
-require_once 'models/User.php';
-require_once 'services/HttpRouter.php';
-require_once 'services/PDOConnection.php';
-require_once 'repository/UserRepository.php';
 
 use Server\Models\User;
 use Server\Models\User\UserRole;
