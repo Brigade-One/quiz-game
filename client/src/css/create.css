@@ -52,14 +52,18 @@ body {
     font-family: "Poppins", sans-serif;
     opacity: 0.7;
     margin-left: 4%;
+    margin-bottom: 10px;
 }
 
-#package_name_value {
+#package_name_label {
+    font-size: 19px;
+    font-family: "Poppins", sans-serif;
+    opacity: 0.7;
     margin-bottom: 10px;
 }
 
 #question {
-    font-size: 17px;
+    font-size: 19px;
     font-family: "Poppins", sans-serif;
     opacity: 0.7;
     margin-left: 4%;
@@ -73,7 +77,7 @@ input[type="password"] {
     margin-bottom: 10px;
     border: none;
     border-bottom: 2px solid #ccc;
-    min-width: 25%;
+    min-width: 30%;
     opacity: 1;
     border-radius: 20px;
     box-shadow: 0px 15px 40px 5px #EDEDED;
@@ -86,7 +90,7 @@ label {
 }
 
 hr {
-    width: 25%;
+    width: 30%;
     margin-left: 0;
 }
 
