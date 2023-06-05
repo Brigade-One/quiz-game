@@ -18,14 +18,15 @@ export class Package {
 
 
 
-    handleHttpRequest(jsonData, url) {
+    handleHttpRequest(url) {
         const xhr = new XMLHttpRequest();
-        xhr.open("POST", "../../server/server.php/" + url);
-        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.open("GET", "../../server/server.php/" + url);
         xhr.onreadystatechange = () => {
             if (xhr.readyState === XMLHttpRequest.DONE) {
+                console.log("Done");
+                console.log(xhr);
                 if (xhr.status === 200) {
-                    const response = JSON.parse(xhr.responseText);
+                   console.dir(xhr);
                     
                     // Add a 1.5 second delay before redirecting to the index page
                 } else {
@@ -33,6 +34,6 @@ export class Package {
                 }
             }
         };
-        xhr.send(jsonData);
+        xhr.send();
     }
 }

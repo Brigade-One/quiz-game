@@ -44,7 +44,7 @@
                     </li>
                     <hr>
                     <li class="obligatory_item">
-                        <button class="listitem">
+                        <button class="listitem" onclick="window.location.href='http://quiz-game/client/pages/package_select.php'">
                             <span>Start training</span>
                         </button>
                     </li>
