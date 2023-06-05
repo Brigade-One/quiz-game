@@ -4,10 +4,10 @@ require_once '../vendor/autoload.php';
 
 use Server\Models\User;
 use Server\Models\User\UserRole;
+use Server\Repository\Database;
 use Server\Repository\QueryExecutor;
 use Server\Repository\IDGenerator;
 use Server\Repository\UserRepository;
-use Server\Services\PDOConnection;
 use Server\Services\HttpRouter;
 
 header('Access-Control-Allow-Origin: http://brigade-one-quiz-game');
@@ -15,11 +15,13 @@ header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
 
 $router = new HttpRouter();
-$connection = new PDOConnection('localhost', 'quiz_db', 'root', null);
+$db = new Database(
+    new PDO('mysql:host=localhost;dbname=quiz_db', 'root', null)
+);
 
-$router->addRoute('POST', '/sign_up', function () use ($connection): bool {
+$router->addRoute('POST', '/sign_up', function () use ($db): bool {
     $ur = new UserRepository(
-        new QueryExecutor($connection->getConnection()),
+        new QueryExecutor($db->getConnection()),
         new IDGenerator()
     );
     $user = new User(
@@ -32,9 +34,9 @@ $router->addRoute('POST', '/sign_up', function () use ($connection): bool {
     return $ur->create($user);
 });
 
-$router->addRoute('POST', '/sign_in', function () use ($connection): ?\Server\Models\User {
+$router->addRoute('POST', '/sign_in', function () use ($db): ?\Server\Models\User {
     $ur = new UserRepository(
-        new QueryExecutor($connection->getConnection()),
+        new QueryExecutor($db->getConnection()),
         new IDGenerator()
     );
     $user = $ur->fetchByEmail($_POST['email']);
@@ -43,9 +45,9 @@ $router->addRoute('POST', '/sign_in', function () use ($connection): ?\Server\Mo
         : null;
 });
 
-$router->addRoute('PUT', '/user', function () use ($connection): bool {
+$router->addRoute('PUT', '/user', function () use ($db): bool {
     $ur = new UserRepository(
-        new QueryExecutor($connection->getConnection()),
+        new QueryExecutor($db->getConnection()),
         new IDGenerator()
     );
     $user = new User(
@@ -58,9 +60,9 @@ $router->addRoute('PUT', '/user', function () use ($connection): bool {
     return $ur->update($user);
 });
 
-$router->addRoute('DELETE', '/user', function () use ($connection): bool {
+$router->addRoute('DELETE', '/user', function () use ($db): bool {
     $ur = new UserRepository(
-        new QueryExecutor($connection->getConnection()),
+        new QueryExecutor($db->getConnection()),
         new IDGenerator()
     );
     $user = $ur->fetchById($_POST['id']);
