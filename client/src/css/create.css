@@ -5,11 +5,12 @@ body {
 #second-block {
     height: max-content;
 }
-#home-button{
+
+#home-button {
     background-color: #FBF9F9;
     color: #8692A6;
-    width:70%;
-    height:50px;
+    width: 70%;
+    height: 50px;
     font-size: 20px;
     border: none;
     padding: 10px 20px;
@@ -20,11 +21,12 @@ body {
     justify-content: center;
     align-items: center;
 }
-#profile-button{
-    background-color: #8692A6;
-    color: #FBF9F9;
-    width:70%;
-    height:50px;
+
+#profile-button {
+    background-color: #FBF9F9;
+    color: #8692A6;
+    width: 70%;
+    height: 50px;
     font-size: 20px;
     border: none;
     padding: 10px 20px;
@@ -35,80 +37,91 @@ body {
     justify-content: center;
     align-items: center;
 }
-#home{
+
+#home {
     height: 10%;
-    width:70%;
+    width: 70%;
     font-size: 24px;
     font-family: "Poppins", sans-serif;
-    opacity:0.7;
+    opacity: 0.7;
     margin-left: 2%;
 }
-#package_name{
+
+#package_name {
     font-size: 17px;
     font-family: "Poppins", sans-serif;
-    opacity:0.7;
+    opacity: 0.7;
     margin-left: 4%;
 }
-#question{
+
+#package_name_value {
+    margin-bottom: 10px;
+}
+
+#question {
     font-size: 17px;
     font-family: "Poppins", sans-serif;
-    opacity:0.7;
-    margin-left: 4%; 
+    opacity: 0.7;
+    margin-left: 4%;
 }
+
 input[type="text"],
 input[type="email"],
-input[type="password"]{
-    position:relative;
+input[type="password"] {
+    position: relative;
     padding: 10px;
     margin-bottom: 10px;
     border: none;
     border-bottom: 2px solid #ccc;
-    width:25%;
-    opacity:1;
+    min-width: 25%;
+    opacity: 1;
     border-radius: 20px;
-    filter: drop-shadow(2px 2px 2px gray);
+    box-shadow: 0px 15px 40px 5px #EDEDED;
 }
+
 label {
-    position:relative;
-    opacity:0.7;
+    position: relative;
+    opacity: 0.7;
     margin-bottom: 10px;
 }
 
-hr{
-    width:25%;
+hr {
+    width: 25%;
     margin-left: 0;
 }
-#new-button{
-    background-color: white;
-    color: black;
-    width:15%;
-    height:25px;
+
+#new-button {
+    background-color: #000000;
+    color: white;
+    width: 15%;
+    height: 25px;
     font-size: 15px;
     border: none;
     padding: 10px 20px;
     cursor: pointer;
     margin: 20px 0;
-    margin-left:8.5%;
+    margin-left: 8.5%;
     border-radius: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
-    filter: drop-shadow(2px 2px 2px gray);
+    box-shadow: 0px 15px 40px 5px #EDEDED;
 }
-#create-button{
+
+#create-button {
     background-color: #8692A6;
     color: white;
-    width:30%;
-    height:40px;
+    width: 30%;
+    height: 40px;
     font-size: 20px;
     border: none;
     padding: 10px 20px;
     cursor: pointer;
     margin: 50px 0;
-    margin-left:35%;
+    margin-left: 35%;
     border-radius: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
-    filter: drop-shadow(2px 2px 2px gray);
+    box-shadow: 0px 15px 40px 5px #EDEDED;
 }
