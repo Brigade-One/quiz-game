@@ -1,6 +1,7 @@
 [*]
 insert_final_newline = false
 trim_trailing_whitespace = true
+end_of_line = crlf
 
 [*.php]
 indent_size = 4
