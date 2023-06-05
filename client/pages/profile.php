@@ -83,7 +83,7 @@
         </div>
       </div>
       <button id="logout">
-        <img src="http://quiz-game/client/assets/images/logout.png" alt="Image">
+        <img src="http://quiz-game/client/assets/images/logout_white.png" alt="Image">
         <span class="button-text">Log Out</span>
       </button>
     </div>
