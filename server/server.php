@@ -71,18 +71,18 @@ $router->addRoute('DELETE', '/user', function () use ($db): bool {
     return $ur->delete($user);
 });
 
-$router->addRoute('POST', '/package', function () use ($connection): bool {
+$router->addRoute('POST', '/package', function () use ($db): bool {
     $pr = new PackageRepository(
-        new QueryExecutor($connection->getConnection()),
+        new QueryExecutor($db->getConnection()),
         new IDGenerator()
     );
     $package = new Package(null, $_POST['name'], false);
     return $pr->create($package);
 });
 
-$router->addRoute('PUT', '/package', function () use ($connection) {
+$router->addRoute('PUT', '/package', function () use ($db) {
     $pr = new PackageRepository(
-        new QueryExecutor($connection->getConnection()),
+        new QueryExecutor($db->getConnection()),
         new IDGenerator()
     );
     $package = $pr->fetchByID($_POST['packageID']);
@@ -91,9 +91,9 @@ $router->addRoute('PUT', '/package', function () use ($connection) {
     $pr->update($package);
 });
 
-$router->addRoute('DELETE', '/package', function () use ($connection): bool {
+$router->addRoute('DELETE', '/package', function () use ($db): bool {
     $pr = new PackageRepository(
-        new QueryExecutor($connection->getConnection()),
+        new QueryExecutor($db->getConnection()),
         new IDGenerator()
     );
 
