@@ -8,6 +8,7 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
   </style>
+  
 </head>
 
 <body>
@@ -29,8 +30,8 @@
 
         <div style="flex: 4;height=200px;">
           <div class="top">
-            <p id="profile_name"><b>Oluwatobi Olowu</b>
-              <br><span style="font-size:15px;">Examiner</span>
+            <b><p id="profile_name">Anonymous</b>
+              <br><span style="font-size:15px;">Guest</span>
             </p>
           </div>
 
@@ -81,10 +82,24 @@
         $("#first-block").load("widgets/nav_buttons.html");
       });
 
+        let user_name_storage_c = localStorage.getItem("username");
+        let status_numeral = localStorage.getItem("role");
+        let user_status = "Guest";
+        if(status_numeral == 1){
+          user_status = "Examiner";
+        }
+        if(status_numeral == 0){
+          user_status = "Regular User";
+        }
+        if(user_name_storage_c != "Guest"){
+            if(user_name_storage_c != null){
+                document.getElementById("profile_name").innerHTML = user_name_storage_c+'</b><br><span style="font-size:15px;">'+user_status+'</span>';
+            }             
+        }
+
       $("#logout").on("click", function () {
-            localStorage.removeItem("user");
-            localStorage.removeItem("token");
-            window.location.href = "http://quiz-game/client/pages/index.php";
+            localStorage.clear();
+            window.location.href = "http://quiz-game/client/pages/sign_in.php";
         });
     </script>
 
