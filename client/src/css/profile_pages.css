@@ -57,10 +57,6 @@
     width: 70%;
 }
 
-.flag {
-    height: 50px;
-    width: 50px;
-}
 
 #correct-answers {
     display: flex;
@@ -75,7 +71,7 @@
     align-items: center;
 }
 
-.flag-result {
+.info-block {
     position: relative;
     display: flex;
     margin-left: 5%;
@@ -100,4 +96,21 @@
     position: absolute;
     bottom: 10%;
     right: 5%;
+}
+
+.square {
+    width: 80px;
+    height: 80px;
+    background: #FFFFFF;
+    box-shadow: 0px 15px 40px 5px #EDEDED;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon {
+    font-size: 48px;
+    color: white;
+
 }

@@ -33,39 +33,52 @@
               <br><span style="font-size:15px;">Examiner</span>
             </p>
           </div>
-
-          <div class="bottom" style="display: flex;">
-            <div style="flex: 1;">
-            </div>
-            <div style="flex: 1;" id="fastest-time">
-              <img src="http://quiz-game/client/assets/images/vector.jpg" alt="Image" class="flag">
-              <span id="profile_name"><b>27min</b>
-                <br>
-                <p style="font-size:15px;">Fastest time</p>
-              </span>
-            </div>
-            <div style="flex: 1;" id="correct-answers">
-              <img src="http://quiz-game/client/assets/images/vector.jpg" alt="Image" class="flag">
-              <span id="profile_name"><b>200</b>
-                <br>
-                <p style="font-size:15px;">Correct Answers</p>
-              </span>
-            </div>
-          </div>
         </div>
       </div>
 
       <div style="display: flex;position:relative;margin-top:30px;">
-        <div style="flex: 1;" class="flag-result">
-          <img src="http://quiz-game/client/assets/images/gray_flag.png" alt="Image" class="flag">
-          <span id="profile_name"><b>200</b> <br>
-            <p style="font-size:15px;">Correct Answers</p>
+        <div style="flex: 1;" class="info-block">
+          <div class="square">
+            <img src="http://quiz-game/client/assets/images/check.png" alt="Image" class="icon">
+          </div>
+          <span id="profile_name"><b>89.28%</b> <br>
+            <p style="font-size:15px;">Training accuracy</p>
           </span>
         </div>
-        <div style="flex: 1;" class="flag-result">
-          <img src="http://quiz-game/client/assets/images/brown_flag.png" alt="Image" class="flag">
-          <span id="profile_name"><b>200</b> <br>
-            <p style="font-size:15px;">Correct Answers</p>
+        <div style="flex: 1;" class="info-block">
+          <div class="square">
+            <img src="http://quiz-game/client/assets/images/check.png" alt="Image" class="icon">
+          </div>
+          <span id="profile_name"><b>76.28%</b> <br>
+            <p style="font-size:15px;">Competition accuracy</p>
+          </span>
+        </div>
+      </div>
+      <div style="display: flex;position:relative;margin-top:30px;">
+        <div style="flex: 1;" class="info-block">
+          <div class="square">
+            <img src="http://quiz-game/client/assets/images/package.png" alt="Image" class="icon">
+          </div>
+          <span id="profile_name"><b>3</b> <br>
+            <p style="font-size:15px;">Packages created</p>
+          </span>
+        </div>
+        <div style="flex: 1;" class="info-block">
+          <div class="square">
+            <img src="http://quiz-game/client/assets/images/brown_flag.png" alt="Image" class="icon">
+          </div>
+          <span id="profile_name"><b>3</b> <br>
+            <p style="font-size:15px;">1x1 Competitions Wins</p>
+          </span>
+        </div>
+      </div>
+      <div style="display: flex;position:relative;margin-top:30px;">
+        <div style="flex: 1;" class="info-block">
+          <div class="square">
+            <img src="http://quiz-game/client/assets/images/timer.png" alt="Image" class="icon">
+          </div>
+          <span id="profile_name"><b>27 May 2023</b> <br>
+            <p style="font-size:15px;">Last Training date</p>
           </span>
         </div>
       </div>
@@ -82,10 +95,10 @@
       });
 
       $("#logout").on("click", function () {
-            localStorage.removeItem("user");
-            localStorage.removeItem("token");
-            window.location.href = "http://quiz-game/client/pages/index.php";
-        });
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
+        window.location.href = "http://quiz-game/client/pages/index.php";
+      });
     </script>
 
 
