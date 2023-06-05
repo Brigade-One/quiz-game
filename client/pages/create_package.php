@@ -35,19 +35,18 @@
       </div>
       <div id="package_name">
         <hr>
-        <label for="package_name_value">Package name</label>
+        <label for="package_name_value"  id="package_name_label">Package name</label>
         <br> 
         <input type="text" id="package_name_value" placeholder="Enter package name"></input>
       </div>
       <div id="question"><label for="question_text">Add questions</label>
         <div class="question_info">
-          <h6 class="question_number">#1</h6>
+          <h5 class="question_number">#1</h5>
           <input type="text" id="question_text_value" placeholder="Enter question text"></input>
           <div style="display:flex">
             <div style="flex:49.5;width:10%;">
               <input type="text" id="answer_value" placeholder="Enter answer"></input><span> </span><input type="text"
                 placeholder="Enter hint" id="hint_value"></input>
-
             </div>
             <div style="flex:50.5;">
             </div>
