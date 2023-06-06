@@ -42,4 +42,22 @@ class Package
         $this->packageID = $packageID;
     }
 
+    public function toJSON(): array
+    {
+        return [
+            'packageID' => $this->packageID,
+            'name' => $this->name,
+            'isApproved' => $this->isApproved,
+        ];
+    }
+
+    public static function fromJSON(string $json): Package
+    {
+        $data = json_decode($json, true);
+        return new Package(
+            $data['packageID'],
+            $data['name'],
+            $data['isApproved'],
+        );
+    }
 }

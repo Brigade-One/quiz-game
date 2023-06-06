@@ -44,4 +44,24 @@ class PackageQuestionLink
     {
         $this->questionID = $questionID;
     }
+
+
+    public function toJSON()
+    {
+        return json_encode([
+            'linkID' => $this->linkID,
+            'packageID' => $this->packageID,
+            'questionID' => $this->questionID,
+        ]);
+    }
+    public static function fromJSON(string $json): PackageQuestionLink
+    {
+        $data = json_decode($json, true);
+        return new PackageQuestionLink(
+            $data['linkID'],
+            $data['packageID'],
+            $data['questionID'],
+        );
+    }
+
 }

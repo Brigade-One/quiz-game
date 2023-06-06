@@ -38,4 +38,22 @@ class Theme
     {
         $this->imgURL = $imgURL;
     }
+
+    public function toJSON()
+    {
+        return json_encode([
+            'themeID' => $this->themeID,
+            'name' => $this->name,
+            'imgURL' => $this->imgURL,
+        ]);
+    }
+    public static function fromJSON(string $json): Theme
+    {
+        $data = json_decode($json, true);
+        return new Theme(
+            $data['themeID'],
+            $data['name'],
+            $data['imgURL'],
+        );
+    }
 }

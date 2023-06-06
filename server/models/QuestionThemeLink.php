@@ -51,4 +51,23 @@ class QuestionThemeLink
     {
         $this->themeID = $themeID;
     }
+    public function toJSON()
+    {
+        return json_encode([
+            'linkID' => $this->linkID,
+            'questionID' => $this->questionID,
+            'themeID' => $this->themeID,
+        ]);
+    }
+
+    public static function fromJSON(string $json): QuestionThemeLink
+    {
+        $data = json_decode($json, true);
+        return new QuestionThemeLink(
+            $data['linkID'],
+            $data['questionID'],
+            $data['themeID'],
+        );
+    }
+
 }

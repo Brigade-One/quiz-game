@@ -51,4 +51,23 @@ class UserPackageLink
     {
         $this->packageID = $packageID;
     }
+    public function toJSON()
+    {
+        return json_encode([
+            'linkID' => $this->linkID,
+            'userID' => $this->userID,
+            'packageID' => $this->packageID,
+        ]);
+    }
+
+    public static function fromJSON(string $json): UserPackageLink
+    {
+        $data = json_decode($json, true);
+        return new UserPackageLink(
+            $data['linkID'],
+            $data['userID'],
+            $data['packageID'],
+        );
+    }
+
 }

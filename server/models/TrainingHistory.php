@@ -75,4 +75,29 @@ class TrainingHistory
     {
         $this->totalQuestions = $totalQuestions;
     }
+
+    public function toJSON()
+    {
+        return json_encode([
+            'historyID' => $this->historyID,
+            'userID' => $this->userID,
+            'packageID' => $this->packageID,
+            'trainingDate' => $this->trainingDate,
+            'correctAnswers' => $this->correctAnswers,
+            'totalQuestions' => $this->totalQuestions,
+        ]);
+    }
+    public static function fromJSON(string $json): TrainingHistory
+    {
+        $data = json_decode($json, true);
+        return new TrainingHistory(
+            $data['historyID'],
+            $data['userID'],
+            $data['packageID'],
+            $data['trainingDate'],
+            $data['correctAnswers'],
+            $data['totalQuestions'],
+        );
+    }
+
 }

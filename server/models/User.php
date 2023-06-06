@@ -1,6 +1,7 @@
 <?php
 
 namespace Server\Models;
+
 use Server\Models\UserRole;
 
 class User
@@ -69,12 +70,24 @@ class User
         }
         return true;
     }
-    public function toJSON(){
+    public function toJSON()
+    {
         return json_encode([
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
             'role' => $this->role,
         ]);
+    }
+    public static function fromJSON(string $json): User
+    {
+        $data = json_decode($json, true);
+        return new User(
+            $data['id'],
+            $data['name'],
+            $data['email'],
+            $data['password'],
+            $data['role'],
+        );
     }
 }

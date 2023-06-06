@@ -1,5 +1,6 @@
 <?php
 namespace Server\Models;
+
 class Question
 {
     private $questionID;
@@ -66,4 +67,25 @@ class Question
         $this->difficulty = $difficulty;
     }
 
+    public function toJSON()
+    {
+        return json_encode([
+            'questionID' => $this->questionID,
+            'question' => $this->question,
+            'answer' => $this->answer,
+            'hint' => $this->hint,
+            'difficulty' => $this->difficulty,
+        ]);
+    }
+    public static function fromJSON(string $json): Question
+    {
+        $data = json_decode($json, true);
+        return new Question(
+            $data['questionID'],
+            $data['question'],
+            $data['answer'],
+            $data['hint'],
+            $data['difficulty'],
+        );
+    }
 }
