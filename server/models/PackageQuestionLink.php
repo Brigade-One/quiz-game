@@ -54,12 +54,14 @@ class PackageQuestionLink
             'questionID' => $this->questionID,
         ]);
     }
-    public static function fromJSON(array $json): PackageQuestionLink
+    public static function fromJSON(string $json): PackageQuestionLink
     {
+        $data = json_decode($json, true);
         return new PackageQuestionLink(
-            $json['linkID'],
-            $json['packageID'],
-            $json['questionID'],
+            $data['linkID'],
+            $data['packageID'],
+            $data['questionID'],
         );
     }
+
 }

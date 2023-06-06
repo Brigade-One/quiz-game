@@ -79,14 +79,15 @@ class User
             'role' => $this->role,
         ]);
     }
-    public static function fromJSON(array $json): User
+    public static function fromJSON(string $json): User
     {
+        $data = json_decode($json, true);
         return new User(
-            $json['id'],
-            $json['name'],
-            $json['email'],
-            $json['password'],
-            $json['role'],
+            $data['id'],
+            $data['name'],
+            $data['email'],
+            $data['password'],
+            $data['role'],
         );
     }
 }

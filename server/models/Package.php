@@ -51,12 +51,13 @@ class Package
         ];
     }
 
-    public static function fromJSON(array $json): Package
+    public static function fromJSON(string $json): Package
     {
+        $data = json_decode($json, true);
         return new Package(
-            $json['packageID'],
-            $json['name'],
-            $json['isApproved'],
+            $data['packageID'],
+            $data['name'],
+            $data['isApproved'],
         );
     }
 }

@@ -60,12 +60,13 @@ class QuestionThemeLink
         ]);
     }
 
-    public static function fromJSON(array $json): QuestionThemeLink
+    public static function fromJSON(string $json): QuestionThemeLink
     {
+        $data = json_decode($json, true);
         return new QuestionThemeLink(
-            $json['linkID'],
-            $json['questionID'],
-            $json['themeID'],
+            $data['linkID'],
+            $data['questionID'],
+            $data['themeID'],
         );
     }
 

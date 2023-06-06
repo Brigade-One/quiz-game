@@ -77,15 +77,15 @@ class Question
             'difficulty' => $this->difficulty,
         ]);
     }
-    public static function fromJSON(array $json): Question
+    public static function fromJSON(string $json): Question
     {
+        $data = json_decode($json, true);
         return new Question(
-            $json['questionID'],
-            $json['question'],
-            $json['answer'],
-            $json['hint'],
-            $json['difficulty'],
+            $data['questionID'],
+            $data['question'],
+            $data['answer'],
+            $data['hint'],
+            $data['difficulty'],
         );
     }
-
 }

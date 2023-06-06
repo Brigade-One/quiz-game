@@ -111,14 +111,15 @@ class CompetitionHistory
             'totalQuestions' => $this->totalQuestions
         ];
     }
-    public static function fromJSON(array $json): CompetitionHistory
+    public static function fromJSON(string $json): CompetitionHistory
     {
+        $json = json_decode($json, true);
         return new CompetitionHistory(
-            $json['historyID'] ?? null,
+            $json['historyID'],
             $json['player1ID'],
             $json['player2ID'],
             $json['packageID'],
-            $json['competitionDate'] ?? null,
+            $json['competitionDate'],
             $json['player1CorrectAnswers'],
             $json['player2CorrectAnswers'],
             $json['totalQuestions']

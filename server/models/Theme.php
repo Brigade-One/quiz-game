@@ -47,12 +47,13 @@ class Theme
             'imgURL' => $this->imgURL,
         ]);
     }
-    public static function fromJSON(array $json): Theme
+    public static function fromJSON(string $json): Theme
     {
+        $data = json_decode($json, true);
         return new Theme(
-            $json['themeID'],
-            $json['name'],
-            $json['imgURL'],
+            $data['themeID'],
+            $data['name'],
+            $data['imgURL'],
         );
     }
 }
