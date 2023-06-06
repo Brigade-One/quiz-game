@@ -1,0 +1,109 @@
+#home-button{
+    background-color: #FBF9F9;
+    color: #8692A6;
+    width:70%;
+    height:50px;
+    font-size: 20px;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin: 20px 0;
+    border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#profile-button{
+    background-color: #8692A6;
+    color: #FBF9F9;
+    width:70%;
+    height:50px;
+    font-size: 20px;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin: 20px 0;
+    border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#home{
+
+    height: 15%;
+    width:90%;
+    font-size: 24px;
+    font-family: "Poppins", sans-serif;
+    opacity:0.6;
+    margin-left: 2%;
+    
+}
+#undertext{
+   font-size: 15px; 
+}
+#timer{
+    display: inline-block;
+}
+#question_info{
+    display:flex;
+
+    height: 30%;
+    width:80%;
+    margin-left: 3%;
+    font-size: 14px;
+    font-family: "Poppins", sans-serif;
+    opacity:0.6;
+}
+#answer_options{
+
+    height: 40%;
+    width:80%;
+    margin-left: 3%;
+    font-size: 13px;
+    font-family: "Poppins", sans-serif;
+    opacity:0.6;
+}
+input[type="radio"] {
+  margin: 10px;
+}
+#previous-button{
+    background-color: #8692A6;
+    color: #FBF9F9;
+    width:40%;
+    height:70%;
+    font-size: 20px;
+    border: none;
+
+    cursor: pointer;
+border-radius: 30px;
+
+    justify-content: center;
+    align-items: center;
+
+}
+#next-button{
+    background-color: #8692A6;
+    color: #FBF9F9;
+    width:40%;
+    height:70%;
+    font-size: 20px;
+    border: none;
+
+    cursor: pointer;
+
+    border-radius: 30px;
+
+    justify-content: center;
+    align-items: center;
+
+}
+#movement_buttons{
+
+    height: 10%;
+    width:30%;
+    margin-left: 60%;
+    font-size: 13px;
+    font-family: "Poppins", sans-serif;
+    opacity:1;
+}

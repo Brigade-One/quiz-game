@@ -3,7 +3,7 @@
 require_once '../vendor/autoload.php';
 
 use Server\Models\User;
-use Server\Models\User\UserRole;
+use Server\Models\UserRole;
 use Server\Models\Package;
 use Server\Repository\Database;
 use Server\Repository\QueryExecutor;
@@ -12,9 +12,11 @@ use Server\Repository\UserRepository;
 use Server\Repository\PackageRepository;
 use Server\Services\HttpRouter;
 
+
 header('Access-Control-Allow-Origin: http://brigade-one-quiz-game');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
+
 
 $router = new HttpRouter();
 $db = new Database(
@@ -33,17 +35,20 @@ $router->addRoute('POST', '/sign_up', function () use ($db): bool {
         $_POST['password'],
         UserRole::RegularUser
     );
-    return $ur->create($user);
+    if ($ur->create($user)) {
+        echo json_encode($user);
+    }
+    return false;
 });
 
-$router->addRoute('POST', '/sign_in', function () use ($db): ?\Server\Models\User {
+$router->addRoute('POST', '/sign_in', function () use ($db) {
     $ur = new UserRepository(
         new QueryExecutor($db->getConnection()),
         new IDGenerator()
     );
     $user = $ur->fetchByEmail($_POST['email']);
-    return ($user->getPassword() === $_POST['password'])
-        ? $user
+    echo ($user->getPassword() === $_POST['password'])
+        ? json_encode($user->toJSON())
         : null;
 });
 

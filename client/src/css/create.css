@@ -1,0 +1,131 @@
+body {
+    overflow-y: auto;
+}
+
+#second-block {
+    height: max-content;
+}
+
+#home-button {
+    background-color: #FBF9F9;
+    color: #8692A6;
+    width: 70%;
+    height: 50px;
+    font-size: 20px;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin: 20px 0;
+    border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#profile-button {
+    background-color: #FBF9F9;
+    color: #8692A6;
+    width: 70%;
+    height: 50px;
+    font-size: 20px;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin: 20px 0;
+    border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#home {
+    height: 10%;
+    width: 70%;
+    font-size: 24px;
+    font-family: "Poppins", sans-serif;
+    opacity: 0.7;
+    margin-left: 2%;
+}
+
+#package_name {
+    font-size: 17px;
+    font-family: "Poppins", sans-serif;
+    opacity: 0.7;
+    margin-left: 4%;
+    margin-bottom: 10px;
+}
+
+#package_name_label {
+    font-size: 19px;
+    font-family: "Poppins", sans-serif;
+    opacity: 0.7;
+    margin-bottom: 10px;
+}
+
+#question {
+    font-size: 19px;
+    font-family: "Poppins", sans-serif;
+    opacity: 0.7;
+    margin-left: 4%;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    position: relative;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-bottom: 2px solid #ccc;
+    min-width: 30%;
+    opacity: 1;
+    border-radius: 20px;
+    box-shadow: 0px 15px 40px 5px #EDEDED;
+}
+
+label {
+    position: relative;
+    opacity: 0.7;
+    margin-bottom: 10px;
+}
+
+hr {
+    width: 30%;
+    margin-left: 0;
+}
+
+#new-button {
+    background-color: #000000;
+    color: white;
+    width: 15%;
+    height: 25px;
+    font-size: 15px;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin: 20px 0;
+    margin-left: 8.5%;
+    border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 15px 40px 5px #EDEDED;
+}
+
+#create-button {
+    background-color: #8692A6;
+    color: white;
+    width: 30%;
+    height: 40px;
+    font-size: 20px;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin: 50px 0;
+    margin-left: 35%;
+    border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 15px 40px 5px #EDEDED;
+}

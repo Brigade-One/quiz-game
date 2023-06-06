@@ -69,6 +69,7 @@ class PackageRepository
         } catch (\PDOException $e) {
             throw new \PDOException($e->getMessage(), (int) $e->getCode());
         }
+        
         $packages = [];
         while ($packageData = $statement->fetch(PDO::FETCH_ASSOC)) {
             $package = new Package(

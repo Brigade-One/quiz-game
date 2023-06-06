@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet" />
+    <link href="http://quiz-game/client/src/css/header.css" rel="stylesheet" />
+    <title>Document</title>
+    <script>
+        let user_name_storage = localStorage.getItem("username");
+        if(user_name_storage != "Guest"){
+            if(user_name_storage != null){
+                document.getElementById("user-name").innerText = user_name_storage;
+            }             
+        }
+    </script>
+</head>
+
+<body>
+    <div class="header">
+        <div class="header_logo">
+            <a href="http://quiz-game/client/pages/index.php" id="Logo">Quiz</a>
+        </div>
+        
+        <div class=" header_nav">
+            <div class="header_cart">
+                <a href="http://quiz-game/client/pages/profile.php">
+                    <img src="http://quiz-game/client/assets/images/profile_image.jpg" alt="Profile image" class="profile-image">
+                </a>
+            </div>
+            <div class="header_user">
+                <a href="http://quiz-game/client/pages/profile.php" id="user-name">Guest</a>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+
+
+</html>

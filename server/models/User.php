@@ -1,7 +1,7 @@
 <?php
 
 namespace Server\Models;
-use Server\Models\User\UserRole;
+use Server\Models\UserRole;
 
 class User
 {
@@ -68,5 +68,13 @@ class User
             return false;
         }
         return true;
+    }
+    public function toJSON(){
+        return json_encode([
+            'id' => $this->id,
+            'name' => $this->name,
+            'email' => $this->email,
+            'role' => $this->role,
+        ]);
     }
 }

@@ -1,0 +1,103 @@
+#home-button {
+    background-color: #FBF9F9;
+    color: #8692A6;
+    width: 70%;
+    height: 50px;
+    font-size: 20px;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin: 20px 0;
+    border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#profile-button {
+    background-color: #FBF9F9;
+    color: #8692A6;
+    width: 70%;
+    height: 50px;
+    font-size: 20px;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin: 20px 0;
+    border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#profile-picture {
+    margin-top: 5%;
+    margin-left: 5%;
+    height: 200px;
+    width: 200px;
+    border-radius: 10%;
+    float: right;
+}
+
+#profile_name {
+    margin-top: 2.5%;
+    margin-left: 2%;
+    font-family: "Poppins", sans-serif;
+    font-size: 20px;
+    opacity: 0.7;
+}
+
+.top {
+    height: 50%;
+    width: 70%;
+}
+
+.bottom {
+    height: 30%;
+    width: 70%;
+}
+
+.flag {
+    height: 50px;
+    width: 50px;
+}
+
+#correct-answers {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#fastest-time {
+    float: right;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flag-result {
+    position: relative;
+    display: flex;
+    margin-left: 5%;
+    align-items: center;
+}
+
+#logout {
+    background-color: orange;
+    color: white;
+    width: 10%;
+    height: 50px;
+    font-size: 20px;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+
+    margin: 20px 0;
+    border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: 10%;
+    right: 5%;
+}
