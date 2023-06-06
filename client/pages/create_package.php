@@ -42,11 +42,11 @@
       <div id="question"><label for="question_text">Add questions</label>
         <div class="question_info">
           <h5 class="question_number">#1</h5>
-          <input type="text" id="question_text_value" placeholder="Enter question text"></input>
+          <input type="text" class="question_text_value" placeholder="Enter question text" required></input>
           <div style="display:flex">
             <div style="flex:49.5;width:10%;">
-              <input type="text" id="answer_value" placeholder="Enter answer"></input><span> </span><input type="text"
-                placeholder="Enter hint" id="hint_value"></input>
+              <input type="text" class="answer_value" placeholder="Enter answer" required></input><span> </span><input type="text"
+                placeholder="Enter hint" class="hint_value"></input>
             </div>
             <div style="flex:50.5;">
             </div>
@@ -58,9 +58,9 @@
         <span class="button-text">+ Add a question</span>
       </button>
       <div id="creation">
-        <button id="create-button">
-          <span class="button-text">Create</span>
-        </button>
+        <input type=submit id="create-button" value="Create">
+         
+        </input>
       </div>
     </div>
   </div>
@@ -80,11 +80,10 @@
 
   questionNumber.text("#" + (totalQuestions + 1));
   $("#question").append(clonedQuestionInfo);
-});
-
+  });
 
 
   </script>
-
+  <script type="module" src="../src/js/create_package.js"></script>
 
 </html>

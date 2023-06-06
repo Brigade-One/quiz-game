@@ -23,8 +23,6 @@ export class Package {
         xhr.open("GET", "../../server/server.php/" + url);
         xhr.onreadystatechange = () => {
             if (xhr.readyState === XMLHttpRequest.DONE) {
-                console.log("Done");
-                console.log(xhr);
                 if (xhr.status === 200) {
                    console.dir(xhr);
                     
@@ -36,4 +34,25 @@ export class Package {
         };
         xhr.send();
     }
+
+
+    createPackageHandleHttpRequest(url, package_name, question_list) {
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", "../../server/server.php/" + url);
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                   console.dir(xhr);
+                    
+                    // Add a 1.5 second delay before redirecting to the index page
+                } else {
+                    
+                }
+            }
+        };
+        console.log(package_name);
+        console.log(question_list);
+        xhr.send("package_name="+package_name+"&question_list="+question_list);
+    }
+
 }
