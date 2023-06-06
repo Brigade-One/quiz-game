@@ -40,7 +40,7 @@ export class Package {
     }
 
 
-    sendQuestionHandleHttpRequest(url, question) {
+    sendQuestionHandleHttpRequest1(url, question) {
         const xhr = new XMLHttpRequest();
         xhr.open("POST", "../../server/server.php/" + url);
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -58,6 +58,26 @@ export class Package {
 
         console.log(question);
         xhr.send("question_text="+question.question+"&question_answer"+question.answer+"&question_hint"+question.hint);
+    }
+
+    sendQuestionHandleHttpRequest(url, json_list) {
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "../../server/server.php/" + url);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                   console.dir(xhr);
+                    
+                    // Add a 1.5 second delay before redirecting to the index page
+                } else {
+                    
+                }
+            }
+        };
+
+        console.log(json_list);
+        xhr.send("question_list="+json_list);
     }
 
     sendPackageNameHandleHttpRequest(url, package_name) {
