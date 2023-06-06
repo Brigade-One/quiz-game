@@ -8,6 +8,7 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
     </style>
+    
 </head>
 
 <body>
@@ -40,16 +41,10 @@
                         <td>1</td>
                         <td>PackageName</td>
                         <td>20 Question </td>
-                        <td><button class="select_button"
-                                onclick="window.location.href='https://www.example.com'">Select</button></td>
+                        <td><a class="select_button"
+                                href = "https://www.example.com">Select</a></td>
                     </tr>
-                    <tr class="ordinary_row">
-                        <td>2</td>
-                        <td>PackageName</td>
-                        <td>20 Question </td>
-                        <td><button class="select_button"
-                                onclick="window.location.href='https://www.example.com'">Select</button></td>
-                    </tr>
+                    
                     
                 </table>
             </div>

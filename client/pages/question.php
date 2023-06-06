@@ -9,6 +9,10 @@
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
     </style>        
     <script type="module" src="http://quiz-game/client/src/js/timer.js"></script>
+    <script>
+      let PackageID = <?php echo json_encode($_GET["packageID"]); ?>;
+      console.log(value);
+    </script>
 </head>
 
 <body>
@@ -80,6 +84,7 @@
 
 <script>
     $("#header").load("widgets/header.html");
+
 </script>
     
 

@@ -119,7 +119,8 @@ $router->addRoute('GET', '/public_packages', function () use ($db): array {
         new QueryExecutor($db->getConnection()),
         new IDGenerator()
     );
-    return $pr->fetchPublicPackages();
+    echo json_encode( $pr->fetchPublicPackages());
+    return [];
 });
 
 // Listen for incoming client requests
