@@ -1,4 +1,5 @@
 <?php
+
 namespace Server\Repository;
 
 use Server\Models\QuestionThemeLink;
@@ -19,7 +20,9 @@ class QuestionThemeLinkRepository
 
     public function fetchAll(): array
     {
-        $query = "SELECT * FROM QuestionThemeLink";
+        $query =
+            "SELECT *"
+            . " FROM QuestionThemeLink";
         try {
             $statement = $this->queryExecutor->execute($query, []);
         } catch (\PDOException $e) {
@@ -41,7 +44,9 @@ class QuestionThemeLinkRepository
 
     public function fetchByID(string $id): ?QuestionThemeLink
     {
-        $query = "SELECT * FROM QuestionThemeLink WHERE linkID = :linkID";
+        $query =
+            "SELECT *"
+            . " FROM QuestionThemeLink WHERE linkID = :linkID";
         $parameters = [
             ':linkID' => $id
         ];
@@ -67,9 +72,11 @@ class QuestionThemeLinkRepository
     }
     public function fetchThemesByQuestionID(string $questionID): array
     {
-        $query = "SELECT * FROM QuestionThemeLink
-        JOIN Themes ON QuestionThemeLink.themeID = Themes.themeID
-        WHERE questionID = :questionID";
+        $query =
+            "SELECT *"
+            . " FROM QuestionThemeLink"
+            . " JOIN Themes ON QuestionThemeLink.themeID = Themes.themeID"
+            . " WHERE questionID = :questionID";
         try {
             $statement = $this->queryExecutor->execute($query, [':questionID' => $questionID]);
         } catch (\PDOException $e) {
@@ -95,7 +102,9 @@ class QuestionThemeLinkRepository
         $generatedLink = $this->idGenerator->generateID();
         $link->setLinkID($generatedLink);
 
-        $query = "INSERT INTO QuestionThemeLink (linkID, questionID, themeID) VALUES (:linkID, :questionID, :themeID)";
+        $query =
+            "INSERT INTO QuestionThemeLink (linkID, questionID, themeID)"
+            . " VALUES (:linkID, :questionID, :themeID)";
         $parameters = [
             ':linkID' => $generatedLink,
             ':questionID' => $link->getQuestionID(),
@@ -112,7 +121,10 @@ class QuestionThemeLinkRepository
 
     public function update(QuestionThemeLink $link): bool
     {
-        $query = "UPDATE QuestionThemeLink SET questionID = :questionID, themeID = :themeID WHERE linkID = :linkID";
+        $query =
+            "UPDATE QuestionThemeLink"
+            . " SET questionID = :questionID, themeID = :themeID"
+            . " WHERE linkID = :linkID";
         $parameters = [
             ':linkID' => $link->getLinkID(),
             ':questionID' => $link->getQuestionID(),
@@ -129,7 +141,9 @@ class QuestionThemeLinkRepository
 
     public function delete(QuestionThemeLink $link): bool
     {
-        $query = "DELETE FROM QuestionThemeLink WHERE linkID = :linkID";
+        $query =
+            "DELETE FROM QuestionThemeLink"
+            . " WHERE linkID = :linkID";
         $parameters = [
             ':linkID' => $link->getLinkID()
         ];
@@ -144,7 +158,10 @@ class QuestionThemeLinkRepository
     }
     private function checkIfLinkExists(QuestionThemeLink $link): bool
     {
-        $query = "SELECT * FROM QuestionThemeLink WHERE questionID = :questionID AND themeID = :themeID";
+        $query =
+            "SELECT *"
+            . " FROM QuestionThemeLink"
+            . " WHERE questionID = :questionID AND themeID = :themeID";
         $parameters = [
             ':questionID' => $link->getQuestionID(),
             ':themeID' => $link->getThemeID()

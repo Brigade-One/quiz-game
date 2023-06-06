@@ -1,4 +1,5 @@
 <?php
+
 namespace Server\Repository;
 
 use Server\Models\Package;
@@ -19,7 +20,9 @@ class PackageRepository
     }
     public function fetchAll(): array
     {
-        $query = "SELECT * from packages";
+        $query =
+            "SELECT *"
+            . " FROM Packages";
         try {
             $statement = $this->queryExecutor->execute($query, []);
         } catch (\PDOException $e) {
@@ -38,7 +41,10 @@ class PackageRepository
     }
     public function fetchByID(string $id)
     {
-        $query = "SELECT * from packages where packageID = :packageID";
+        $query =
+            "SELECT *"
+            . " FROM Packages"
+            . " WHERE packageID = :packageID";
         $parameters = [':packageID' => $id];
         try {
             $statement = $this->queryExecutor->execute($query, $parameters);
@@ -55,7 +61,9 @@ class PackageRepository
     }
     public function fetchPublicPackages(): array
     {
-        $query = "SELECT * from packages where isApproved = 1";
+        $query =
+            "SELECT *"
+            . " FROM Packages where isApproved = 1";
         try {
             $statement = $this->queryExecutor->execute($query, []);
         } catch (\PDOException $e) {
@@ -74,7 +82,9 @@ class PackageRepository
     }
     public function create(Package $package): bool
     {
-        $query = "INSERT INTO packages (packageID, name,isApproved) VALUES (:packageID, :name,  :isApproved)";
+        $query =
+            "INSERT INTO Packages (packageID, name, isApproved)"
+            . " VALUES (:packageID, :name, :isApproved)";
         $packageID = $this->idGenerator->generateID();
 
         $package->setPackageID($packageID);
@@ -94,7 +104,10 @@ class PackageRepository
     }
     public function update(Package $package): bool
     {
-        $query = "UPDATE packages SET name = :name,  isApproved = :isApproved WHERE packageID = :packageID";
+        $query =
+            "UPDATE Packages"
+            . " SET name = :name, isApproved = :isApproved"
+            . " WHERE packageID = :packageID";
         $parameters = [
             ':packageID' => $package->getPackageID(),
             ':name' => $package->getName(),
@@ -110,7 +123,9 @@ class PackageRepository
 
     public function delete(Package $package)
     {
-        $query = "DELETE FROM packages WHERE packageID = :packageID";
+        $query =
+            "DELETE FROM Packages"
+            . " WHERE packageID = :packageID";
         $parameters = [
             ':packageID' => $package->getPackageID()
         ];
