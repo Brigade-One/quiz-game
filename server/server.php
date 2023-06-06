@@ -48,7 +48,7 @@ $router->addRoute('POST', '/sign_in', function () use ($db) {
     );
     $user = $ur->fetchByEmail($_POST['email']);
     echo ($user->getPassword() === $_POST['password'])
-        ? json_encode($user->toJSON())
+        ?  $user->toJSON() 
         : null;
 });
 

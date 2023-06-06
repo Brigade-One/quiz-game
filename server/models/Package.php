@@ -42,13 +42,13 @@ class Package
         $this->packageID = $packageID;
     }
 
-    public function toJSON(): array
+    public function toJSON(): string
     {
-        return [
+        return json_encode([
             'packageID' => $this->packageID,
             'name' => $this->name,
             'isApproved' => $this->isApproved,
-        ];
+        ]);
     }
 
     public static function fromJSON(string $json): Package
