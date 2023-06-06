@@ -36,11 +36,8 @@ $router->addRoute('POST', '/sign_up', function () use ($db): bool {
         UserRole::RegularUser
     );
     if ($ur->create($user)) {
-        echo "We have a new user!";
         echo json_encode($user);
-        return json_encode($user);
     }
-    echo "We have a problem!";
     return false;
 });
 
