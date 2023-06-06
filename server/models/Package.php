@@ -42,4 +42,12 @@ class Package
         $this->packageID = $packageID;
     }
 
+    public function toJSON(): array
+    {
+        return [
+            'packageID' => $this->packageID,
+            'name' => $this->name,
+            'isApproved' => $this->isApproved,
+        ];
+    }
 }

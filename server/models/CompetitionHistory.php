@@ -98,4 +98,30 @@ class CompetitionHistory
     {
         $this->totalQuestions = $totalQuestions;
     }
+    public function toJSON(): array
+    {
+        return [
+            'historyID' => $this->historyID,
+            'player1ID' => $this->player1ID,
+            'player2ID' => $this->player2ID,
+            'packageID' => $this->packageID,
+            'competitionDate' => $this->competitionDate ? $this->competitionDate->format('Y-m-d H:i:s') : null,
+            'player1CorrectAnswers' => $this->player1CorrectAnswers,
+            'player2CorrectAnswers' => $this->player2CorrectAnswers,
+            'totalQuestions' => $this->totalQuestions
+        ];
+    }
+    public static function fromJSON(array $json): CompetitionHistory
+    {
+        return new CompetitionHistory(
+            $json['historyID'] ?? null,
+            $json['player1ID'],
+            $json['player2ID'],
+            $json['packageID'],
+            $json['competitionDate'] ?? null,
+            $json['player1CorrectAnswers'],
+            $json['player2CorrectAnswers'],
+            $json['totalQuestions']
+        );
+    }
 }

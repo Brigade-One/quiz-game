@@ -31,4 +31,13 @@ class CompetitionPackage
         $this->packageID = $packageID;
     }
 
+    public function toJSON(): array
+    {
+        return [
+            'packageID' => $this->packageID,
+            'name' => $this->name,
+        ];
+    }
+
+    
 }

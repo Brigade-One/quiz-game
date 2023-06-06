@@ -44,4 +44,14 @@ class PackageQuestionLink
     {
         $this->questionID = $questionID;
     }
+
+
+    public function toJSON()
+    {
+        return json_encode([
+            'linkID' => $this->linkID,
+            'packageID' => $this->packageID,
+            'questionID' => $this->questionID,
+        ]);
+    }
 }

@@ -75,4 +75,16 @@ class TrainingHistory
     {
         $this->totalQuestions = $totalQuestions;
     }
+
+    public function toJSON()
+    {
+        return json_encode([
+            'historyID' => $this->historyID,
+            'userID' => $this->userID,
+            'packageID' => $this->packageID,
+            'trainingDate' => $this->trainingDate,
+            'correctAnswers' => $this->correctAnswers,
+            'totalQuestions' => $this->totalQuestions,
+        ]);
+    }
 }
