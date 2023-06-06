@@ -38,6 +38,13 @@ class CompetitionPackage
             'name' => $this->name,
         ];
     }
+    public static function fromJSON(array $json): CompetitionPackage
+    {
+        return new CompetitionPackage(
+            $json['packageID'],
+            $json['name'],
+        );
+    }
 
-    
+
 }

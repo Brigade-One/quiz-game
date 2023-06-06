@@ -60,4 +60,13 @@ class UserPackageLink
         ]);
     }
 
+    public static function fromJSON(array $json): UserPackageLink
+    {
+        return new UserPackageLink(
+            $json['linkID'],
+            $json['userID'],
+            $json['packageID'],
+        );
+    }
+
 }

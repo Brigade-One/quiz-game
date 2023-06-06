@@ -79,4 +79,14 @@ class User
             'role' => $this->role,
         ]);
     }
+    public static function fromJSON(array $json): User
+    {
+        return new User(
+            $json['id'],
+            $json['name'],
+            $json['email'],
+            $json['password'],
+            $json['role'],
+        );
+    }
 }

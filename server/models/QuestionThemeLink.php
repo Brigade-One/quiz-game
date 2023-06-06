@@ -59,4 +59,14 @@ class QuestionThemeLink
             'themeID' => $this->themeID,
         ]);
     }
+
+    public static function fromJSON(array $json): QuestionThemeLink
+    {
+        return new QuestionThemeLink(
+            $json['linkID'],
+            $json['questionID'],
+            $json['themeID'],
+        );
+    }
+
 }

@@ -87,4 +87,16 @@ class TrainingHistory
             'totalQuestions' => $this->totalQuestions,
         ]);
     }
+    public static function fromJSON(array $json): TrainingHistory
+    {
+        return new TrainingHistory(
+            $json['historyID'],
+            $json['userID'],
+            $json['packageID'],
+            $json['trainingDate'],
+            $json['correctAnswers'],
+            $json['totalQuestions'],
+        );
+    }
+
 }

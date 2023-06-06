@@ -77,4 +77,15 @@ class Question
             'difficulty' => $this->difficulty,
         ]);
     }
+    public static function fromJSON(array $json): Question
+    {
+        return new Question(
+            $json['questionID'],
+            $json['question'],
+            $json['answer'],
+            $json['hint'],
+            $json['difficulty'],
+        );
+    }
+
 }

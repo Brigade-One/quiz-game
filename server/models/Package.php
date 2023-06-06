@@ -50,4 +50,13 @@ class Package
             'isApproved' => $this->isApproved,
         ];
     }
+
+    public static function fromJSON(array $json): Package
+    {
+        return new Package(
+            $json['packageID'],
+            $json['name'],
+            $json['isApproved'],
+        );
+    }
 }
