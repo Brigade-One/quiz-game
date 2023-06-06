@@ -1,4 +1,5 @@
 <?php
+
 namespace Server\Repository;
 
 use Server\Models\Question;
@@ -17,7 +18,9 @@ class QuestionRepository
     }
     public function fetchAll(): array
     {
-        $query = "SELECT * FROM  questions";
+        $query =
+            "SELECT *"
+            . " FROM Questions";
 
         try {
             $statement = $this->queryExecutor->execute($query, []);
@@ -40,7 +43,10 @@ class QuestionRepository
     }
     public function fetchByID(string $id): ?Question
     {
-        $query = "SELECT * FROM Questions WHERE questionID = :questionID";
+        $query =
+            "SELECT *"
+            . " FROM Questions"
+            . " WHERE questionID = :questionID";
 
         $parameters = [
             ':questionID' => $id
@@ -68,8 +74,9 @@ class QuestionRepository
         if ($this->checkIfQuestionExists($question)) {
             throw new \PDOException("Question already exists", 400);
         }
-        $query = "INSERT INTO questions (questionID, question, answer, hint, difficulty)
-        VALUES (:questionID, :question, :answer, :hint,  :difficulty)";
+        $query =
+            "INSERT INTO Questions (questionID, question, answer, hint, difficulty)"
+            . " VALUES (:questionID, :question, :answer, :hint, :difficulty)";
 
         $questionID = $this->idGenerator->generateID();
         $question->setQuestionID($questionID);
@@ -90,9 +97,10 @@ class QuestionRepository
     }
     public function update(Question $question): bool
     {
-        $query = "UPDATE questions
-    SET  question = :question, answer = :answer, hint = :hint, difficulty = :difficulty
-    WHERE questionID = :questionID";
+        $query =
+            "UPDATE Questions"
+            . " SET question = :question, answer = :answer, hint = :hint, difficulty = :difficulty"
+            . " WHERE questionID = :questionID";
 
         $parameters = [
             ':questionID' => $question->getQuestionID(),
@@ -113,7 +121,9 @@ class QuestionRepository
 
     public function delete(Question $question): bool
     {
-        $query = "DELETE FROM questions WHERE questionID = :questionID";
+        $query =
+            "DELETE FROM Questions"
+            . " WHERE questionID = :questionID";
 
         $parameters = [
             ':questionID' => $question->getQuestionID()
@@ -128,7 +138,9 @@ class QuestionRepository
 
     private function checkIfQuestionExists(Question $question): bool
     {
-        $query = "SELECT * FROM questions WHERE question = :question";
+        $query =
+            "SELECT * FROM Questions"
+            . " WHERE question = :question";
 
         $parameters = [
             ':question' => $question->getQuestion()

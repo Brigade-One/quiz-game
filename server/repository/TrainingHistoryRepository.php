@@ -1,4 +1,5 @@
 <?php
+
 namespace Server\Repository;
 
 use Server\Models\TrainingHistory;
@@ -18,7 +19,9 @@ class TrainingHistoryRepository
 
     public function fetchAll(): array
     {
-        $query = "SELECT * FROM TrainingHistory";
+        $query =
+            "SELECT *"
+            . " FROM TrainingHistory";
         try {
             $statement = $this->queryExecutor->execute($query, []);
         } catch (\PDOException $e) {
@@ -41,7 +44,10 @@ class TrainingHistoryRepository
     }
     public function fetchByID(string $historyID): TrainingHistory
     {
-        $query = "SELECT * FROM TrainingHistory WHERE historyID = :historyID";
+        $query =
+            "SELECT *"
+            . " FROM TrainingHistory"
+            . " WHERE historyID = :historyID";
 
         $parameters = [
             ':historyID' => $historyID
@@ -68,7 +74,10 @@ class TrainingHistoryRepository
 
     public function fetchByUserID(string $userID): array
     {
-        $query = "SELECT * FROM TrainingHistory WHERE userID = :userID";
+        $query =
+            "SELECT *"
+            . " FROM TrainingHistory"
+            . " WHERE userID = :userID";
 
         $parameters = [
             ':userID' => $userID
@@ -96,7 +105,10 @@ class TrainingHistoryRepository
 
     public function fetchUserTrainingAccuracyByUserID(string $userID): float
     {
-        $query = "SELECT SUM(correctAnswers)/SUM(totalQuestions) AS accuracy FROM TrainingHistory WHERE userID = :userID";
+        $query =
+            "SELECT SUM(correctAnswers)/SUM(totalQuestions) AS accuracy"
+            . " FROM TrainingHistory"
+            . " WHERE userID = :userID";
 
         $parameters = [
             ':userID' => $userID
@@ -116,7 +128,12 @@ class TrainingHistoryRepository
 
     public function fetchLastTrainingDate($userID)
     {
-        $query = "SELECT trainingDate FROM TrainingHistory WHERE userID = :userID ORDER BY trainingDate DESC LIMIT 1";
+        $query =
+            "SELECT trainingDate"
+            . " FROM TrainingHistory"
+            . " WHERE userID = :userID"
+            . " ORDER BY trainingDate DESC"
+            . " LIMIT 1";
 
         try {
             $statement = $this->queryExecutor->execute($query, [':userID' => $userID]);
@@ -139,7 +156,9 @@ class TrainingHistoryRepository
         if ($this->checkIfAlreadyExist($userID, $packageID, $trainingDate)) {
             throw new \Exception("This training history already exists");
         }
-        $query = "INSERT INTO TrainingHistory (historyID, userID, packageID, trainingDate, correctAnswers, totalQuestions) VALUES (:historyID, :userID, :packageID, :trainingDate, :correctAnswers, :totalQuestions)";
+        $query =
+            "INSERT INTO TrainingHistory (historyID, userID, packageID, trainingDate, correctAnswers, totalQuestions)"
+            . " VALUES (:historyID, :userID, :packageID, :trainingDate, :correctAnswers, :totalQuestions)";
         $generatedID = $this->idGenerator->generateID();
         $trainingHistory->setHistoryID($generatedID);
         $parameters = [
@@ -161,7 +180,10 @@ class TrainingHistoryRepository
 
     public function update(TrainingHistory $trainingHistory): bool
     {
-        $query = "UPDATE TrainingHistory SET userID = :userID, packageID = :packageID, trainingDate = :trainingDate, correctAnswers = :correctAnswers, totalQuestions = :totalQuestions WHERE historyID = :historyID";
+        $query =
+            "UPDATE TrainingHistory"
+            . " SET userID = :userID, packageID = :packageID, trainingDate = :trainingDate, correctAnswers = :correctAnswers, totalQuestions = :totalQuestions"
+            . " WHERE historyID = :historyID";
         $parameters = [
             ':historyID' => $trainingHistory->getHistoryID(),
             ':userID' => $trainingHistory->getUserID(),
@@ -179,7 +201,9 @@ class TrainingHistoryRepository
     }
     public function delete(string $historyID): bool
     {
-        $query = "DELETE FROM TrainingHistory WHERE historyID = :historyID";
+        $query =
+            "DELETE FROM TrainingHistory"
+            . " WHERE historyID = :historyID";
         $parameters = [
             ':historyID' => $historyID
         ];
@@ -192,7 +216,10 @@ class TrainingHistoryRepository
     }
     private function checkIfAlreadyExist(string $packageID, string $userID, string $trainingDate): bool
     {
-        $query = "SELECT * from  TrainingHistory WHERE packageID = :packageID AND userID = :userID AND trainingDate = :trainingDate";
+        $query =
+            "SELECT *"
+            . " FROM TrainingHistory"
+            . " WHERE packageID = :packageID AND userID = :userID AND trainingDate = :trainingDate";
         $parameters = [
             ':packageID' => $packageID,
             ':userID' => $userID,

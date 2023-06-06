@@ -1,4 +1,5 @@
 <?php
+
 namespace Server\Repository;
 
 use Server\Models\User;
@@ -18,9 +19,10 @@ class UserRepository
     }
     public function fetchAll(): array
     {
-        $query = "SELECT u.*
-                FROM users u
-                JOIN roles r ON u.roleID = r.roleID";
+        $query =
+            "SELECT u.*"
+            . " FROM Users u"
+            . " JOIN Roles r ON u.roleID = r.roleID";
         $parameters = [];
         try {
             $statement = $this->queryExecutor->execute($query, $parameters);
@@ -43,10 +45,11 @@ class UserRepository
 
     public function fetchByEmail(string $email): ?User
     {
-        $query = "SELECT u.*
-        FROM users u
-        JOIN roles r ON u.roleID = r.roleID
-        WHERE email = :email";
+        $query =
+            "SELECT u.*"
+            . " FROM Users u"
+            . " JOIN Roles r ON u.roleID = r.roleID"
+            . " WHERE email = :email";
 
         $parameters = [
             ':email' => $email
@@ -76,10 +79,11 @@ class UserRepository
 
     public function fetchById(string $id): ?User
     {
-        $query = "SELECT u.*
-        FROM users u
-        JOIN roles r ON u.roleID = r.roleID
-        WHERE userID = :id";
+        $query =
+            "SELECT u.*"
+            . " FROM Users u"
+            . " JOIN Roles r ON u.roleID = r.roleID"
+            . " WHERE userID = :id";
 
         $parameters = [
             ':id' => $id
@@ -117,7 +121,9 @@ class UserRepository
         }
 
         $uuid = $this->idGenerator->generateID();
-        $query = "INSERT INTO users (userID, username, email, password, roleID) VALUES (:id, :name, :email, :password, :roleID)";
+        $query =
+            "INSERT INTO Users (userID, username, email, password, roleID)"
+            . " VALUES (:id, :name, :email, :password, :roleID)";
         $parameters = [
             ':id' => $uuid,
             ':name' => $user->getName(),
@@ -140,9 +146,10 @@ class UserRepository
         if (!$user->validate()) {
             throw new \InvalidArgumentException('Invalid user data');
         }
-        $query = "UPDATE users SET username = :username,
-        email = :email, password = :password, roleID = :roleID
-        WHERE userID = :id";
+        $query =
+            "UPDATE Users"
+            . " SET username = :username, email = :email, password = :password, roleID = :roleID"
+            . " WHERE userID = :id";
         $parameters = [
             ':id' => $user->getId(),
             ':username' => $user->getName(),
@@ -165,7 +172,9 @@ class UserRepository
             throw new \InvalidArgumentException('Invalid user data');
         }
 
-        $query = "DELETE FROM users WHERE userID = :id";
+        $query =
+            "DELETE FROM Users"
+            . " WHERE userID = :id";
         $parameters = [
             ':id' => $user->getId()
         ];
@@ -180,7 +189,10 @@ class UserRepository
 
     private function checkIfEmailExists(string $email): bool
     {
-        $query = "SELECT COUNT(*) FROM users WHERE email = :email";
+        $query =
+            "SELECT COUNT(*)"
+            . " FROM Users"
+            . " WHERE email = :email";
         $parameters = [
             ':email' => $email
         ];
