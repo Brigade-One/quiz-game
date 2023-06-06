@@ -23,7 +23,7 @@ $db = new Database(
     new PDO('mysql:host=localhost;dbname=quiz_db', 'root', null)
 );
 
-$router->addRoute('POST', '/sign_up', function () use ($db): bool {
+$router->addRoute('POST', '/sign_up', function () use ($db) {
     $ur = new UserRepository(
         new QueryExecutor($db->getConnection()),
         new IDGenerator()
@@ -52,7 +52,7 @@ $router->addRoute('POST', '/sign_in', function () use ($db) {
         : null;
 });
 
-$router->addRoute('PUT', '/user', function () use ($db): bool {
+$router->addRoute('PUT', '/user', function () use ($db) {
     $ur = new UserRepository(
         new QueryExecutor($db->getConnection()),
         new IDGenerator()
@@ -64,10 +64,10 @@ $router->addRoute('PUT', '/user', function () use ($db): bool {
         $_POST['password'],
         UserRole::from($_POST['roleId'])
     );
-    return $ur->update($user);
+    $ur->update($user);
 });
 
-$router->addRoute('DELETE', '/user', function () use ($db): bool {
+$router->addRoute('DELETE', '/user', function () use ($db) {
     $ur = new UserRepository(
         new QueryExecutor($db->getConnection()),
         new IDGenerator()
@@ -76,13 +76,14 @@ $router->addRoute('DELETE', '/user', function () use ($db): bool {
     return $ur->delete($user);
 });
 
-$router->addRoute('POST', '/package', function () use ($db): bool {
+$router->addRoute('POST', '/package', function () use ($db) {
     $pr = new PackageRepository(
         new QueryExecutor($db->getConnection()),
         new IDGenerator()
     );
+
     $package = new Package(null, $_POST['name'], false);
-    return $pr->create($package);
+    $pr->create($package);
 });
 
 $router->addRoute('PUT', '/package', function () use ($db) {
@@ -93,33 +94,34 @@ $router->addRoute('PUT', '/package', function () use ($db) {
     $package = $pr->fetchByID($_POST['packageID']);
     $package->setIsApproved($_POST['isApproved']);
     $package->setName($_POST['name']);
+
     $pr->update($package);
 });
 
-$router->addRoute('DELETE', '/package', function () use ($db): bool {
+$router->addRoute('DELETE', '/package', function () use ($db) {
     $pr = new PackageRepository(
         new QueryExecutor($db->getConnection()),
         new IDGenerator()
     );
 
     $package = $pr->fetchByID($_POST['packageID']);
-    return $pr->delete($package);
+    $pr->delete($package);
 });
 
-$router->addRoute('GET', '/package', function () use ($db): ?\Server\Models\Package {
+$router->addRoute('GET', '/package', function () use ($db) {
     $pr = new PackageRepository(
         new QueryExecutor($db->getConnection()),
         new IDGenerator()
     );
-    return $pr->fetchByID($_GET['packageID']);
+    echo $pr->fetchByID($_GET['packageID'])->toJSON();
 });
 
-$router->addRoute('GET', '/public_packages', function () use ($db): array {
+$router->addRoute('GET', '/public_packages', function () use ($db) {
     $pr = new PackageRepository(
         new QueryExecutor($db->getConnection()),
         new IDGenerator()
     );
-    return $pr->fetchPublicPackages();
+    echo json_encode($pr->fetchPublicPackages());
 });
 
 // Listen for incoming client requests
