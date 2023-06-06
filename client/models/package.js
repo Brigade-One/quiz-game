@@ -36,9 +36,30 @@ export class Package {
     }
 
 
-    createPackageHandleHttpRequest(url, package_name, question_list) {
+    sendQuestionHandleHttpRequest(url, question) {
         const xhr = new XMLHttpRequest();
-        xhr.open("GET", "../../server/server.php/" + url);
+        xhr.open("POST", "../../server/server.php/" + url);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                   console.dir(xhr);
+                    
+                    // Add a 1.5 second delay before redirecting to the index page
+                } else {
+                    
+                }
+            }
+        };
+
+        console.log(question);
+        xhr.send("question_text="+question.question+"&question_answer"+question.answer+"&question_hint"+question.hint);
+    }
+
+    sendPackageNameHandleHttpRequest(url, package_name) {
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "../../server/server.php/" + url);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         xhr.onreadystatechange = () => {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 if (xhr.status === 200) {
@@ -51,8 +72,7 @@ export class Package {
             }
         };
         console.log(package_name);
-        console.log(question_list);
-        xhr.send("package_name="+package_name+"&question_list="+question_list);
-    }
 
+        xhr.send("package_name="+package_name);
+    }
 }
