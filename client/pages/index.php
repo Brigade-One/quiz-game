@@ -33,18 +33,20 @@
                 <ul>
                     <hr>
                     <li class="obligatory_item">
-                        <button onclick="window.location.href='http://quiz-game/client/pages/create_package.php'" class="listitem">
+                        <button onclick="window.location.href='http://quiz-game/client/pages/create_package.php'"
+                            class="listitem">
                             <span>Create new package</span>
                         </button>
                     </li>
                     <li class="obligatory_item">
-                        <button class="listitem">
+                        <button class="listitem" onclick="receivePackage()">
                             <span>Manage my packages</span>
                         </button>
                     </li>
                     <hr>
                     <li class="obligatory_item">
-                        <button class="listitem" onclick="window.location.href='http://quiz-game/client/pages/package_select.php'">
+                        <button class="listitem"
+                            onclick="window.location.href='http://quiz-game/client/pages/package_select.php'">
                             <span>Start training</span>
                         </button>
                     </li>
@@ -82,6 +84,19 @@
         $(document).ready(function () {
             $("#first-block").load("widgets/nav_buttons.html");
         });
+
+        function receivePackage() {
+            //TODO: send package ID to server and receive package questions
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', 'http://quiz-game/server/server.php/package_questions?packageID=65a9912a-2920-4ece-bce7-a0446f59bf95');
+            xhr.send();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    const package = JSON.parse(xhr.responseText);
+                    console.log(package);
+                }
+            }
+        }
     </script>
 
 

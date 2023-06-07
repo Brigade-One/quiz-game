@@ -26,6 +26,7 @@ class Question
     {
         return $this->answer === $answer;
     }
+
     public function getQuestionID(): ?string
     {
         return $this->questionID;

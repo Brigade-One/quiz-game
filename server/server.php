@@ -152,12 +152,13 @@ $router->addRoute('GET', '/public_packages', function () use ($conn, $json) {
     echo json_encode($pr->fetchPublicPackages());
 });
 
-$router->addRoute('POST', '/package_questions', function () use ($conn, $json) {
+$router->addRoute('GET', '/package_questions', function () use ($conn, $json) {
     $qr = new PackageQuestionLinkRepository(
         new QueryExecutor($conn),
         new IDGenerator()
     );
-    $packageID = json_decode($json);
+    
+    $packageID =  $_GET['packageID'];
     $questions = $qr->fetchQuestionsByPackageID($packageID);
     foreach ($questions as $question) {
         echo $question->toJSON();

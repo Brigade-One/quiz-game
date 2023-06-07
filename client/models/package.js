@@ -1,5 +1,5 @@
 export class Package {
-    constructor(name, isApproved=false) {
+    constructor(name, isApproved = false) {
         this.name = name;
         this.isApproved = isApproved;
     }
@@ -24,15 +24,15 @@ export class Package {
         xhr.onreadystatechange = () => {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 if (xhr.status === 200) {
-                   console.dir(JSON.parse(xhr.response));
+                    console.dir(JSON.parse(xhr.response));
                     let result = JSON.parse(xhr.response);
-                    for (const i of result){
+                    for (const i of result) {
                         console.log(i);
-                        $("#package_table").html($("#package_table").html()+ '<tr class="ordinary_row"><td>1</td><td>'+i.name+'</td><td>20 Question </td><td><a class="select_button" href = "http://quiz-game/client/pages/question.php?packageID='+i.packageID+'">Select</a></td></tr>')
+                        $("#package_table").html($("#package_table").html() + '<tr class="ordinary_row"><td>1</td><td>' + i.name + '</td><td>20 Question </td><td><a class="select_button" href = "http://quiz-game/client/pages/question.php?packageID=' + i.packageID + '">Select</a></td></tr>')
                     }
                     // Add a 1.5 second delay before redirecting to the index page
                 } else {
-                    
+
                 }
             }
         };
@@ -47,11 +47,11 @@ export class Package {
         xhr.onreadystatechange = () => {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 if (xhr.status === 200) {
-                   console.dir(xhr);
-                    
+                    console.dir(xhr);
+
                     // Add a 1.5 second delay before redirecting to the index page
                 } else {
-                    
+
                 }
             }
         };
@@ -68,17 +68,17 @@ export class Package {
         xhr.onreadystatechange = () => {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 if (xhr.status === 200) {
-                   console.dir(xhr);
-                    
+                    console.dir(xhr);
+
                     // Add a 1.5 second delay before redirecting to the index page
                 } else {
-                    
+
                 }
             }
         };
 
         console.log(json_list);
-        xhr.send("name="+json_list);
+        xhr.send("name=" + json_list);
     }
 
     sendPackageNameHandleHttpRequest(url, package_name) {
@@ -88,16 +88,16 @@ export class Package {
         xhr.onreadystatechange = () => {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 if (xhr.status === 200) {
-                   console.dir(xhr);
-                    
+                    console.dir(xhr);
+
                     // Add a 1.5 second delay before redirecting to the index page
                 } else {
-                    
+
                 }
             }
         };
         console.log(package_name);
 
-        xhr.send("package_name="+package_name);
+        xhr.send("package_name=" + package_name);
     }
 }
