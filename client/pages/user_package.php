@@ -37,12 +37,7 @@
                         <th>Question amount</th>
                     </tr>
 
-                    <tr class="ordinary_row">
-                        <td>1</td>
-                        <td>PackageName</td>
-                        <td>20 Question </td>
-                        <td><a class="select_button" href="https://www.example.com">Select</a></td>
-                    </tr>
+                    
 
 
                 </table>
@@ -66,8 +61,12 @@
             xhr.send();
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4 && xhr.status === 200) {
-                    const package = JSON.parse(xhr.responseText);
-                    console.log(package);
+                    console.log(xhr);
+                    const response = xhr.response;
+                    const packages = JSON.parse(response);
+                    packages.forEach(function (package){
+                        console.log(package);
+                    })
                 }
             }
         }
