@@ -11,6 +11,7 @@ use Server\Repository\Database;
 use Server\Repository\QueryExecutor;
 use Server\Repository\IDGenerator;
 use Server\Repository\PackageQuestionLinkRepository;
+use Server\Repository\UserPackageLinkRepository;
 use Server\Repository\UserRepository;
 use Server\Repository\PackageRepository;
 use Server\Repository\QuestionRepository;
@@ -48,7 +49,7 @@ $router->addRoute('POST', '/sign_up', function () use ($conn, $json) {
         echo $user->toJSON();
     }
 });
-
+// Works
 $router->addRoute('POST', '/sign_in', function () use ($conn, $json) {
     $ur = new UserRepository(
         new QueryExecutor($conn),
@@ -151,14 +152,29 @@ $router->addRoute('GET', '/public_packages', function () use ($conn, $json) {
 
     echo json_encode($pr->fetchPublicPackages());
 });
+// Works
+$router->addRoute('GET', '/user_packages', function () use ($conn, $json) {
+    $uplr = new UserPackageLinkRepository(
+        new QueryExecutor($conn),
+        new IDGenerator()
+    );
 
+    $userID = $_GET['userID'];
+    $packages = $uplr->fetchPackagesByUserID($userID);
+
+    foreach ($packages as $package) {
+        echo $package->toJSON();
+    }
+});
+
+// Works
 $router->addRoute('GET', '/package_questions', function () use ($conn, $json) {
     $qr = new PackageQuestionLinkRepository(
         new QueryExecutor($conn),
         new IDGenerator()
     );
-    
-    $packageID =  $_GET['packageID'];
+
+    $packageID = $_GET['packageID'];
     $questions = $qr->fetchQuestionsByPackageID($packageID);
     foreach ($questions as $question) {
         echo $question->toJSON();
