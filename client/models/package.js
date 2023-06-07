@@ -57,7 +57,8 @@ export class Package {
         };
 
         console.log(question);
-        xhr.send("question_text="+question.question+"&question_answer"+question.answer+"&question_hint"+question.hint);
+        //xhr.send("question_text="+question.question+"&question_answer"+question.answer+"&question_hint"+question.hint);
+        xhr.send(question);
     }
 
     sendQuestionHandleHttpRequest(url, json_list) {
@@ -77,7 +78,7 @@ export class Package {
         };
 
         console.log(json_list);
-        xhr.send("question_list="+json_list);
+        xhr.send("name="+json_list);
     }
 
     sendPackageNameHandleHttpRequest(url, package_name) {

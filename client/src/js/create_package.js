@@ -18,10 +18,10 @@ $("#create-button").click(function (event) {
     let question = new Question(text_elements[i].value, answer_elements[i].value, hint_elements[i].value);
     question_list[i] = question.toJSON();
     // do something with value
-    //packages.sendQuestionHandleHttpRequest("create_question", question);
+    packages.sendQuestionHandleHttpRequest("question", question.toJSON());
     }
-    packages.sendQuestionHandleHttpRequest("create_question", question_list);
-    packages.sendPackageNameHandleHttpRequest("create_package", package_name);
+    //packages.sendQuestionHandleHttpRequest("question", question_list);
+    packages.sendPackageNameHandleHttpRequest("package", package_name);
     //packages.createPackageHandleHttpRequest("create_package", package_name, JSON.stringify(question_list));
 
 });
