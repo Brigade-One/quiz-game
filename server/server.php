@@ -6,6 +6,7 @@ use Server\Models\PackageQuestionLink;
 use Server\Models\User;
 use Server\Models\Package;
 use Server\Models\Question;
+use Server\Models\UserPackageLink;
 use Server\Repository\Database;
 use Server\Repository\QuestionRepository;
 use Server\Repository\QueryExecutor;
@@ -115,11 +116,19 @@ $router->addRoute('POST', '/create_package', function () use ($conn, $json) {
         new QueryExecutor($conn),
         new IDGenerator()
     );
-
+    $ur = new UserRepository(
+        new QueryExecutor($conn),
+        new IDGenerator()
+    );
+    $uplr = new UserPackageLinkRepository(
+        new QueryExecutor($conn),
+        new IDGenerator()
+    );
     $decodedJSON = json_decode($json);
 
     // Retrieve package name and questions from JSON
     $packageName = $decodedJSON->packageName;
+    $userID = $decodedJSON->userID;
     $receivedQuestions = $decodedJSON->questions;
 
     // Create package and questions instances from received data
@@ -147,6 +156,17 @@ $router->addRoute('POST', '/create_package', function () use ($conn, $json) {
             echo 'Something went wrong while linking questions to package';
         }
     }
+
+    // Link user to package
+    $upl = new UserPackageLink(
+        null,
+        $userID,
+        $package->getPackageID(),
+    );
+    if (!$uplr->create($upl)) {
+        echo 'Something went wrong while linking user to package';
+    }
+
     echo "Package created successfully";
 });
 
