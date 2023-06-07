@@ -32,11 +32,7 @@ $conn = (new Database(
 
 if ($method != 'GET') {
     $post_data = json_decode(file_get_contents('php://input'));
-    echo "ok";
-    echo $post_data;
-    print_r($post_data);
 }
-echo "not ok";
 $router->addRoute('POST', '/sign_up', function () use ($conn, $post_data) {
     $ur = new UserRepository(
         new QueryExecutor($conn),

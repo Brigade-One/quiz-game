@@ -19,14 +19,7 @@
 
   <div style="display: flex;">
     <div style="flex: 1;" id="first-block">
-      <button onclick="window.location.href='http://quiz-game/client/pages/index.php'" id="home-button">
-        <img src="http://quiz-game/client/assets/images/home_button_image.jpg" alt="Image">
-        <span class="button-text">Home</span>
-      </button>
-      <button id="profile-button">
-        <img src="http://quiz-game/client/assets/images/profile.png" alt="Image">
-        <span class="button-text">Profile</span>
-      </button>
+      
     </div>
 
     <div style="flex: 5;" id="second-block">
@@ -67,6 +60,9 @@
 
   <script>
     $("#header").load("widgets/header.html");
+      $(document).ready(function () {
+        $("#first-block").load("widgets/nav_buttons.html");
+    });
 
     // Add a click event listener to the add question button
     $("#new-button").click(function () {
