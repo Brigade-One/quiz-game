@@ -58,7 +58,7 @@ class PackageQuestionLinkRepository
         $questions = [];
         while ($questionData = $statement->fetch(PDO::FETCH_ASSOC)) {
             $question = $questionRepository->fetchByID($questionData['questionID']);
-            $questions[] = $question;
+            $questions[] = $question->toJSON();
         }
         return $questions;
     }

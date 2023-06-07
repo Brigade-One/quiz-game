@@ -37,13 +37,7 @@
                         <th>Question amount</th>
                     </tr>
 
-                    <tr class="ordinary_row">
-                        <td>1</td>
-                        <td>PackageName</td>
-                        <td>20 Question </td>
-                        <td><a class="select_button"
-                                href = "https://www.example.com">Select</a></td>
-                    </tr>
+                
                     
                     
                 </table>

@@ -68,9 +68,10 @@ $router->addRoute('GET', '/public_packages', function () use ($conn, $json) {
     );
 
     $packages = $pr->fetchPublicPackages();
-    foreach ($packages as $package) {
-        echo $package->toJSON();
-    }
+    echo json_encode($packages);
+    //foreach ($packages as $package) {
+    //    echo $package->toJSON();
+    //}
 });
 
 // Works
@@ -98,9 +99,10 @@ $router->addRoute('GET', '/package_questions', function () use ($conn, $json) {
 
     $packageID = $_GET['packageID'];
     $questions = $qr->fetchQuestionsByPackageID($packageID);
-    foreach ($questions as $question) {
-        echo $question->toJSON();
-    }
+    echo json_encode($questions);
+    //foreach ($questions as $question) {
+    //    echo $question->toJSON();
+    //}
 });
 // Works
 $router->addRoute('POST', '/create_package', function () use ($conn, $json) {

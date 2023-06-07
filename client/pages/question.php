@@ -11,6 +11,12 @@
     <script type="module" src="http://quiz-game/client/src/js/timer.js"></script>
     <script>
       const PackageID = <?php echo json_encode($_GET["packageID"]); ?>;
+      const questionNumber = <?php echo json_encode($_GET["questionNumber"]); ?>;
+      questionText = localStorage.getItem("question"+questionNumber);
+      answerText = localStorage.getItem("answer"+questionNumber);
+      hintText = localStorage.getItem("hint"+questionNumber);
+      console.log(questionText);
+      //console.log(questionNumber);
     </script>
 </head>
 
@@ -42,9 +48,9 @@
   <div id="question_text" style="flex:1">
   <p><span style="font-size:20px"><b>Question 2/5</b></span>
     <br>
-    <span>Theme: History</span>
+    <span>Theme: Unknown</span>
       <br>
-    <span >Guy Bailey, Roy Hackett and Paul Stephenson made history in 1963, as part of a protest against a bus company that refused to employ black and Asian drivers in which UK city?</span>
+    <span id="question-text">Guy Bailey, Roy Hackett and Paul Stephenson made history in 1963, as part of a protest against a bus company that refused to employ black and Asian drivers in which UK city?</span>
   </div>
 </div>
 </div>
@@ -54,13 +60,13 @@
       <span style="font-size:17px;"><b>Choose answer</b></span>
       <form>
       <input type="radio" id="option1" name="options" value="1">
-      <label for="option1">Option 1</label><br>
+      <label for="option1" id="optionText1">Option 1</label><br>
       <input type="radio" id="option2" name="options" value="2">
-      <label for="option2">Option 2</label><br>
+      <label for="option2" id="optionText2">Option 2</label><br>
       <input type="radio" id="option3" name="options" value="3">
-      <label for="option3">Option 3</label><br>
+      <label for="option3" id="optionText3">Option 3</label><br>
       <input type="radio" id="option4" name="options" value="4">
-      <label for="option4">NOU</label>
+      <label for="option4" id="optionText4">NOU</label>
       </form>
     </p>
   </div>
@@ -69,7 +75,7 @@
     <span class="button-text">Previous</span>
   </button>
   <button id="next-button">
-    <span class="button-text">Next</span>
+    <span class="button-text" onclick="next_question()">Next</span>
   </button>
   </div>
 </div>
@@ -79,6 +85,48 @@
       $(document).ready(function () {
         $("#first-block").load("widgets/nav_buttons.html");
       });
+      document.getElementById('question-text').textContent = questionText;
+
+      function fillAnswers(){
+        let options = [1, 2, 3, 4];
+        let answers = [7,1,6,answerText];
+        // перемешиваем массив
+        for (let i = options.length - 1; i > 0; i--) {
+            let j = Math.floor(Math.random() * (i + 1));
+            [options[i], options[j]] = [options[j], options[i]];
+        }
+
+        for (let i = answers.length - 1; i > 0; i--) {
+            let j = Math.floor(Math.random() * (i + 1));
+            [answers[i], answers[j]] = [answers[j], answers[i]];
+        }
+        // выбираем элементы по одному
+        while (options.length > 0) {
+            let choice = options.pop();
+            let answer_choice = answers.pop();
+            document.getElementById('optionText'+choice).textContent = answer_choice;
+            //console.log(choice);
+        }
+        
+      }
+
+      fillAnswers();
+      //console.log(parseInt(questionNumber)+1);
+      let next_number=parseInt(questionNumber)+1;
+      let previous_number = parseInt(questionNumber)-1;
+
+      function next_question(){
+        let selectedRadio = document.querySelector('input[name="options"]:checked');
+        let selectedValue = selectedRadio.value;
+        let user_answer = document.getElementById('optionText'+selectedValue).textContent;
+        localStorage.setItem("user_answer"+questionNumber, user_answer);
+        if(questionNumber == localStorage.getItem("number_of_questions")){
+          location.href = 'http://quiz-game/client/pages/package_select.php';
+        }else{
+          location.href = 'http://quiz-game/client/pages/question.php?packageID=' + PackageID+"&questionNumber="+next_number;
+        }
+
+      };
 </script>
 <script type="module" src="../src/js/get_questions.js"></script>
     

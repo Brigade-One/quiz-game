@@ -49,11 +49,32 @@ export class Question {
 
     handleGETHttpRequest(jsonData, url) {
         const xhr = new XMLHttpRequest();
-        xhr.open("GET", "../../server/server.php/" + url+ "?questionID="+jsonData);
+        xhr.open("GET", "../../server/server.php/" + url+ "?packageID="+jsonData);
         xhr.onreadystatechange = () => {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 if (xhr.status === 200) {
+                    console.log(xhr);
                     const response = JSON.parse(xhr.responseText);
+                    console.log(response);
+                    let counter = 1;
+                    try{
+                        for (const i of response) {
+                            //console.log(i);
+                            let result_i = JSON.parse(i);
+                            console.log(result_i);
+                            localStorage.setItem("question"+counter, result_i.question);
+                            localStorage.setItem("answer"+counter, result_i.answer);
+                            localStorage.setItem("hint"+counter, result_i.hint);
+                            counter = counter + 1;
+                        }
+                    }catch(error){
+                        localStorage.setItem("question"+counter, result_i.question);
+                        localStorage.setItem("answer"+counter, result_i.answer);
+                        localStorage.setItem("hint"+counter, result_i.hint);
+                        counter = counter + 1;
+                    }
+                    localStorage.setItem("number_of_questions", counter-1);
+                    //const response = JSON.parse(xhr.responseText);
                     
                     // Add a 1.5 second delay before redirecting to the index page
                 } else {
