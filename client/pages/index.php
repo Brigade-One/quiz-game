@@ -39,7 +39,7 @@
                         </button>
                     </li>
                     <li class="obligatory_item">
-                        <button class="listitem" onclick="receivePackage()">
+                        <button onclick="window.location.href='http://quiz-game/client/pages/user_package.php'" class="listitem" onclick="receivePackage()">
                             <span>Manage my packages</span>
                         </button>
                     </li>

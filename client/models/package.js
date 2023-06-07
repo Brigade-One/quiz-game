@@ -39,6 +39,29 @@ export class Package {
         xhr.send();
     }
 
+    handleUserHttpRequest(url, userID) {
+        const xhr = new XMLHttpRequest();
+        //xhr.open("GET", "../../server/server.php/" + url+"?userID="+userID);
+        console.log('Test user id');
+        xhr.open("GET", "../../server/server.php/" + url+"?userID=6f5aa13c-4de4-4ebc-916a-766fc8928ba");
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    console.dir(JSON.parse(xhr.response));
+                    let result = JSON.parse(xhr.response);
+                    for (const i of result) {
+                        console.log(i);
+                        $("#package_table").html($("#package_table").html() + '<tr class="ordinary_row"><td>1</td><td>' + i.name + '</td><td>20 Question </td><td><a class="select_button" href = "http://quiz-game/client/pages/question.php?packageID=' + i.packageID + '">Select</a></td></tr>')
+                    }
+                    // Add a 1.5 second delay before redirecting to the index page
+                } else {
+
+                }
+            }
+        };
+        xhr.send();
+    }
+
 
     sendQuestionHandleHttpRequest1(url, question) {
         const xhr = new XMLHttpRequest();
