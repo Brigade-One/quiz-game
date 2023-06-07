@@ -81,12 +81,19 @@ class Question
     public static function fromJSON(string $json): Question
     {
         $data = json_decode($json, true);
+
+        $questionID = isset($data['questionID']) ? $data['questionID'] : null;
+        $question = $data['question'];
+        $answer = $data['answer'];
+        $hint = $data['hint'];
+        $difficulty = $data['difficulty'] ?? 0;
+
         return new Question(
-            $data['questionID'],
-            $data['question'],
-            $data['answer'],
-            $data['hint'],
-            $data['difficulty'],
+            $questionID,
+            $question,
+            $answer,
+            $hint,
+            $difficulty
         );
     }
 }

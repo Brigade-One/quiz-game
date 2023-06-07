@@ -2,8 +2,12 @@
 
 require_once '../vendor/autoload.php';
 
+use Server\Models\PackageQuestionLink;
 use Server\Models\User;
+use Server\Models\Package;
+use Server\Models\Question;
 use Server\Repository\Database;
+use Server\Repository\QuestionRepository;
 use Server\Repository\QueryExecutor;
 use Server\Repository\IDGenerator;
 use Server\Repository\PackageQuestionLinkRepository;
@@ -96,6 +100,50 @@ $router->addRoute('GET', '/package_questions', function () use ($conn, $json) {
     foreach ($questions as $question) {
         echo $question->toJSON();
     }
+});
+// Works
+$router->addRoute('POST', '/create_package', function () use ($conn, $json) {
+    $pr = new PackageRepository(
+        new QueryExecutor($conn),
+        new IDGenerator()
+    );
+    $qr = new QuestionRepository(
+        new QueryExecutor($conn),
+        new IDGenerator()
+    );
+    $pqlr = new PackageQuestionLinkRepository(
+        new QueryExecutor($conn),
+        new IDGenerator()
+    );
+
+    $decodedJSON = json_decode($json);
+    $packageName = $decodedJSON->packageName;
+    $receivedQuestions = $decodedJSON->questions;
+
+    $receivedPackage = new Package(null, $packageName, false);
+    $receivedQuestionInstances = [];
+    foreach ($receivedQuestions as $receivedQuestion) {
+        $receivedQuestionInstances[] = Question::fromJSON(json_encode($receivedQuestion));
+    }
+
+    $package = $pr->create($receivedPackage);
+    $questions = [];
+    foreach ($receivedQuestionInstances as $receivedQuestionInstance) {
+        $questions[] = $qr->create($receivedQuestionInstance);
+    }
+
+    foreach ($questions as $question) {
+        $pql = new PackageQuestionLink(
+            null,
+            $package->getPackageID(),
+            $question->getQuestionID(),
+        );
+        var_dump($question->getQuestionID(), );
+        if (!$pqlr->create($pql)) {
+            echo 'Something went wrong while linking questions to package';
+        }
+    }
+    echo "Package created successfully";
 });
 
 $router->route($method, $path);

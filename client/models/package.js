@@ -73,7 +73,7 @@ export class Package {
     sendPackageCreateHandleHttpRequest(url, jsonData) {
         const xhr = new XMLHttpRequest();
         xhr.open("POST", "../../server/server.php/" + url);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.setRequestHeader("Content-Type", "application/json");
         xhr.onreadystatechange = () => {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 if (xhr.status === 200) {
@@ -88,7 +88,7 @@ export class Package {
 
         console.log(jsonData);
         //xhr.send("question_text="+question.question+"&question_answer"+question.answer+"&question_hint"+question.hint);
-        xhr.send(jsonData);
+        xhr.send(JSON.stringify(jsonData));
     }
 
     sendQuestionHandleHttpRequest(url, json_list) {
