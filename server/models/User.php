@@ -12,7 +12,7 @@ class User
     private $password;
     private $role;
 
-    public function __construct(?string $id, string $name, string $email, string $password, UserRole $role)
+    public function __construct(?string $id, ?string $name, string $email, string $password, ?UserRole $role)
     {
         $this->id = $id;
         $this->name = $name;
@@ -81,13 +81,22 @@ class User
     }
     public static function fromJSON(string $json): User
     {
+
         $data = json_decode($json, true);
+
+        $id = isset($data['id']) ? $data['id'] : null;
+        $name = isset($data['name']) ? $data['name'] : null;
+        $email = isset($data['email']) ? $data['email'] : null;
+        $password = isset($data['password']) ? $data['password'] : null;
+        $role = isset($data['role']) ? $data['role'] : null;
+
+        echo "data: " . $email . "\n";
         return new User(
-            $data['id'],
-            $data['name'],
-            $data['email'],
-            $data['password'],
-            $data['role'],
+            $id,
+            $name,
+            $email,
+            $password,
+            $role
         );
     }
 }

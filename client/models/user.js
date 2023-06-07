@@ -68,7 +68,7 @@ export class User {
     handleHttpRequest(jsonData, url) {
         const xhr = new XMLHttpRequest();
         xhr.open("POST", "../../server/server.php/" + url);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.setRequestHeader("Content-Type", "application/json");
         xhr.onreadystatechange = () => {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 if (xhr.status === 200) {
@@ -92,6 +92,6 @@ export class User {
                 }
             }
         };
-        xhr.send("name=" + this.name + "&password=" + this.password + "&email=" + this.email);
+        xhr.send(jsonData);
     }
 }
