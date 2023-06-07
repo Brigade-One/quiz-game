@@ -5,11 +5,15 @@ require_once '../vendor/autoload.php';
 use Server\Models\User;
 use Server\Models\UserRole;
 use Server\Models\Package;
+use Server\Models\PackageQuestionLink;
+use Server\Models\Question;
 use Server\Repository\Database;
 use Server\Repository\QueryExecutor;
 use Server\Repository\IDGenerator;
+use Server\Repository\PackageQuestionLinkRepository;
 use Server\Repository\UserRepository;
 use Server\Repository\PackageRepository;
+use Server\Repository\QuestionRepository;
 use Server\Services\HttpRouter;
 
 
@@ -149,6 +153,61 @@ $router->addRoute('GET', '/public_packages', function () use ($conn, $post_data)
     );
 
     echo json_encode($pr->fetchPublicPackages());
+});
+
+$router->addRoute('POST', '/question', function () use ($conn, $post_data) {
+    $qr = new QuestionRepository(
+        new QueryExecutor($conn),
+        new IDGenerator()
+    );
+
+    $question = new Question(
+        null,
+        $post_data->question,
+        $post_data->answer,
+        $post_data->hint,
+        $post_data->difficulty,
+    );
+
+    $qr->create($question);
+});
+
+$router->addRoute('GET', '/question', function () use ($conn, $post_data) {
+    $qr = new QuestionRepository(
+        new QueryExecutor($conn),
+        new IDGenerator()
+    );
+
+    $question = $qr->fetchByID($post_data->questionID);
+
+    echo $question->toJSON();
+});
+
+$router->addRoute('PUT', '/question', function () use ($conn, $post_data) {
+    $qr = new QuestionRepository(
+        new QueryExecutor($conn),
+        new IDGenerator()
+    );
+
+    $question = $qr->fetchByID($post_data->questionID);
+
+    $question->setAnswer($post_data->answer);
+    $question->setHint($post_data->hint);
+    $question->setDifficulty($post_data->difficulty);
+    $question->setQuestion($post_data->question);
+
+    $qr->update($question);
+});
+
+$router->addRoute('DELETE', '/question', function () use ($conn, $post_data) {
+    $qr = new QuestionRepository(
+        new QueryExecutor($conn),
+        new IDGenerator()
+    );
+
+    $question = $qr->fetchByID($post_data->questionID);
+
+    $qr->delete($question);
 });
 
 $router->route($method, $path);
