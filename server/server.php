@@ -117,28 +117,32 @@ $router->addRoute('POST', '/create_package', function () use ($conn, $json) {
     );
 
     $decodedJSON = json_decode($json);
+
+    // Retrieve package name and questions from JSON
     $packageName = $decodedJSON->packageName;
     $receivedQuestions = $decodedJSON->questions;
 
+    // Create package and questions instances from received data
     $receivedPackage = new Package(null, $packageName, false);
     $receivedQuestionInstances = [];
     foreach ($receivedQuestions as $receivedQuestion) {
         $receivedQuestionInstances[] = Question::fromJSON(json_encode($receivedQuestion));
     }
 
+    // Create package and questions in database
     $package = $pr->create($receivedPackage);
     $questions = [];
     foreach ($receivedQuestionInstances as $receivedQuestionInstance) {
         $questions[] = $qr->create($receivedQuestionInstance);
     }
 
+    // Link questions to packages
     foreach ($questions as $question) {
         $pql = new PackageQuestionLink(
             null,
             $package->getPackageID(),
             $question->getQuestionID(),
         );
-        var_dump($question->getQuestionID(), );
         if (!$pqlr->create($pql)) {
             echo 'Something went wrong while linking questions to package';
         }
