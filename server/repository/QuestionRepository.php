@@ -69,7 +69,7 @@ class QuestionRepository
         );
         return $question;
     }
-    public function create(Question $question): bool
+    public function create(Question $question): Question
     {
         if ($this->checkIfQuestionExists($question)) {
             throw new \PDOException("Question already exists", 400);
@@ -93,7 +93,10 @@ class QuestionRepository
         } catch (\PDOException $e) {
             throw new \PDOException($e->getMessage(), (int) $e->getCode());
         }
-        return $statement->rowCount() > 0;
+        if ($statement->rowCount() > 0) {
+            return $question;
+        }
+        throw new \PDOException("Question could not be created", 500);
     }
     public function update(Question $question): bool
     {

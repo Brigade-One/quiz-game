@@ -69,7 +69,7 @@ class PackageRepository
         } catch (\PDOException $e) {
             throw new \PDOException($e->getMessage(), (int) $e->getCode());
         }
-        
+
         $packages = [];
         while ($packageData = $statement->fetch(PDO::FETCH_ASSOC)) {
             $package = new Package(
@@ -81,7 +81,7 @@ class PackageRepository
         }
         return $packages;
     }
-    public function create(Package $package): bool
+    public function create(Package $package): ?Package
     {
         $query =
             "INSERT INTO Packages (packageID, name, isApproved)"
@@ -101,7 +101,11 @@ class PackageRepository
             throw new \PDOException($e->getMessage(), (int) $e->getCode());
         }
 
-        return $statement->rowCount() > 0;
+        if ($statement->rowCount() > 0) {
+            return $package;
+        } else {
+            return null;
+        }
     }
     public function update(Package $package): bool
     {

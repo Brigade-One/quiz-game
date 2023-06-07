@@ -8,7 +8,7 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
     </style>
-    
+
 </head>
 
 <body>
@@ -20,7 +20,7 @@
 
     <div style="display: flex;">
         <div style="flex: 1;" id="first-block">
-            
+
         </div>
 
         <div style="flex: 5;" id="second-block">
@@ -37,30 +37,24 @@
                         <th>Question amount</th>
                     </tr>
 
-                    <tr class="ordinary_row">
-                        <td>1</td>
-                        <td>PackageName</td>
-                        <td>20 Question </td>
-                        <td><a class="select_button"
-                                href = "https://www.example.com">Select</a></td>
-                    </tr>
                     
-                    
+
+
                 </table>
             </div>
-
 
 
         </div>
     </div>
 
-    
+
     <script>
-      $("#header").load("widgets/header.html");
-      $(document).ready(function () {
-        $("#first-block").load("widgets/nav_buttons.html");
-      });
+        $("#header").load("widgets/header.html");
+        $(document).ready(function () {
+            $("#first-block").load("widgets/nav_buttons.html");
+        });
+        
     </script>
-    <script type="module" src="../src/js/get_public_packages.js"></script>
+    <script type="module" src="../src/js/get_user_packages.js"></script>
 
 </html>

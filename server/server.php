@@ -2,128 +2,172 @@
 
 require_once '../vendor/autoload.php';
 
+use Server\Models\PackageQuestionLink;
 use Server\Models\User;
-use Server\Models\UserRole;
 use Server\Models\Package;
+use Server\Models\Question;
+use Server\Models\UserPackageLink;
 use Server\Repository\Database;
+use Server\Repository\QuestionRepository;
 use Server\Repository\QueryExecutor;
 use Server\Repository\IDGenerator;
+use Server\Repository\PackageQuestionLinkRepository;
+use Server\Repository\UserPackageLinkRepository;
 use Server\Repository\UserRepository;
 use Server\Repository\PackageRepository;
 use Server\Services\HttpRouter;
 
 
-header('Access-Control-Allow-Origin: http://brigade-one-quiz-game');
+header('Access-Control-Allow-Origin: http://quiz-game');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
 
+$method = $_SERVER['REQUEST_METHOD'];
+$path = $_SERVER['PATH_INFO'];
 
 $router = new HttpRouter();
-$db = new Database(
-    new PDO('mysql:host=localhost;dbname=quiz_db', 'root', null)
-);
+$conn = (
+    new Database(
+        new PDO('mysql:host=localhost;dbname=quiz_db', 'root', null)
+    )
+)->getConnection();
 
-$router->addRoute('POST', '/sign_up', function () use ($db): bool {
+$json = file_get_contents('php://input');
+
+$router->addRoute('POST', '/sign_up', function () use ($conn, $json) {
     $ur = new UserRepository(
-        new QueryExecutor($db->getConnection()),
+        new QueryExecutor($conn),
         new IDGenerator()
     );
-    $user = new User(
-        null,
-        $_POST['name'],
-        $_POST['email'],
-        $_POST['password'],
-        UserRole::RegularUser
-    );
-    if ($ur->create($user)) {
-        echo json_encode($user);
+
+    $user = User::fromJSON($json);
+
+    if ($ur->create($user)) { //TODO: id is not sending to client
+        echo $user->toJSON();
     }
-    return false;
 });
 
-$router->addRoute('POST', '/sign_in', function () use ($db) {
+$router->addRoute('POST', '/sign_in', function () use ($conn, $json) {
     $ur = new UserRepository(
-        new QueryExecutor($db->getConnection()),
+        new QueryExecutor($conn),
         new IDGenerator()
     );
-    $user = $ur->fetchByEmail($_POST['email']);
-    echo ($user->getPassword() === $_POST['password'])
-        ?  $user->toJSON() 
+    $receivedUser = User::fromJSON($json);
+
+    $user = $ur->fetchByEmail($receivedUser->getEmail());
+
+    echo ($user->getPassword() === $receivedUser->getPassword())
+        ? $user->toJSON()
         : null;
 });
 
-$router->addRoute('PUT', '/user', function () use ($db): bool {
+$router->addRoute('GET', '/public_packages', function () use ($conn, $json) {
+    $pr = new PackageRepository(
+        new QueryExecutor($conn),
+        new IDGenerator()
+    );
+
+    $packages = $pr->fetchPublicPackages();
+    foreach ($packages as $package) {
+        echo $package->toJSON();
+    }
+});
+
+// Works
+$router->addRoute('GET', '/user_packages', function () use ($conn, $json) {
+    $uplr = new UserPackageLinkRepository(
+        new QueryExecutor($conn),
+        new IDGenerator()
+    );
+
+    $userID = $_GET['userID'];
+    $packages = $uplr->fetchPackagesByUserID($userID);
+    $packagesJSON = [];
+    foreach ($packages as $package) {
+        $packagesJSON[] = $package->toJSON();
+    }
+    echo json_encode($packagesJSON);
+});
+
+// Works
+$router->addRoute('GET', '/package_questions', function () use ($conn, $json) {
+    $qr = new PackageQuestionLinkRepository(
+        new QueryExecutor($conn),
+        new IDGenerator()
+    );
+
+    $packageID = $_GET['packageID'];
+    $questions = $qr->fetchQuestionsByPackageID($packageID);
+    foreach ($questions as $question) {
+        echo $question->toJSON();
+    }
+});
+// Works
+$router->addRoute('POST', '/create_package', function () use ($conn, $json) {
+    $pr = new PackageRepository(
+        new QueryExecutor($conn),
+        new IDGenerator()
+    );
+    $qr = new QuestionRepository(
+        new QueryExecutor($conn),
+        new IDGenerator()
+    );
+    $pqlr = new PackageQuestionLinkRepository(
+        new QueryExecutor($conn),
+        new IDGenerator()
+    );
     $ur = new UserRepository(
-        new QueryExecutor($db->getConnection()),
+        new QueryExecutor($conn),
         new IDGenerator()
     );
-    $user = new User(
-        $_POST['id'],
-        $_POST['name'],
-        $_POST['email'],
-        $_POST['password'],
-        UserRole::from($_POST['roleId'])
-    );
-    return $ur->update($user);
-});
-
-$router->addRoute('DELETE', '/user', function () use ($db): bool {
-    $ur = new UserRepository(
-        new QueryExecutor($db->getConnection()),
+    $uplr = new UserPackageLinkRepository(
+        new QueryExecutor($conn),
         new IDGenerator()
     );
-    $user = $ur->fetchById($_POST['id']);
-    return $ur->delete($user);
-});
+    $decodedJSON = json_decode($json);
 
-$router->addRoute('POST', '/package', function () use ($db): bool {
-    $pr = new PackageRepository(
-        new QueryExecutor($db->getConnection()),
-        new IDGenerator()
+    // Retrieve package name and questions from JSON
+    $packageName = $decodedJSON->packageName;
+    $userID = $decodedJSON->userID;
+    $receivedQuestions = $decodedJSON->questions;
+
+    // Create package and questions instances from received data
+    $receivedPackage = new Package(null, $packageName, false);
+    $receivedQuestionInstances = [];
+    foreach ($receivedQuestions as $receivedQuestion) {
+        $receivedQuestionInstances[] = Question::fromJSON(json_encode($receivedQuestion));
+    }
+
+    // Create package and questions in database
+    $package = $pr->create($receivedPackage);
+    $questions = [];
+    foreach ($receivedQuestionInstances as $receivedQuestionInstance) {
+        $questions[] = $qr->create($receivedQuestionInstance);
+    }
+
+    // Link questions to packages
+    foreach ($questions as $question) {
+        $pql = new PackageQuestionLink(
+            null,
+            $package->getPackageID(),
+            $question->getQuestionID(),
+        );
+        if (!$pqlr->create($pql)) {
+            echo 'Something went wrong while linking questions to package';
+        }
+    }
+
+    // Link user to package
+    $upl = new UserPackageLink(
+        null,
+        $userID,
+        $package->getPackageID(),
     );
-    $package = new Package(null, $_POST['name'], false);
-    return $pr->create($package);
+    if (!$uplr->create($upl)) {
+        echo 'Something went wrong while linking user to package';
+    }
+
+    echo "Package created successfully";
 });
-
-$router->addRoute('PUT', '/package', function () use ($db) {
-    $pr = new PackageRepository(
-        new QueryExecutor($db->getConnection()),
-        new IDGenerator()
-    );
-    $package = $pr->fetchByID($_POST['packageID']);
-    $package->setIsApproved($_POST['isApproved']);
-    $package->setName($_POST['name']);
-    $pr->update($package);
-});
-
-$router->addRoute('DELETE', '/package', function () use ($db): bool {
-    $pr = new PackageRepository(
-        new QueryExecutor($db->getConnection()),
-        new IDGenerator()
-    );
-
-    $package = $pr->fetchByID($_POST['packageID']);
-    return $pr->delete($package);
-});
-
-$router->addRoute('GET', '/package', function () use ($db): ?\Server\Models\Package {
-    $pr = new PackageRepository(
-        new QueryExecutor($db->getConnection()),
-        new IDGenerator()
-    );
-    return $pr->fetchByID($_GET['packageID']);
-});
-
-$router->addRoute('GET', '/public_packages', function () use ($db): array {
-    $pr = new PackageRepository(
-        new QueryExecutor($db->getConnection()),
-        new IDGenerator()
-    );
-    return $pr->fetchPublicPackages();
-});
-
-// Listen for incoming client requests
-$method = $_SERVER['REQUEST_METHOD'];
-$path = $_SERVER['PATH_INFO'];
 
 $router->route($method, $path);

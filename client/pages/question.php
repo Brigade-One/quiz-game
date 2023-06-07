@@ -9,6 +9,9 @@
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
     </style>        
     <script type="module" src="http://quiz-game/client/src/js/timer.js"></script>
+    <script>
+      const PackageID = <?php echo json_encode($_GET["packageID"]); ?>;
+    </script>
 </head>
 
 <body>
@@ -20,14 +23,7 @@
 
 <div style="display: flex;">
   <div style="flex: 1;" id="first-block">
-  <button id="home-button">
-    <img src="http://quiz-game/client/assets/images/home_button_image.jpg" alt="Image">
-    <span class="button-text">Home</span>
-  </button>
-  <button id="profile-button">
-    <img src="http://quiz-game/client/assets/images/profile.png" alt="Image">
-    <span class="button-text">Profile</span>
-  </button>
+  
     </div>
 
   <div style="flex: 5" id="second-block">
@@ -79,8 +75,12 @@
 </div>
 
 <script>
-    $("#header").load("widgets/header.html");
+      $("#header").load("widgets/header.html");
+      $(document).ready(function () {
+        $("#first-block").load("widgets/nav_buttons.html");
+      });
 </script>
+<script type="module" src="../src/js/get_questions.js"></script>
     
 
 </html>
