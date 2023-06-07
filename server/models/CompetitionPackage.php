@@ -31,12 +31,12 @@ class CompetitionPackage
         $this->packageID = $packageID;
     }
 
-    public function toJSON(): array
+    public function toJSON(): string
     {
-        return [
+        return json_encode([
             'packageID' => $this->packageID,
             'name' => $this->name,
-        ];
+        ]);
     }
     public static function fromJSON(string $json): CompetitionPackage
     {

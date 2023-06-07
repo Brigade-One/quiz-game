@@ -42,7 +42,7 @@ class Package
         $this->packageID = $packageID;
     }
 
-    public function toJSON():  string
+    public function toJSON(): string
     {
         return json_encode([
             'packageID' => $this->packageID,
