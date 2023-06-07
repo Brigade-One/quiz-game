@@ -116,10 +116,6 @@ $router->addRoute('POST', '/create_package', function () use ($conn, $json) {
         new QueryExecutor($conn),
         new IDGenerator()
     );
-    $ur = new UserRepository(
-        new QueryExecutor($conn),
-        new IDGenerator()
-    );
     $uplr = new UserPackageLinkRepository(
         new QueryExecutor($conn),
         new IDGenerator()
