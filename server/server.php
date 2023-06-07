@@ -63,9 +63,11 @@ $router->addRoute('GET', '/public_packages', function () use ($conn, $json) {
     );
 
     $packages = $pr->fetchPublicPackages();
+    $packagesJSON = [];
     foreach ($packages as $package) {
-        echo $package->toJSON();
+        $packagesJSON[] = $package->toJSON();
     }
+    echo json_encode($packagesJSON);
 });
 
 // Works
@@ -93,9 +95,11 @@ $router->addRoute('GET', '/package_questions', function () use ($conn, $json) {
 
     $packageID = $_GET['packageID'];
     $questions = $qr->fetchQuestionsByPackageID($packageID);
+    $questionsJSON = [];
     foreach ($questions as $question) {
-        echo $question->toJSON();
+        $questionsJSON[] = $question->toJSON();
     }
+    echo json_encode($questionsJSON);
 });
 
 $router->route($method, $path);
