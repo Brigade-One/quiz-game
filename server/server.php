@@ -63,9 +63,10 @@ $router->addRoute('GET', '/public_packages', function () use ($conn, $json) {
     );
 
     $packages = $pr->fetchPublicPackages();
+
     $packagesJSON = [];
     foreach ($packages as $package) {
-        $packagesJSON[] = $package->toJSON();
+        $packagesJSON[] = $package;
     }
     echo json_encode($packagesJSON);
 });
