@@ -90,7 +90,7 @@ class User
         $password = isset($data['password']) ? $data['password'] : null;
         $role = isset($data['role']) ? $data['role'] : null;
 
-        echo "data: " . $email . "\n";
+        
         return new User(
             $id,
             $name,

@@ -46,4 +46,21 @@ export class Question {
         };
         xhr.send(jsonData);
     }
+
+    handleGETHttpRequest(jsonData, url) {
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", "../../server/server.php/" + url+ "?questionID="+jsonData);
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    
+                    // Add a 1.5 second delay before redirecting to the index page
+                } else {
+                    
+                }
+            }
+        };
+        xhr.send();
+    }
 }

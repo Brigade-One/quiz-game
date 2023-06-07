@@ -157,6 +157,7 @@ $router->addRoute('POST', '/question', function () use ($conn, $json) {
         new QueryExecutor($conn),
         new IDGenerator()
     );
+    print_r($json);
     $question = new Question(
         null,
         $json->question,

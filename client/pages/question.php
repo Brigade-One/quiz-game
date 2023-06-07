@@ -10,8 +10,7 @@
     </style>        
     <script type="module" src="http://quiz-game/client/src/js/timer.js"></script>
     <script>
-      let PackageID = <?php echo json_encode($_GET["packageID"]); ?>;
-      console.log(value);
+      const PackageID = <?php echo json_encode($_GET["packageID"]); ?>;
     </script>
 </head>
 
@@ -81,6 +80,7 @@
         $("#first-block").load("widgets/nav_buttons.html");
       });
 </script>
+<script type="module" src="../src/js/get_questions.js"></script>
     
 
 </html>
