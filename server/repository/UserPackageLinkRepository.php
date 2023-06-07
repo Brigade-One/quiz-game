@@ -61,7 +61,6 @@ class UserPackageLinkRepository
         $packages = [];
         while ($linkData = $statement->fetch(PDO::FETCH_ASSOC)) {
             $package = $packageRepository->fetchByID($linkData['packageID']);
-            print_r($package);
             $packages[] = $package;
         }
         return $packages;
