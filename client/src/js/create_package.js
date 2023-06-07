@@ -3,6 +3,7 @@ import {Question} from "http://quiz-game/client/models/question.js"
 
 function PackagetoJSON(package_name, question_list){
     return {
+        userID: localStorage.getItem("ID"),
         packageName: package_name,
         questions:question_list,
     };
@@ -26,6 +27,7 @@ $("#create-button").click(function (event) {
     // do something with value
     //packages.sendQuestionHandleHttpRequest("question", question.toJSON());
     }
+    //console.log(PackagetoJSON(package_name, question_list));
     packages.sendPackageCreateHandleHttpRequest("create_package", PackagetoJSON(package_name, question_list));
     //packages.sendQuestionHandleHttpRequest("question", question_list);
     //packages.sendPackageNameHandleHttpRequest("package", package_name);

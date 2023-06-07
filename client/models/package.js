@@ -45,7 +45,7 @@ export class Package {
     handleUserHttpRequest(url, userID) {
         const xhr = new XMLHttpRequest();
         //xhr.open("GET", "../../server/server.php/" + url+"?userID="+userID);
-        console.log('Test user id');
+        //console.log('Test user id');
         xhr.open("GET", "../../server/server.php/" + url+"?userID=6f5aa13c-4de4-4ebc-916a-766fc8928bad");
         //xhr.open('GET', 'http://quiz-game/server/server.php/user_packages?userID=6f5aa13c-4de4-4ebc-916a-766fc8928bad');
         xhr.onreadystatechange = () => {
