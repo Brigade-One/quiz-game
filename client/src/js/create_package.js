@@ -1,6 +1,12 @@
 import {Package} from "http://quiz-game/client/models/package.js"
 import {Question} from "http://quiz-game/client/models/question.js"
 
+function PackagetoJSON(package_name, question_list){
+    return {
+        packageName: package_name,
+        questions:question_list,
+    };
+};
 
 $("#create-button").click(function (event) {
     event.preventDefault();
@@ -18,10 +24,12 @@ $("#create-button").click(function (event) {
     let question = new Question(text_elements[i].value, answer_elements[i].value, hint_elements[i].value);
     question_list[i] = question.toJSON();
     // do something with value
-    packages.sendQuestionHandleHttpRequest("question", question.toJSON());
+    //packages.sendQuestionHandleHttpRequest("question", question.toJSON());
     }
+    packages.sendPackageCreateHandleHttpRequest("create_package", PackagetoJSON(package_name, question_list));
     //packages.sendQuestionHandleHttpRequest("question", question_list);
-    packages.sendPackageNameHandleHttpRequest("package", package_name);
+    //packages.sendPackageNameHandleHttpRequest("package", package_name);
     //packages.createPackageHandleHttpRequest("create_package", package_name, JSON.stringify(question_list));
 
 });
+

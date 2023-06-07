@@ -70,7 +70,7 @@ export class Package {
     }
 
 
-    sendQuestionHandleHttpRequest1(url, question) {
+    sendPackageCreateHandleHttpRequest(url, jsonData) {
         const xhr = new XMLHttpRequest();
         xhr.open("POST", "../../server/server.php/" + url);
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -86,9 +86,9 @@ export class Package {
             }
         };
 
-        console.log(question);
+        console.log(jsonData);
         //xhr.send("question_text="+question.question+"&question_answer"+question.answer+"&question_hint"+question.hint);
-        xhr.send(question);
+        xhr.send(jsonData);
     }
 
     sendQuestionHandleHttpRequest(url, json_list) {
