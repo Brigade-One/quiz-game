@@ -37,7 +37,7 @@ $router->addRoute('POST', '/sign_up', function () use ($conn, $json) {
 
     $user = User::fromJSON($json);
 
-    if ($ur->create($user)) {//TODO: id is not sending to client
+    if ($ur->create($user)) { //TODO: id is not sending to client
         echo $user->toJSON();
     }
 });
