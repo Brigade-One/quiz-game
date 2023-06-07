@@ -68,6 +68,7 @@ $router->addRoute('GET', '/public_packages', function () use ($conn, $json) {
     }
 });
 
+// Works
 $router->addRoute('GET', '/user_packages', function () use ($conn, $json) {
     $uplr = new UserPackageLinkRepository(
         new QueryExecutor($conn),
@@ -76,10 +77,11 @@ $router->addRoute('GET', '/user_packages', function () use ($conn, $json) {
 
     $userID = $_GET['userID'];
     $packages = $uplr->fetchPackagesByUserID($userID);
-
+    $packagesJSON = [];
     foreach ($packages as $package) {
-        echo $package->toJSON();
+        $packagesJSON[] = $package->toJSON();
     }
+    echo json_encode($packagesJSON);
 });
 
 // Works
