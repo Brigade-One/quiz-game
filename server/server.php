@@ -13,6 +13,7 @@ use Server\Repository\QueryExecutor;
 use Server\Repository\IDGenerator;
 use Server\Repository\PackageQuestionLinkRepository;
 use Server\Repository\UserPackageLinkRepository;
+use Server\Repository\TrainingHistoryRepository;
 use Server\Repository\UserRepository;
 use Server\Repository\PackageRepository;
 use Server\Services\HttpRouter;
@@ -90,6 +91,18 @@ $router->addRoute('GET', '/user_packages', function () use ($conn, $json) {
         $packagesJSON[] = $package->toJSON();
     }
     echo json_encode($packagesJSON);
+});
+$router->addRoute('GET', '/user_training_accuracy', function () use ($conn, $json) {
+    $thr = new TrainingHistoryRepository(
+        new QueryExecutor($conn),
+        new IDGenerator()
+    );
+    $userID = $_GET['userID'];
+    $trainingAccuracy = $thr->fetchUserTrainingAccuracyByUserID($userID);
+
+    echo json_encode([
+        'trainingAccuracy' => $trainingAccuracy
+    ]);
 });
 
 $router->addRoute('GET', '/package_questions', function () use ($conn, $json) {
