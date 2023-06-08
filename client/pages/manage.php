@@ -83,5 +83,6 @@
 
   </script>
   <script type="module" src="../src/js/manage.js"></script>
+  <script type="module" src="../src/js/update_package.js"></script>
 
 </html>

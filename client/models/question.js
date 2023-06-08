@@ -21,6 +21,15 @@ export class Question {
         };
     }
 
+    toJSONwithID(ID) {
+        return {
+            question: this.question, 
+            answer: this.answer,
+            hint: this.hint,
+            id:ID,
+        };
+    }
+
     checkAnswer(user_answer){
         if (user_answer != this.answer){
             return false;
@@ -63,12 +72,14 @@ export class Question {
                             //console.log(i);
                             let result_i = JSON.parse(i);
                             console.log(result_i);
+                            localStorage.setItem("QID"+counter, result_i.questionID);
                             localStorage.setItem("question"+counter, result_i.question);
                             localStorage.setItem("answer"+counter, result_i.answer);
                             localStorage.setItem("hint"+counter, result_i.hint);
                             counter = counter + 1;
                         }
                     }catch(error){
+                        localStorage.setItem("QID"+counter, result_i.questionID);
                         localStorage.setItem("question"+counter, result_i.question);
                         localStorage.setItem("answer"+counter, result_i.answer);
                         localStorage.setItem("hint"+counter, result_i.hint);
