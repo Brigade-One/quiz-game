@@ -32,6 +32,7 @@
             <div id="options">
                 <ul>
                     <hr>
+
                     <li class="obligatory_item">
                         <button onclick="window.location.href='http://quiz-game/client/pages/create_package.php'"
                             class="listitem">
@@ -39,11 +40,13 @@
                         </button>
                     </li>
                     <li class="obligatory_item">
-                        <button onclick="window.location.href='http://quiz-game/client/pages/user_package.php'" class="listitem" onclick="receivePackage()">
+                        <button onclick="window.location.href='http://quiz-game/client/pages/user_package.php'"
+                            class="listitem" onclick="receivePackage()">
                             <span>Manage my packages</span>
                         </button>
                     </li>
                     <hr>
+
                     <li class="obligatory_item">
                         <button class="listitem"
                             onclick="window.location.href='http://quiz-game/client/pages/package_select.php'">
@@ -56,6 +59,7 @@
                         </button>
                     </li>
                     <hr>
+                    <p id="greeting">Examiner block</p>
                     <li class="not_obligatory_item">
                         <button class="listitem">
                             <span>Manage training packages</span>

@@ -58,10 +58,13 @@ $router->addRoute('POST', '/sign_in', function () use ($conn, $json) {
     $receivedUser = User::fromJSON($json);
 
     $user = $ur->fetchByEmail($receivedUser->getEmail());
-
+    if (!$user) {
+        echo "No user with such email";
+        return;
+    }
     echo ($user->getPassword() === $receivedUser->getPassword())
         ? $user->toJSON()
-        : null;
+        : "Password is incorrect";
 });
 
 $router->addRoute('GET', '/public_packages', function () use ($conn, $json) {
@@ -129,6 +132,7 @@ $router->addRoute('POST', '/training_results', function () use ($conn, $json) {
     if (!$thr->create($trainingHistory)) {
         echo 'Something went wrong while saving training history';
     }
+    echo 'Training history saved successfully';
 });
 
 $router->addRoute('GET', '/package_questions', function () use ($conn, $json) {
