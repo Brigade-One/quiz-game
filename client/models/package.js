@@ -72,7 +72,34 @@ export class Package {
         };
         xhr.send();
     }
+    handleGetPackagesHttpRequest(url, userID) {
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", "../../server/server.php/" + url + "?userID=" + userID);
+        //console.log('Test user id');
+        //xhr.open("GET", "../../server/server.php/" + url+"?userID=6f5aa13c-4de4-4ebc-916a-766fc8928bad");
+        //xhr.open('GET', 'http://quiz-game/server/server.php/user_packages?userID=6f5aa13c-4de4-4ebc-916a-766fc8928bad');
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    const response = xhr.response;
+                    const packages = JSON.parse(response);
+                    console.log(xhr.response);
+                    packages.forEach(function (packager) {
+                        console.log(packager);
+                        let decoded_packager = JSON.parse(packager);
+                        localStorage.setItem(decoded_packager.name, decoded_packager.packageID);
+                        console.log(decoded_packager);
+                        $("#package_table").html($("#package_table").html() + '<tr class="ordinary_row"><td>1</td><td>' + decoded_packager.name + '</td><td>20 Question </td><td><a href="http://quiz-game/client/pages/question.php?packageID=' + decoded_packager.packageID + '&questionNumber=1">Select</a></td></tr>');
+                    });
 
+                    // Add a 1.5 second delay before redirecting to the index page
+                } else {
+
+                }
+            }
+        };
+        xhr.send();
+    }
     handleUserManagementHttpRequest(url, userID) {
         const xhr = new XMLHttpRequest();
         xhr.open("GET", "../../server/server.php/" + url + "?userID=" + userID);
@@ -87,7 +114,7 @@ export class Package {
                     console.log(xhr.response);
                     packages.forEach(function (packager) {
                         console.log(packager);
-                        let decoded_packager = JSON.parse(packager); 
+                        let decoded_packager = JSON.parse(packager);
                         localStorage.setItem(decoded_packager.name, decoded_packager.packageID);
                         console.log(decoded_packager);
                         $("#package_table").html($("#package_table").html() + '<tr class="ordinary_row"><td>1</td><td>' + decoded_packager.name + '</td><td>20 Question </td><td><a class="select_button" href = "http://quiz-game/client/pages/manage.php?packageID=' + decoded_packager.packageID + "&pack_name=" + decoded_packager.name + '">Select</a></td></tr>');
