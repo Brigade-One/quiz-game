@@ -25,6 +25,7 @@ export class Package {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 if (xhr.status === 200) {
                     let result = JSON.parse(xhr.response);
+                    console.log(xhr.response);
                     //let result = JSON.parse(preresult);
                     try{
                         for (const i of result) {
@@ -55,6 +56,7 @@ export class Package {
                 if (xhr.status === 200) {
                     const response = xhr.response;
                     const packages = JSON.parse(response);
+                    console.log(xhr.response);
                     packages.forEach(function (packager){
                         console.log(packager);
                         let decoded_packager = JSON.parse(packager);
@@ -82,6 +84,7 @@ export class Package {
                 if (xhr.status === 200) {
                     const response = xhr.response;
                     const packages = JSON.parse(response);
+                    console.log(xhr.response);
                     packages.forEach(function (packager){
                         console.log(packager);
                         let decoded_packager = JSON.parse(packager);

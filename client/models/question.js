@@ -37,6 +37,7 @@ export class Question {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 if (xhr.status === 200) {
                     const response = JSON.parse(xhr.responseText);
+                    console.log(xhr.response);
                     
                     // Add a 1.5 second delay before redirecting to the index page
                 } else {
