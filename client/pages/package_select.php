@@ -39,6 +39,17 @@
                 </table>
             </div>
 
+            <hr>
+            <div id="package_list">
+                <table id="user_package_table">
+                    <tr>
+                        <th>#</th>
+                        <th>name</th>
+                        <th>Question amount</th>
+                    </tr>
+                </table>
+            </div>
+
             <!-- Модальное окно -->
             <div id="modal" class="modal">
                 <div class="modal-content">

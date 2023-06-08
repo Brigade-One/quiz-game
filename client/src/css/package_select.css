@@ -166,3 +166,9 @@ table tr:last-child {
     text-decoration: none;
     cursor: pointer;
 }
+.first_element{
+width:10%;
+}
+.second_element{
+    width:40%;
+}
