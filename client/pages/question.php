@@ -72,7 +72,7 @@
   </div>
   <div id="movement_buttons">
   <button id="previous-button">
-    <span class="button-text">Previous</span>
+    <span class="button-text" onclick="previous_question()">Previous</span>
   </button>
   <button id="next-button">
     <span class="button-text" onclick="next_question()">Next</span>
@@ -114,6 +114,13 @@
       //console.log(parseInt(questionNumber)+1);
       let next_number=parseInt(questionNumber)+1;
       let previous_number = parseInt(questionNumber)-1;
+
+      function previous_question(){
+        if(parseInt(questionNumber) == 1){
+        }else{
+          location.href = 'http://quiz-game/client/pages/question.php?packageID=' + PackageID+"&questionNumber="+previous_number;
+        }
+      }
 
       function next_question(){
         let selectedRadio = document.querySelector('input[name="options"]:checked');
