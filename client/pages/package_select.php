@@ -65,7 +65,7 @@
 
     <script>
 
-
+        localStorage.removeItem("timeLeft");
         $("#header").load("widgets/header.html");
         $(document).ready(function () {
             $("#first-block").load("widgets/nav_buttons.html");

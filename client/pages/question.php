@@ -134,6 +134,10 @@
         $("#first-block").load("widgets/nav_buttons.html");
       });
 
+      let item = parseInt(localStorage.getItem("user_answer"+ questionNumber));
+      if(item){
+      document.getElementById('answer').value = item;
+      }
 
 
       questionText = localStorage.getItem("question" + questionNumber);
@@ -147,6 +151,8 @@
 
       function previous_question() {
         if (parseInt(questionNumber) > 1) {
+          let user_answer = document.getElementById('answer').value;
+          localStorage.setItem("user_answer" + questionNumber, user_answer);
           const previousNumber = parseInt(questionNumber) - 1;
           location.href = 'http://quiz-game/client/pages/question.php?packageID=' + PackageID + "&questionNumber=" + previousNumber + "&questionCount=" + questionCount;
         }
@@ -171,6 +177,8 @@
       if (document.getElementById('next-button').textContent == "Finish") {
         localStorage.setItem("lastTrainPackageID", PackageID);
         document.getElementById('next-button').onclick = function () {
+          let user_answer = document.getElementById('answer').value;
+          localStorage.setItem("user_answer" + questionNumber, user_answer);
           location.href = 'http://quiz-game/client/pages/package_select.php';
         }
 

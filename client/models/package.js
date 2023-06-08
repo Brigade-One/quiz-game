@@ -26,12 +26,14 @@ export class Package {
                 if (xhr.status === 200) {
                     let result = JSON.parse(xhr.response);
                     console.log(xhr.response);
+                    let package_counter = 1;
                     //let result = JSON.parse(preresult);
                     try {
                         for (const i of result) {
                             //console.log(i);
                             let result_i = JSON.parse(i);
-                            $("#package_table").html($("#package_table").html() + '<tr class="ordinary_row"><td class="first_element">1</td><td class="second_element">' + result_i.name + '</td><td>20 Question </td><td><a class="select_button" href = "http://quiz-game/client/pages/question.php?packageID=' + result_i.packageID + "&questionNumber=1" + '">Select</a></td></tr>');
+                            $("#package_table").html($("#package_table").html() + '<tr class="ordinary_row"><td class="first_element">'+package_counter+'</td><td class="second_element">' + result_i.name + '</td><td>20 Question </td><td><a class="select_button" href = "http://quiz-game/client/pages/question.php?packageID=' + result_i.packageID + "&questionNumber=1" + '">Select</a></td></tr>');
+                            package_counter += 1;
                         }
                     } catch (error) {
                         $("#package_table").html($("#package_table").html() + '<tr class="ordinary_row"><td class="first_element">1</td><td class="second_element">' + result.name + '</td><td >20 Question </td><td><a class="select_button" href = "http://quiz-game/client/pages/question.php?packageID=' + result.packageID + "&questionNumber=1" + '">Select</a></td></tr>')
@@ -57,11 +59,13 @@ export class Package {
                     const response = xhr.response;
                     const packages = JSON.parse(response);
                     console.log(xhr.response);
+                    let package_counter = 1;
                     packages.forEach(function (packager) {
                         console.log(packager);
                         let decoded_packager = JSON.parse(packager);
                         console.log(decoded_packager);
-                        $("#package_table").html($("#package_table").html() + '<tr class="ordinary_row"><td class="first_element">1</td><td class="second_element">' + decoded_packager.name + '</td><td>20 Question </td><td ><a class="select_button" href = "http://quiz-game/client/pages/question.php?packageID=' + decoded_packager.packageID + '">Select</a></td></tr>');
+                        $("#package_table").html($("#package_table").html() + '<tr class="ordinary_row"><td class="first_element">'+package_counter+'</td><td class="second_element">' + decoded_packager.name + '</td><td>20 Question </td><td ><a class="select_button" href = "http://quiz-game/client/pages/question.php?packageID=' + decoded_packager.packageID + '">Select</a></td></tr>');
+                        package_counter += 1;
                     })
                     // Add a 1.5 second delay before redirecting to the index page
                 } else {
@@ -83,12 +87,14 @@ export class Package {
                     const response = xhr.response;
                     const packages = JSON.parse(response);
                     console.log(xhr.response);
+                    let package_counter = 1;
                     packages.forEach(function (packager) {
                         console.log(packager);
                         let decoded_packager = JSON.parse(packager);
                         localStorage.setItem(decoded_packager.name, decoded_packager.packageID);
                         console.log(decoded_packager);
-                        $("#package_table").html($("#package_table").html() + '<tr class="ordinary_row"><td>1</td><td>' + decoded_packager.name + '</td><td>20 Question </td><td><a class="select_button" href="http://quiz-game/client/pages/question.php?packageID=' + decoded_packager.packageID + '&questionNumber=1">Select</a></td></tr>');
+                        $("#package_table").html($("#package_table").html() + '<tr class="ordinary_row"><td>'+package_counter+'</td><td>' + decoded_packager.name + '</td><td>20 Question </td><td><a class="select_button" href="http://quiz-game/client/pages/question.php?packageID=' + decoded_packager.packageID + '&questionNumber=1">Select</a></td></tr>');
+                        package_counter += 1;
                     });
                     // Add a 1.5 second delay before redirecting to the index page
                 } else {
@@ -110,12 +116,14 @@ export class Package {
                     const response = xhr.response;
                     const packages = JSON.parse(response);
                     console.log(xhr.response);
+                    let package_counter = 1;
                     packages.forEach(function (packager) {
                         console.log(packager);
                         let decoded_packager = JSON.parse(packager);
                         localStorage.setItem(decoded_packager.name, decoded_packager.packageID);
                         console.log(decoded_packager);
-                        $("#user_package_table").html($("#user_package_table").html() + '<tr class="ordinary_row"><td class="first_element">1</td><td class="second_element">' + decoded_packager.name + '</td><td>20 Question </td><td><a class="select_button" href="http://quiz-game/client/pages/question.php?packageID=' + decoded_packager.packageID + '&questionNumber=1">Select</a></td></tr>');
+                        $("#user_package_table").html($("#user_package_table").html() + '<tr class="ordinary_row"><td class="first_element">'+package_counter+'</td><td class="second_element">' + decoded_packager.name + '</td><td>20 Question </td><td><a class="select_button" href="http://quiz-game/client/pages/question.php?packageID=' + decoded_packager.packageID + '&questionNumber=1">Select</a></td></tr>');
+                        package_counter += 1;
                     });
                     // Add a 1.5 second delay before redirecting to the index page
                 } else {
@@ -137,12 +145,14 @@ export class Package {
                     const response = xhr.response;
                     const packages = JSON.parse(response);
                     console.log(xhr.response);
+                    let package_counter = 1;
                     packages.forEach(function (packager) {
                         console.log(packager);
                         let decoded_packager = JSON.parse(packager);
                         localStorage.setItem(decoded_packager.name, decoded_packager.packageID);
                         console.log(decoded_packager);
-                        $("#package_table").html($("#package_table").html() + '<tr class="ordinary_row"><td>1</td><td>' + decoded_packager.name + '</td><td>20 Question </td><td><a class="select_button" href = "http://quiz-game/client/pages/manage.php?packageID=' + decoded_packager.packageID + "&pack_name=" + decoded_packager.name + '">Select</a></td></tr>');
+                        $("#package_table").html($("#package_table").html() + '<tr class="ordinary_row"><td>'+package_counter+'</td><td>' + decoded_packager.name + '</td><td>20 Question </td><td><a class="select_button" href = "http://quiz-game/client/pages/manage.php?packageID=' + decoded_packager.packageID + "&pack_name=" + decoded_packager.name + '">Select</a></td></tr>');
+                        package_counter +=1;
                     })
 
                     // Add a 1.5 second delay before redirecting to the index page
