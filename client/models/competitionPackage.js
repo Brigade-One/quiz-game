@@ -24,7 +24,7 @@ export class CompetitionPackage {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 if (xhr.status === 200) {
                     const response = JSON.parse(xhr.responseText);
-                    
+                    console.log(xhr.response);
                     
                 } else {
                     

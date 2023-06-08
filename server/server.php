@@ -3,6 +3,7 @@
 require_once '../vendor/autoload.php';
 
 use Server\Models\PackageQuestionLink;
+use Server\Models\TrainingHistory;
 use Server\Models\User;
 use Server\Models\Package;
 use Server\Models\Question;
@@ -13,6 +14,8 @@ use Server\Repository\QueryExecutor;
 use Server\Repository\IDGenerator;
 use Server\Repository\PackageQuestionLinkRepository;
 use Server\Repository\UserPackageLinkRepository;
+use Server\Repository\TrainingHistoryRepository;
+use Server\Repository\Competition\CompetitionHistoryRepository;
 use Server\Repository\UserRepository;
 use Server\Repository\PackageRepository;
 use Server\Services\HttpRouter;
@@ -42,9 +45,9 @@ $router->addRoute('POST', '/sign_up', function () use ($conn, $json) {
 
     $user = User::fromJSON($json);
 
-    if ($ur->create($user)) { //TODO: id is not sending to client
-        echo $user->toJSON();
-    }
+    $ur->create($user);
+
+    echo $user->toJSON();
 });
 
 $router->addRoute('POST', '/sign_in', function () use ($conn, $json) {
@@ -68,10 +71,12 @@ $router->addRoute('GET', '/public_packages', function () use ($conn, $json) {
     );
 
     $packages = $pr->fetchPublicPackages();
-    echo json_encode($packages);
-    //foreach ($packages as $package) {
-    //    echo $package->toJSON();
-    //}
+
+    $packagesJSON = [];
+    foreach ($packages as $package) {
+        $packagesJSON[] = $package->toJSON();
+    }
+    echo json_encode($packagesJSON);
 });
 
 // Works
@@ -90,7 +95,42 @@ $router->addRoute('GET', '/user_packages', function () use ($conn, $json) {
     echo json_encode($packagesJSON);
 });
 
-// Works
+$router->addRoute('GET', '/user_training_accuracy', function () use ($conn, $json) {
+    $thr = new TrainingHistoryRepository(
+        new QueryExecutor($conn),
+        new IDGenerator()
+    );
+    $userID = $_GET['userID'];
+    $accuracy = $thr->fetchUserTrainingAccuracyByUserID($userID);
+
+    echo json_encode([
+        'accuracy' => $accuracy
+    ]);
+});
+
+$router->addRoute('GET', '/user_competition_accuracy', function () use ($conn, $json) {
+    $thr = new CompetitionHistoryRepository(
+        new QueryExecutor($conn),
+        new IDGenerator()
+    );
+    $userID = $_GET['userID'];
+    $accuracy = $thr->fetchUserCompetititonAccuracyByUserID($userID);
+    echo json_encode([
+        'accuracy' => $accuracy
+    ]);
+});
+
+$router->addRoute('POST', '/training_results', function () use ($conn, $json) {
+    $thr = new TrainingHistoryRepository(
+        new QueryExecutor($conn),
+        new IDGenerator()
+    );
+    $trainingHistory = TrainingHistory::fromJSON($json);
+    if (!$thr->create($trainingHistory)) {
+        echo 'Something went wrong while saving training history';
+    }
+});
+
 $router->addRoute('GET', '/package_questions', function () use ($conn, $json) {
     $qr = new PackageQuestionLinkRepository(
         new QueryExecutor($conn),
@@ -99,10 +139,13 @@ $router->addRoute('GET', '/package_questions', function () use ($conn, $json) {
 
     $packageID = $_GET['packageID'];
     $questions = $qr->fetchQuestionsByPackageID($packageID);
-    echo json_encode($questions);
-    //foreach ($questions as $question) {
-    //    echo $question->toJSON();
-    //}
+
+    $questionsJSON = [];
+    foreach ($questions as $receivedQuestion) {
+        $question = Question::fromJSON($receivedQuestion);
+        $questionsJSON[] = $question->toJSON();
+    }
+    echo json_encode($questionsJSON);
 });
 // Works
 $router->addRoute('POST', '/create_package', function () use ($conn, $json) {
@@ -166,6 +209,38 @@ $router->addRoute('POST', '/create_package', function () use ($conn, $json) {
     }
 
     echo "Package created successfully";
+});
+$router->addRoute('PUT', '/update_package', function () use ($conn, $json) {
+    $pr = new PackageRepository(
+        new QueryExecutor($conn),
+        new IDGenerator()
+    );
+    $qr = new QuestionRepository(
+        new QueryExecutor($conn),
+        new IDGenerator()
+    );
+    $decodedJSON = json_decode($json);
+
+    // Retrieve package name and questions from JSON
+    $packageID = $decodedJSON->packageID;
+    $receivedQuestions = $decodedJSON->questions;
+
+    // Create package and questions instances from received data
+    $package = $pr->fetchByID($packageID);
+
+    // Update package
+    if (!$pr->update($package)) {
+        echo 'Something went wrong while updating package';
+    }
+
+    foreach ($receivedQuestions as $receivedQuestion) {
+        $receivedQuestionInstance = Question::fromJSON(json_encode($receivedQuestion));
+        if (!$qr->update($receivedQuestionInstance)) {
+            echo 'Something went wrong while updating question';
+        }
+    }
+
+    echo "Package updated successfully";
 });
 
 $router->route($method, $path);

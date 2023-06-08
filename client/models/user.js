@@ -75,6 +75,7 @@ export class User {
                     //console.log(xhr.responseText);
                     let response1 = JSON.parse(xhr.responseText);
                     //console.log(response);
+                    console.log(xhr.response);
                     //let response1 = JSON.parse(response);
                     if (response1.id != null) {
                         localStorage.setItem("username", response1.name);
