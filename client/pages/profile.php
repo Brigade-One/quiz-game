@@ -1,7 +1,7 @@
 <html>
 
 <head>
-  <title>Profile</title>
+  <title>Profile | Quiz</title>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <link rel="stylesheet" href="http://quiz-game/client/src/css/main_pages.css">
   <link rel="stylesheet" href="http://quiz-game/client/src/css/profile_pages.css">
@@ -80,7 +80,7 @@
         </div>
       </div>
       <button id="logout">
-        <img src="http://quiz-game/client/assets/images/logout_white.png" alt="Image">
+
         <span class="button-text">Log Out</span>
       </button>
     </div>
