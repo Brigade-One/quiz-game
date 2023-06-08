@@ -53,6 +53,8 @@
 
 
     <script>
+
+
         $("#header").load("widgets/header.html");
         $(document).ready(function () {
             $("#first-block").load("widgets/nav_buttons.html");
@@ -66,7 +68,32 @@
                     right_answers += 1;
                 }
             }
+            sendResults();
         }
+
+        function sendResults() {
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "../../server/server.php/training_results");
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            xhr.send(JSON.stringify({
+                "userID": localStorage.getItem("ID"),
+                "packageID": localStorage.getItem("lastTrainPackageID"),
+                "correctAnswers": right_answers,
+                "trainingDate": new Date().toISOString().slice(0, 19).replace('T', ' '),
+                "totalQuestions": localStorage.getItem("number_of_questions")
+            }));
+
+            xhr.onload = function () {
+                if (xhr.status != 200) {
+                    alert(`Error ${xhr.status}: ${xhr.statusText}`);
+                } else {
+                    let response = JSON.parse(xhr.response);
+                    console.log(response);
+                }
+            };
+        }
+
 
         var modal = document.getElementById("modal");
         var btn = document.getElementById("open-modal");

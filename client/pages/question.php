@@ -135,40 +135,46 @@
       });
 
 
-      document.addEventListener("DOMContentLoaded", function () {
-        questionText = localStorage.getItem("question" + questionNumber);
-        answerText = localStorage.getItem("answer" + questionNumber);
-        hintText = localStorage.getItem("hint" + questionNumber);
-        const questionCount = localStorage.getItem("number_of_questions");
-        let next_number = parseInt(questionNumber) + 1;
-        let previous_number = parseInt(questionNumber) - 1;
 
-        document.getElementById('question-text').textContent = questionText;
+      questionText = localStorage.getItem("question" + questionNumber);
+      answerText = localStorage.getItem("answer" + questionNumber);
+      hintText = localStorage.getItem("hint" + questionNumber);
+      const questionCount = localStorage.getItem("number_of_questions");
+      let next_number = parseInt(questionNumber) + 1;
+      let previous_number = parseInt(questionNumber) - 1;
 
-        function previous_question() {
-          if (parseInt(questionNumber) > 1) {
-            const previousNumber = parseInt(questionNumber) - 1;
-            location.href = 'http://quiz-game/client/pages/question.php?packageID=' + PackageID + "&questionNumber=" + previousNumber + "&questionCount=" + questionCount;
-          }
+      document.getElementById('question-text').textContent = questionText;
+
+      function previous_question() {
+        if (parseInt(questionNumber) > 1) {
+          const previousNumber = parseInt(questionNumber) - 1;
+          location.href = 'http://quiz-game/client/pages/question.php?packageID=' + PackageID + "&questionNumber=" + previousNumber + "&questionCount=" + questionCount;
+        }
+      }
+
+      function next_question() {
+        let user_answer = document.getElementById('answer').value;
+        localStorage.setItem("user_answer" + questionNumber, user_answer);
+        if (parseInt(questionNumber) < questionCount) {
+          const nextNumber = parseInt(questionNumber) + 1;
+          location.href = 'http://quiz-game/client/pages/question.php?packageID=' + PackageID + "&questionNumber=" + nextNumber + "&questionCount=" + questionCount;
+        } else {
+          location.href = 'http://quiz-game/client/pages/package_select.php?packageID=' + PackageID;
+        }
+      }
+      if (questionNumber == questionCount) {
+        document.getElementById('next-button').textContent = "Finish";
+      }
+      if (questionNumber == 1) {
+        document.getElementById('previous-button').style.display = "none";
+      }
+      if (document.getElementById('next-button').textContent == "Finish") {
+        localStorage.setItem("lastTrainPackageID", PackageID);
+        document.getElementById('next-button').onclick = function () {
+          location.href = 'http://quiz-game/client/pages/package_select.php';
         }
 
-        function next_question() {
-          let user_answer = document.getElementById('answer').value;
-          localStorage.setItem("user_answer" + questionNumber, user_answer);
-          if (parseInt(questionNumber) < questionCount) {
-            const nextNumber = parseInt(questionNumber) + 1;
-            location.href = 'http://quiz-game/client/pages/question.php?packageID=' + PackageID + "&questionNumber=" + nextNumber + "&questionCount=" + questionCount;
-          } else {
-            location.href = 'http://quiz-game/client/pages/package_select.php';
-          }
-        }
-        if (questionNumber == questionCount) {
-          document.getElementById('next-button').textContent = "Finish";
-        }
-        if (questionNumber == 1) {
-          document.getElementById('previous-button').style.display = "none";
-        }
-      });
+      }
 
     </script>
 

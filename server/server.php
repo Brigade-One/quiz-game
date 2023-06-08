@@ -132,6 +132,7 @@ $router->addRoute('POST', '/training_results', function () use ($conn, $json) {
     if (!$thr->create($trainingHistory)) {
         echo 'Something went wrong while saving training history';
     }
+    echo 'Training history saved successfully';
 });
 
 $router->addRoute('GET', '/package_questions', function () use ($conn, $json) {
