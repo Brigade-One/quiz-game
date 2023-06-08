@@ -6,6 +6,6 @@ document.addEventListener('DOMContentLoaded', function (event) {
 
     const packages = new Package();
 
-    packages.handleUserHttpRequest("user_packages", localStorage.getItem("ID"));
+    packages.handleUserManagementHttpRequest("user_packages", localStorage.getItem("ID"));
 
 });
