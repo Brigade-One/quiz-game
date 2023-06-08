@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <title>Sign Up</title>
+    <title>My Packages | Quiz</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="http://quiz-game/client/src/css/main_pages.css">
     <link rel="stylesheet" href="http://quiz-game/client/src/css/package_select.css">
