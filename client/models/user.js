@@ -7,11 +7,9 @@ export class User {
 
     validateSignUp(confirmPass) {
         if (this.name === '' || this.email === '' || this.password === '') {
-            console.log("what!")
             return false;
         } else {
             if (this.password !== confirmPass) {
-                console.log("what")
                 return false;
             }
         }
@@ -72,23 +70,29 @@ export class User {
         xhr.onreadystatechange = () => {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 if (xhr.status === 200) {
-                    console.log(xhr.responseText);
+                    //console.log(xhr.responseText);
+                    try{
                     let response1 = JSON.parse(xhr.responseText);
-                    //console.log(response);
-                    console.log(xhr.response);
-                    //let response1 = JSON.parse(response);
                     if (response1.id != null) {
                         localStorage.setItem("username", response1.name);
                         localStorage.setItem("ID", response1.id);
                         localStorage.setItem("role", response1.role);
                         localStorage.setItem("email", response1.email);
                     }
-
-                    //this.render(response.message);
-                    // Add a 1.5 second delay before redirecting to the index page
                     if (response1.id != null) setTimeout(function () {
                         window.location.href = "../pages/index.php";
                     }, 1500);
+                    }catch(error){
+                        $("#responseText").html("Error: " + xhr.responseText);
+                    }
+
+                    //console.log(response);
+                    //console.log(xhr.response);
+                    //let response1 = JSON.parse(response);
+                    
+
+                    //this.render(response.message);
+                    // Add a 1.5 second delay before redirecting to the index page
                 } else {
                     //this.showError(xhr.status);
                 }

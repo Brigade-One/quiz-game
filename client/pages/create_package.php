@@ -50,6 +50,7 @@
       <button id="new-button">
         <span class="button-text">+ Add a question</span>
       </button>
+      <div id="responseText" ></div>
       <div id="creation">
         <input type=submit id="create-button" value="Create">
 

@@ -32,7 +32,31 @@ export class Package {
                         for (const i of result) {
                             //console.log(i);
                             let result_i = JSON.parse(i);
-                            $("#package_table").html($("#package_table").html() + '<tr class="ordinary_row"><td class="first_element">'+package_counter+'</td><td class="second_element">' + result_i.name + '</td><td>20 Question </td><td><a class="select_button" href = "http://quiz-game/client/pages/question.php?packageID=' + result_i.packageID + "&questionNumber=1" + '">Select</a></td></tr>');
+                            
+                            let question_counter = 0;
+                            const xhr1 = new XMLHttpRequest();
+                            xhr1.open("GET", "../../server/server.php/" + "package_questions" + "?packageID=" + result_i.packageID, false);
+                            xhr1.onreadystatechange = () => {
+                            if (xhr1.readyState === XMLHttpRequest.DONE) {
+                                if (xhr1.status === 200) {
+                                const response = JSON.parse(xhr1.responseText);
+                                console.log("ha");
+                                console.log(response);
+                                let counter = 0;
+                                try {
+                                    for (const i of response) {
+                                    counter = counter + 1;
+
+                                    }
+                                    question_counter = counter;
+                                } catch (error) {
+                                    console.log(error);}
+                                    
+                                }
+
+                                }}
+                                xhr1.send();
+                                $("#package_table").html($("#package_table").html() + '<tr class="ordinary_row"><td class="first_element">'+package_counter+'</td><td class="second_element">' + result_i.name + '</td><td class="third_element">'+question_counter+' Question </td><td><a class="select_button" href = "http://quiz-game/client/pages/question.php?packageID=' + result_i.packageID + "&questionNumber=1" + '">Select</a></td></tr>');
                             package_counter += 1;
                         }
                     } catch (error) {
@@ -121,8 +145,36 @@ export class Package {
                         console.log(packager);
                         let decoded_packager = JSON.parse(packager);
                         localStorage.setItem(decoded_packager.name, decoded_packager.packageID);
+                        
                         console.log(decoded_packager);
-                        $("#user_package_table").html($("#user_package_table").html() + '<tr class="ordinary_row"><td class="first_element">'+package_counter+'</td><td class="second_element">' + decoded_packager.name + '</td><td>20 Question </td><td><a class="select_button" href="http://quiz-game/client/pages/question.php?packageID=' + decoded_packager.packageID + '&questionNumber=1">Select</a></td></tr>');
+
+
+                        let question_counter = 0;
+                        const xhr1 = new XMLHttpRequest();
+                        xhr1.open("GET", "../../server/server.php/" + "package_questions" + "?packageID=" + decoded_packager.packageID, false);
+                        xhr1.onreadystatechange = () => {
+                        if (xhr1.readyState === XMLHttpRequest.DONE) {
+                            if (xhr1.status === 200) {
+                            const response = JSON.parse(xhr1.responseText);
+                            console.log("ha");
+                            console.log(response);
+                            let counter = 0;
+                            try {
+                                for (const i of response) {
+                                counter = counter + 1;
+
+                                }
+                                question_counter = counter;
+                            } catch (error) {
+                                console.log(error);}
+                                
+                            }
+
+                            }}
+                            xhr1.send();
+
+
+                        $("#user_package_table").html($("#user_package_table").html() + '<tr class="ordinary_row"><td class="first_element">'+package_counter+'</td><td class="second_element">' + decoded_packager.name + '</td><td>'+question_counter+' Question </td><td><a class="select_button" href="http://quiz-game/client/pages/question.php?packageID=' + decoded_packager.packageID + '&questionNumber=1">Select</a></td></tr>');
                         package_counter += 1;
                     });
                     // Add a 1.5 second delay before redirecting to the index page
@@ -172,7 +224,7 @@ export class Package {
         xhr.onreadystatechange = () => {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 if (xhr.status === 200) {
-                    console.dir(xhr);
+                    $("#responseText").html(xhr.responseText);
 
                     // Add a 1.5 second delay before redirecting to the index page
                 } else {
