@@ -1,8 +1,8 @@
-#home-button{
+#home-button {
     background-color: #FBF9F9;
     color: #8692A6;
-    width:70%;
-    height:50px;
+    width: 70%;
+    height: 50px;
     font-size: 20px;
     border: none;
     padding: 10px 20px;
@@ -13,11 +13,12 @@
     justify-content: center;
     align-items: center;
 }
-#profile-button{
+
+#profile-button {
     background-color: #8692A6;
     color: #FBF9F9;
-    width:70%;
-    height:50px;
+    width: 70%;
+    height: 50px;
     font-size: 20px;
     border: none;
     padding: 10px 20px;
@@ -29,64 +30,80 @@
     align-items: center;
 }
 
-#home{
+#home {
 
     height: 15%;
-    width:90%;
+    width: 90%;
     font-size: 24px;
     font-family: "Poppins", sans-serif;
-    opacity:0.6;
+    opacity: 0.6;
     margin-left: 2%;
-    
+
 }
-#undertext{
-   font-size: 15px; 
+
+#undertext {
+    font-size: 15px;
 }
-#timer{
+
+#timer {
     display: inline-block;
 }
-#question_info{
-    display:flex;
+
+#question_info {
+    display: flex;
 
     height: 30%;
-    width:80%;
+    width: 80%;
     margin-left: 3%;
-    font-size: 14px;
+    font-size: 22px;
     font-family: "Poppins", sans-serif;
-    opacity:0.6;
+    opacity: 0.6;
 }
-#answer_options{
+
+#answer_options {
 
     height: 40%;
-    width:80%;
+    width: 80%;
     margin-left: 3%;
     font-size: 13px;
     font-family: "Poppins", sans-serif;
-    opacity:0.6;
+    opacity: 0.6;
 }
+
 input[type="radio"] {
-  margin: 10px;
+    margin: 10px;
 }
-#previous-button{
-    background-color: #8692A6;
-    color: #FBF9F9;
-    width:40%;
-    height:70%;
+
+#previous-button {
+    background-color: #FBF9F9;
+    color: #8692A6;
+    width: 40%;
+    height: 70%;
     font-size: 20px;
     border: none;
-
     cursor: pointer;
-border-radius: 30px;
-
+    border-radius: 30px;
     justify-content: center;
     align-items: center;
 
 }
-#next-button{
+
+#answer {
+    background-color: #d4d4d4;
+    width: 60%;
+    height: 30%;
+    padding:  10px 20px;
+    font-size: 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 30px;
+}
+
+#next-button {
     background-color: #8692A6;
     color: #FBF9F9;
-    width:40%;
-    height:70%;
+    width: 40%;
+    height: 70%;
     font-size: 20px;
     border: none;
 
@@ -98,12 +115,13 @@ border-radius: 30px;
     align-items: center;
 
 }
-#movement_buttons{
+
+#movement_buttons {
 
     height: 10%;
-    width:30%;
+    width: 30%;
     margin-left: 60%;
     font-size: 13px;
     font-family: "Poppins", sans-serif;
-    opacity:1;
+    opacity: 1;
 }
