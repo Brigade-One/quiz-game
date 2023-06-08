@@ -19,7 +19,6 @@
           let counter = 1;
           try {
             for (const i of response) {
-              console.log("WRITING DATA TO LOCAL STORAGE ---------------------------");
               let result_i = JSON.parse(i);
               console.log(result_i);
               localStorage.setItem("QID" + counter, result_i.questionID);
@@ -137,8 +136,6 @@
 
 
       document.addEventListener("DOMContentLoaded", function () {
-
-        console.log("RETRIEVE DATA FROM LOCAL STORAGE ---------------------------");
         questionText = localStorage.getItem("question" + questionNumber);
         answerText = localStorage.getItem("answer" + questionNumber);
         hintText = localStorage.getItem("hint" + questionNumber);
