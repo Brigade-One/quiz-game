@@ -98,30 +98,33 @@ $router->addRoute('GET', '/user_packages', function () use ($conn, $json) {
     echo json_encode($packagesJSON);
 });
 
-$router->addRoute('GET', '/user_training_accuracy', function () use ($conn, $json) {
+$router->addRoute('GET', '/achievements', function () use ($conn, $json) {
     $thr = new TrainingHistoryRepository(
         new QueryExecutor($conn),
         new IDGenerator()
     );
-    $userID = $_GET['userID'];
-    $accuracy = $thr->fetchUserTrainingAccuracyByUserID($userID);
-
-    echo json_encode([
-        'accuracy' => $accuracy
-    ]);
-});
-
-$router->addRoute('GET', '/user_competition_accuracy', function () use ($conn, $json) {
-    $thr = new CompetitionHistoryRepository(
+    $chr = new CompetitionHistoryRepository(
+        new QueryExecutor($conn),
+        new IDGenerator()
+    );
+    $uplr = new UserPackageLinkRepository(
         new QueryExecutor($conn),
         new IDGenerator()
     );
     $userID = $_GET['userID'];
-    $accuracy = $thr->fetchUserCompetititonAccuracyByUserID($userID);
+    $trainingAccuracy = $thr->fetchUserTrainingAccuracyByUserID($userID);
+    $competitionAccuracy = $chr->fetchUserCompetititonAccuracyByUserID($userID);
+    $trainingLastDate = $thr->fetchLastTrainingDate($userID);
+    $createdPackagesNumber = $uplr->fetchUserPackagesNumber($userID);
+
     echo json_encode([
-        'accuracy' => $accuracy
+        'trainingAccuracy' => $trainingAccuracy,
+        'competitionAccuracy' => $competitionAccuracy,
+        'trainingLastDate' => $trainingLastDate,
+        'createdPackagesNumber' => $createdPackagesNumber
     ]);
 });
+
 
 $router->addRoute('POST', '/training_results', function () use ($conn, $json) {
     $thr = new TrainingHistoryRepository(

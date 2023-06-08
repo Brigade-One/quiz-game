@@ -47,6 +47,7 @@
     opacity: 0.7;
 }
 
+
 .top {
     height: 50%;
     width: 70%;
@@ -100,4 +101,42 @@
     position: absolute;
     bottom: 10%;
     right: 5%;
+}
+
+.info-block {
+    display: flex;
+    align-items: center;
+    margin-top: 30px;
+    margin-left: 30px;
+}
+
+.square {
+    height: 50px;
+    width: 50px;
+    background-color: #FBF9F9;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.icon {
+    height: 30px;
+    width: 30px;
+}
+
+.info-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.info-content span {
+    font-size: 20px;
+    color: #8692A6;
+}
+
+.info-content p {
+    font-size: 15px;
+    color: #8692A6;
 }
