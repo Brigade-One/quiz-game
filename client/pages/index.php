@@ -41,20 +41,20 @@
                         </li>
                         <li class="not_obligatory_item2">
                             <button onclick="window.location.href='http://quiz-game/client/pages/user_package.php'"
-                                class="listitem" onclick="receivePackage()">
+                                class="listitem">
                                 <span>Manage my packages</span>
                             </button>
                         </li>
                         <hr>
                     </div>
                     <li class="obligatory_item">
-                        <button class="listitem"
+                        <button class="listitem" id="train_button"
                             onclick="window.location.href='http://quiz-game/client/pages/package_select.php'">
                             <span>Start training</span>
                         </button>
                     </li>
                     <li class="obligatory_item">
-                        <button class="listitem">
+                        <button class="listitem" id="compet_button">
                             <span>Start 1x1 competition</span>
                         </button>
                     </li>

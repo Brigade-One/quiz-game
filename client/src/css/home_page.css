@@ -5,6 +5,7 @@ body {
 #second-block {
     height: max-content;
 }
+
 #home-button {
     background-color: #FBF9F9;
     color: #8692A6;
@@ -69,6 +70,24 @@ body {
     margin: 7px 0;
     border-radius: 30px;
     box-shadow: 0px 15px 40px 5px #EDEDED;
+}
+
+#compet_button {
+    background-image: linear-gradient(to right, #933D6E, #60217B);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+#train_button {
+    background-image: linear-gradient(to right, #FFD700, #FFA500);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 30px;
+    cursor: pointer;
 }
 
 .not_obligatory_item {
