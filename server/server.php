@@ -183,14 +183,14 @@ $router->addRoute('PUT', '/update_package', function () use ($conn, $json) {
     $decodedJSON = json_decode($json);
 
     // Retrieve package name and questions from JSON
-    $receivedPackage = $decodedJSON->package;
+    $packageID = $decodedJSON->packageID;
     $receivedQuestions = $decodedJSON->questions;
 
     // Create package and questions instances from received data
-    $receivedPackage = new Package($receivedPackage->packageID, $receivedPackage->packageName, false);
+    $package = $pr->fetchByID($packageID);
 
     // Update package
-    if (!$pr->update($receivedPackage)) {
+    if (!$pr->update($package)) {
         echo 'Something went wrong while updating package';
     }
 
