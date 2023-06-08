@@ -171,5 +171,37 @@ $router->addRoute('POST', '/create_package', function () use ($conn, $json) {
 
     echo "Package created successfully";
 });
+$router->addRoute('PUT', '/update_package', function () use ($conn, $json) {
+    $pr = new PackageRepository(
+        new QueryExecutor($conn),
+        new IDGenerator()
+    );
+    $qr = new QuestionRepository(
+        new QueryExecutor($conn),
+        new IDGenerator()
+    );
+    $decodedJSON = json_decode($json);
+
+    // Retrieve package name and questions from JSON
+    $receivedPackage = $decodedJSON->package;
+    $receivedQuestions = $decodedJSON->questions;
+
+    // Create package and questions instances from received data
+    $receivedPackage = new Package($receivedPackage->packageID, $receivedPackage->packageName, false);
+
+    // Update package
+    if (!$pr->update($receivedPackage)) {
+        echo 'Something went wrong while updating package';
+    }
+
+    foreach ($receivedQuestions as $receivedQuestion) {
+        $receivedQuestionInstance = Question::fromJSON(json_encode($receivedQuestion));
+        if (!$qr->update($receivedQuestionInstance)) {
+            echo 'Something went wrong while updating question';
+        }
+    }
+
+    echo "Package updated successfully";
+});
 
 $router->route($method, $path);
