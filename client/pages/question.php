@@ -11,12 +11,11 @@
   <script type="module" src="http://quiz-game/client/src/js/timer.js"></script>
   <script>
     const PackageID = <?php echo json_encode($_GET["packageID"]); ?>;
-    console.log(PackageID);
     const questionNumber = <?php echo json_encode($_GET["questionNumber"]); ?>;
     questionText = localStorage.getItem("question" + questionNumber);
     answerText = localStorage.getItem("answer" + questionNumber);
     hintText = localStorage.getItem("hint" + questionNumber);
-    console.log(questionText);
+    const questionCount = localStorage.getItem("number_of_questions");
   </script>
 </head>
 
@@ -50,7 +49,7 @@
         <div id="quesion_picture" style="flex:1">
           <div>
             <div id="question_text" style="flex:1">
-              <p><span style="font-size:20px"><b>Question №
+              <p><span style="font-size:20px"><b>Question
                     <?php echo $_GET['questionNumber']; ?>
                   </b></span>
                 </b></span>
@@ -87,7 +86,6 @@
       });
       document.getElementById('question-text').textContent = questionText;
 
-      const questionCount = localStorage.getItem("number_of_questions");
 
       let next_number = parseInt(questionNumber) + 1;
       let previous_number = parseInt(questionNumber) - 1;
@@ -112,6 +110,9 @@
       }
       if (questionNumber == questionCount) {
         document.getElementById('next-button').textContent = "Finish";
+      }
+      if (questionNumber == 1) {
+        document.getElementById('previous-button').style.display = "none";
       }
     </script>
     <script type="module" src="../src/js/get_questions.js"></script>
