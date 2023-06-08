@@ -113,6 +113,7 @@ class PackageRepository
             "UPDATE Packages"
             . " SET name = :name, isApproved = :isApproved"
             . " WHERE packageID = :packageID";
+
         $parameters = [
             ':packageID' => $package->getPackageID(),
             ':name' => $package->getName(),
@@ -123,7 +124,7 @@ class PackageRepository
         } catch (\PDOException $e) {
             throw new \PDOException($e->getMessage(), (int) $e->getCode());
         }
-        return $statement->rowCount() > 0;
+        return $statement->rowCount() === 1;
     }
 
     public function delete(Package $package)

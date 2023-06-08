@@ -220,7 +220,6 @@ $router->addRoute('PUT', '/update_package', function () use ($conn, $json) {
         new IDGenerator()
     );
     $decodedJSON = json_decode($json);
-
     // Retrieve package name and questions from JSON
     $packageID = $decodedJSON->packageID;
     $receivedQuestions = $decodedJSON->questions;
@@ -229,14 +228,14 @@ $router->addRoute('PUT', '/update_package', function () use ($conn, $json) {
     $package = $pr->fetchByID($packageID);
 
     // Update package
-    if (!$pr->update($package)) {
-        echo 'Something went wrong while updating package';
-    }
+    $pr->update($package);
 
     foreach ($receivedQuestions as $receivedQuestion) {
         $receivedQuestionInstance = Question::fromJSON(json_encode($receivedQuestion));
+        var_dump($receivedQuestionInstance);
         if (!$qr->update($receivedQuestionInstance)) {
             echo 'Something went wrong while updating question';
+            return;
         }
     }
 

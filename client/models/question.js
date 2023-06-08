@@ -26,7 +26,7 @@ export class Question {
             question: this.question, 
             answer: this.answer,
             hint: this.hint,
-            id:ID,
+            questionID:ID,
         };
     }
 
