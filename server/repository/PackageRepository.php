@@ -77,7 +77,7 @@ class PackageRepository
                 $packageData['name'],
                 $packageData['isApproved']
             );
-            $packages[] = $package->toJSON();
+            $packages[] = $package;
         }
         return $packages;
     }
