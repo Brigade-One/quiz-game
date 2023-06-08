@@ -72,7 +72,7 @@ export class User {
         xhr.onreadystatechange = () => {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 if (xhr.status === 200) {
-                    //console.log(xhr.responseText);
+                    console.log(xhr.responseText);
                     let response1 = JSON.parse(xhr.responseText);
                     //console.log(response);
                     console.log(xhr.response);

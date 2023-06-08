@@ -54,7 +54,9 @@
                         </button>
                     </li>
                     <li class="obligatory_item">
-                        <button class="listitem" id="compet_button">
+                        <button class="listitem"
+                            onclick="window.location.href='http://quiz-game/client/pages/competition.php'"
+                            id="compet_button">
                             <span>Start 1x1 competition</span>
                         </button>
                     </li>

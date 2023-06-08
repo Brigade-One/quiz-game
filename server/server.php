@@ -8,6 +8,8 @@ use Server\Models\User;
 use Server\Models\Package;
 use Server\Models\Question;
 use Server\Models\UserPackageLink;
+use Server\Repository\Competition\CompetitionPackageQuestionLinkRepository;
+use Server\Repository\Competition\CompetitionPackageRepository;
 use Server\Repository\Database;
 use Server\Repository\QuestionRepository;
 use Server\Repository\QueryExecutor;
@@ -19,6 +21,7 @@ use Server\Repository\Competition\CompetitionHistoryRepository;
 use Server\Repository\UserRepository;
 use Server\Repository\PackageRepository;
 use Server\Services\HttpRouter;
+use Server\Services\UserPool;
 
 
 header('Access-Control-Allow-Origin: http://quiz-game');
@@ -82,6 +85,49 @@ $router->addRoute('GET', '/public_packages', function () use ($conn, $json) {
     echo json_encode($packagesJSON);
 });
 
+$router->addRoute('POST', '/user_pool', function () {
+    $userID = $_GET['userID'];
+    $userPool = new UserPool();
+    $userPool->addUser($userID);
+    $pair = $userPool->getCompetitionPair();
+    if (!$pair) {
+        return;
+    }
+    if ($pair[0] === $userID) {
+        echo json_encode([
+            'opponentID' => $pair[1]
+        ]);
+    } else {
+        echo json_encode([
+            'opponentID' => $pair[0]
+        ]);
+    }
+});
+$router->addRoute('GET', '/competition_package', function () use ($conn) {
+    $cpr = new CompetitionPackageRepository(
+        new QueryExecutor($conn),
+        new IDGenerator()
+    );
+    $cpqlr = new CompetitionPackageQuestionLinkRepository(
+        new QueryExecutor($conn),
+        new IDGenerator()
+    );
+    $cpackages = $cpr->fetchAll();
+
+    $randomPackage = $cpackages[array_rand($cpackages)];
+
+    $cpqls = $cpqlr->fetchQuestionsByPackageID($randomPackage->getID());
+
+    $questions = [];
+    foreach ($cpqls as $cpql) {
+        $questions[] = $cpql->toJSON();
+    }
+    echo json_encode([
+        'package' => $randomPackage->toJSON(),
+        'questions' => $questions
+    ]);
+
+});
 // Works
 $router->addRoute('GET', '/user_packages', function () use ($conn, $json) {
     $uplr = new UserPackageLinkRepository(
