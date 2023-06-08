@@ -32,6 +32,7 @@
     });
     $(document).ready(function () {
         $("#logout-button").click(function () {
+            localStorage.clear();
             window.location.href = "http://quiz-game/client/pages/sign_in.php";
         });
     });
