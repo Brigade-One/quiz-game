@@ -63,7 +63,6 @@ export class Package {
                         console.log(decoded_packager);
                         $("#package_table").html($("#package_table").html() + '<tr class="ordinary_row"><td>1</td><td>' + decoded_packager.name + '</td><td>20 Question </td><td><a class="select_button" href = "http://quiz-game/client/pages/question.php?packageID=' + decoded_packager.packageID + '">Select</a></td></tr>');
                     })
-
                     // Add a 1.5 second delay before redirecting to the index page
                 } else {
 
@@ -91,10 +90,8 @@ export class Package {
                         console.log(decoded_packager);
                         $("#package_table").html($("#package_table").html() + '<tr class="ordinary_row"><td>1</td><td>' + decoded_packager.name + '</td><td>20 Question </td><td><a href="http://quiz-game/client/pages/question.php?packageID=' + decoded_packager.packageID + '&questionNumber=1">Select</a></td></tr>');
                     });
-
                     // Add a 1.5 second delay before redirecting to the index page
                 } else {
-
                 }
             }
         };
