@@ -102,7 +102,8 @@ $router->addRoute('GET', '/package_questions', function () use ($conn, $json) {
     $questions = $qr->fetchQuestionsByPackageID($packageID);
 
     $questionsJSON = [];
-    foreach ($questions as $question) {
+    foreach ($questions as $receivedQuestion) {
+        $question = Question::fromJSON($receivedQuestion);
         $questionsJSON[] = $question->toJSON();
     }
     echo json_encode($questionsJSON);
