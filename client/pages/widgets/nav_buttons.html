@@ -4,12 +4,13 @@
 </button>
 <button id="profile-button">
     <img src="http://quiz-game/client/assets/images/profile.png" alt="Image">
-    <span class="button-text">Profile</span>
+    <span class="profile-button-text">Profile</span>
 </button>
 <button id="logout-button">
     <img src="http://quiz-game/client/assets/images/logout.png" alt="Image">
     <span class="button-text">Log Out</span>
 </button>
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -22,7 +23,11 @@
     $(document).ready(function () {
         $("#profile-button").click(function () {
             // Redirect to the desired page
-            window.location.href = "http://quiz-game/client/pages/profile.php";
+            if (localStorage.getItem("ID") == null) {
+                window.location.href = "http://quiz-game/client/pages/sign_in.php";
+            } else {
+                window.location.href = "http://quiz-game/client/pages/profile.php";
+            }
         });
     });
     $(document).ready(function () {
@@ -30,4 +35,11 @@
             window.location.href = "http://quiz-game/client/pages/sign_in.php";
         });
     });
+
+    if (localStorage.getItem("ID") != null) {
+        $("#logout-button").show();
+    } else {
+        $("#logout-button").hide();
+        $(".profile-button-text").text("Sign In");
+    }
 </script>

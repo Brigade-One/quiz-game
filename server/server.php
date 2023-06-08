@@ -58,10 +58,13 @@ $router->addRoute('POST', '/sign_in', function () use ($conn, $json) {
     $receivedUser = User::fromJSON($json);
 
     $user = $ur->fetchByEmail($receivedUser->getEmail());
-
+    if (!$user) {
+        echo "No user with such email";
+        return;
+    }
     echo ($user->getPassword() === $receivedUser->getPassword())
         ? $user->toJSON()
-        : null;
+        : "Password is incorrect";
 });
 
 $router->addRoute('GET', '/public_packages', function () use ($conn, $json) {

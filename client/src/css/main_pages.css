@@ -38,3 +38,21 @@ body {
     position: absolute;
     bottom: 0;
 }
+
+#login-button {
+    background-color: #FBF9F9;
+    color: #8692A6;
+    width: 70%;
+    height: 50px;
+    font-size: 20px;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin: 20px 0;
+    border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: 0;
+}
