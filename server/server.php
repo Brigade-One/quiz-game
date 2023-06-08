@@ -3,6 +3,7 @@
 require_once '../vendor/autoload.php';
 
 use Server\Models\PackageQuestionLink;
+use Server\Models\TrainingHistory;
 use Server\Models\User;
 use Server\Models\Package;
 use Server\Models\Question;
@@ -106,6 +107,7 @@ $router->addRoute('GET', '/user_training_accuracy', function () use ($conn, $jso
         'accuracy' => $accuracy
     ]);
 });
+
 $router->addRoute('GET', '/user_competition_accuracy', function () use ($conn, $json) {
     $thr = new CompetitionHistoryRepository(
         new QueryExecutor($conn),
@@ -116,6 +118,17 @@ $router->addRoute('GET', '/user_competition_accuracy', function () use ($conn, $
     echo json_encode([
         'accuracy' => $accuracy
     ]);
+});
+
+$router->addRoute('POST', '/training_results', function () use ($conn, $json) {
+    $thr = new TrainingHistoryRepository(
+        new QueryExecutor($conn),
+        new IDGenerator()
+    );
+    $trainingHistory = TrainingHistory::fromJSON($json);
+    if (!$thr->create($trainingHistory)) {
+        echo 'Something went wrong while saving training history';
+    }
 });
 
 $router->addRoute('GET', '/package_questions', function () use ($conn, $json) {

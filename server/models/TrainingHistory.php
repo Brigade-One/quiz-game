@@ -90,13 +90,22 @@ class TrainingHistory
     public static function fromJSON(string $json): TrainingHistory
     {
         $data = json_decode($json, true);
+
+        $historyID = $data['historyID'] ?? null;
+        $userID = $data['userID'] ?? null;
+        $packageID = $data['packageID'] ?? null;
+        $trainingDate = $data['trainingDate'] ?? null;
+        $correctAnswers = $data['correctAnswers'] ?? null;
+        $totalQuestions = $data['totalQuestions'] ?? null;
+
+
         return new TrainingHistory(
-            $data['historyID'],
-            $data['userID'],
-            $data['packageID'],
-            $data['trainingDate'],
-            $data['correctAnswers'],
-            $data['totalQuestions'],
+            $historyID,
+            $userID,
+            $packageID,
+            $trainingDate,
+            $correctAnswers,
+            $totalQuestions
         );
     }
 
