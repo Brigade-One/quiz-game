@@ -1,11 +1,12 @@
-import {Package} from "http://quiz-game/client/models/package.js"
-import {Question} from "http://quiz-game/client/models/question.js"
+import { Package } from "http://quiz-game/client/models/package.js"
+import { Question } from "http://quiz-game/client/models/question.js"
 
-function PackagetoJSON(package_name, question_list){
+function PackagetoJSON(package_name, question_list) {
     return {
         userID: localStorage.getItem("ID"),
+        packageID: localStorage.getItem(package_name),
         packageName: package_name,
-        questions:question_list,
+        questions: question_list,
     };
 };
 
@@ -17,18 +18,18 @@ $("#create-button").click(function (event) {
     var text_elements = document.querySelectorAll('.question_text_value');
     var answer_elements = document.querySelectorAll('.answer_value');
     var hint_elements = document.querySelectorAll('.hint_value');
-    
+
     let question_list = [];
 
     for (var i = 0; i < text_elements.length; i++) {
-    var alt_i = i+1;
-    let question = new Question(text_elements[i].value, answer_elements[i].value, hint_elements[i].value);
-    question_list[i] = question.toJSONwithID(localStorage.getItem("QID"+alt_i));
-    // do something with value
-    //packages.sendQuestionHandleHttpRequest("question", question.toJSON());
+        var alt_i = i + 1;
+        let question = new Question(text_elements[i].value, answer_elements[i].value, hint_elements[i].value);
+        question_list[i] = question.toJSONwithID(localStorage.getItem("QID" + alt_i));
+        // do something with value
+        //packages.sendQuestionHandleHttpRequest("question", question.toJSON());
     }
     //console.log(PackagetoJSON(package_name, question_list));
-    packages.sendPackageCreateHandleHttpRequest("create_package", PackagetoJSON(package_name, question_list));
+    packages.sendPackageUpdateHandleHttpRequest("update_package", PackagetoJSON(package_name, question_list));
     //packages.sendQuestionHandleHttpRequest("question", question_list);
     //packages.sendPackageNameHandleHttpRequest("package", package_name);
     //packages.createPackageHandleHttpRequest("create_package", package_name, JSON.stringify(question_list));
