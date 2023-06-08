@@ -68,10 +68,12 @@ $router->addRoute('GET', '/public_packages', function () use ($conn, $json) {
     );
 
     $packages = $pr->fetchPublicPackages();
-    echo json_encode($packages);
-    //foreach ($packages as $package) {
-    //    echo $package->toJSON();
-    //}
+
+    $packagesJSON = [];
+    foreach ($packages as $package) {
+        $packagesJSON[] = $package->toJSON();
+    }
+    echo json_encode($packagesJSON);
 });
 
 // Works
@@ -90,7 +92,6 @@ $router->addRoute('GET', '/user_packages', function () use ($conn, $json) {
     echo json_encode($packagesJSON);
 });
 
-// Works
 $router->addRoute('GET', '/package_questions', function () use ($conn, $json) {
     $qr = new PackageQuestionLinkRepository(
         new QueryExecutor($conn),
@@ -99,10 +100,12 @@ $router->addRoute('GET', '/package_questions', function () use ($conn, $json) {
 
     $packageID = $_GET['packageID'];
     $questions = $qr->fetchQuestionsByPackageID($packageID);
-    echo json_encode($questions);
-    //foreach ($questions as $question) {
-    //    echo $question->toJSON();
-    //}
+
+    $questionsJSON = [];
+    foreach ($questions as $question) {
+        $questionsJSON[] = $question->toJSON();
+    }
+    echo json_encode($questionsJSON);
 });
 // Works
 $router->addRoute('POST', '/create_package', function () use ($conn, $json) {
