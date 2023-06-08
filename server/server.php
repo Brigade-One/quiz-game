@@ -103,7 +103,7 @@ $router->addRoute('GET', '/package_questions', function () use ($conn, $json) {
 
     $questionsJSON = [];
     foreach ($questions as $question) {
-        $questionsJSON[] = $question->toJSON();
+        $questionsJSON[] = $question;
     }
     echo json_encode($questionsJSON);
 });
