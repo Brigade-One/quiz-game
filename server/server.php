@@ -232,11 +232,7 @@ $router->addRoute('PUT', '/update_package', function () use ($conn, $json) {
 
     foreach ($receivedQuestions as $receivedQuestion) {
         $receivedQuestionInstance = Question::fromJSON(json_encode($receivedQuestion));
-        var_dump($receivedQuestionInstance);
-        if (!$qr->update($receivedQuestionInstance)) {
-            echo 'Something went wrong while updating question';
-            return;
-        }
+        $qr->update($receivedQuestionInstance);
     }
 
     echo "Package updated successfully";
