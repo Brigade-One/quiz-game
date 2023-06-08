@@ -111,7 +111,7 @@ class UserRepository
         return null; // User not found
     }
 
-    public function create(User $user): bool
+    public function create(User $user): User
     {
         if (!$user->validate()) {
             throw new \InvalidArgumentException('Invalid user data');
@@ -137,8 +137,11 @@ class UserRepository
         } catch (\PDOException $e) {
             throw new \PDOException($e->getMessage(), (int) $e->getCode());
         }
-
-        return $statement->rowCount() > 0;
+        if ($statement->rowCount() > 0) {
+            $user->setID($uuid);
+            return $user;
+        }
+        throw new \PDOException('User could not be created', 500);
     }
 
     public function update(User $user): bool

@@ -21,6 +21,10 @@ class User
         $this->role = $role;
     }
 
+    public function setID(string $id): void
+    {
+        $this->id = $id;
+    }
     public function setName(string $name): void
     {
         $this->name = $name;
@@ -88,9 +92,9 @@ class User
         $name = isset($data['name']) ? $data['name'] : null;
         $email = isset($data['email']) ? $data['email'] : null;
         $password = isset($data['password']) ? $data['password'] : null;
-        $role = isset($data['role']) ? $data['role'] : null;
+        $role = isset($data['role']) ? $data['role'] : UserRole::RegularUser;
 
-        
+
         return new User(
             $id,
             $name,
