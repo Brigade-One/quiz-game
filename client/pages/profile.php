@@ -125,15 +125,20 @@
       xhr.onload = () => {
         const data = JSON.parse(xhr.response);
 
-        lastTrainingDate = data.lastTrainingDate;
+        lastTrainingDate = data.trainingLastDate
+        let formattedDate = new Date(lastTrainingDate).toLocaleDateString('en-US', {
+          day: '2-digit',
+          month: 'long',
+          year: 'numeric'
+        });
         trainingAccuracy = data.trainingAccuracy;
         competitionAccuracy = data.competitionAccuracy;
         packagesCreated = data.createdPackagesNumber;
         oneByOneWins = data.oneByOneWins;
 
-        document.getElementById("lastTrainingDate").innerHTML = lastTrainingDate;
+        document.getElementById("lastTrainingDate").innerHTML = formattedDate;
         document.getElementById("trainingAccuracy").innerHTML = trainingAccuracy + " %";
-        document.getElementById("competitionAccuracy").innerHTML = competitionAccuracy+ " %";
+        document.getElementById("competitionAccuracy").innerHTML = competitionAccuracy + " %";
         document.getElementById("packagesCreated").innerHTML = packagesCreated;
         document.getElementById("oneByOneWins").innerHTML = "Temporarily Unavailable";
       };
