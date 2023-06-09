@@ -14,6 +14,7 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+
     $(document).ready(function () {
         $("#home-button").click(function () {
             // Redirect to the desired page
@@ -32,6 +33,7 @@
     });
     $(document).ready(function () {
         $("#logout-button").click(function () {
+            localStorage.clear();
             window.location.href = "http://quiz-game/client/pages/sign_in.php";
         });
     });
