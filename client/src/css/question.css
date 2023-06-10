@@ -125,3 +125,11 @@ input[type="radio"] {
     font-family: "Poppins", sans-serif;
     opacity: 1;
 }
+#right_answer{
+    height: 40%;
+    width: 80%;
+    margin-left: 3%;
+    font-size: 16px;
+    font-family: "Poppins", sans-serif;
+    opacity: 1;
+}

@@ -54,7 +54,9 @@
             <div id="modal" class="modal">
                 <div class="modal-content">
                     <p id="packet_answers_result"></p>
-                    <span class="close-button">Ясно</span>
+                    <span class="review-button">Review</span>
+                    <p></p>
+                    <span class="close-button">End</span>
                 </div>
             </div>
 
@@ -119,7 +121,7 @@
         })
 
         // Закрываем модальное окно при нажатии на крестик
-        span.onclick = function () {
+        $(".close-button").click( function () {
             modal.style.display = "none";
             result_ID = localStorage.getItem("ID");
             result_role = localStorage.getItem("role");
@@ -130,7 +132,14 @@
             localStorage.setItem("role", result_role);
             localStorage.setItem("email", result_email);
             localStorage.setItem("username", result_username);
-        }
+        })
+
+        let checkPackageID = localStorage.getItem("lastTrainPackageID");
+        let checkPackageNumber = localStorage.getItem("number_of_questions");
+
+        $(".review-button").click( function () {
+            window.location.href = 'http://quiz-game/client/pages/check_questions.php?packageID=' + checkPackageID + "&questionNumber=" + 1 + "&questionCount=" + checkPackageNumber;
+        })
 
         // Закрываем модальное окно при нажатии вне его области
         window.onclick = function (event) {

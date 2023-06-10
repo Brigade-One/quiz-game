@@ -149,7 +149,7 @@ table tr:last-child {
     text-align: center;
 }
 
-.close-button {
+.close-button, .review-button {
     color: #aaa;
     border-style: double;
     font-size: 24px;
