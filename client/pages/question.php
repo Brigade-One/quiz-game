@@ -98,7 +98,7 @@
         <div id="quesion_picture" style="flex:1">
           <div>
             <div id="question_text" style="flex:1">
-              <p><span style="font-size:20px"><b>Question
+              <p><span style="font-size:20px" id="question_current_number"><b>Question
                     <?php echo $_GET['questionNumber']; ?>/ {questionCount}
                   </b></span>
                 </b></span>
@@ -133,6 +133,7 @@
       $(document).ready(function () {
         $("#first-block").load("widgets/nav_buttons.html");
       });
+      $("#question_current_number").html("Question " + <?php echo $_GET['questionNumber']; ?> +"/"+ localStorage.getItem("number_of_questions"));
 
       let item = parseInt(localStorage.getItem("user_answer"+ questionNumber));
       if(item){
