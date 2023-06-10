@@ -53,13 +53,6 @@
                             <span>Start training</span>
                         </button>
                     </li>
-                    <li class="obligatory_item">
-                        <button class="listitem"
-                            onclick="window.location.href='http://quiz-game/client/pages/competition.php'"
-                            id="compet_button">
-                            <span>Start 1x1 competition</span>
-                        </button>
-                    </li>
                     <hr>
                     <div class="examiner">
                         <p id="greeting">Examiner block</p>
